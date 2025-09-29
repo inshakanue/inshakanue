@@ -66,7 +66,7 @@ const Skills = () => {
 
   const tools = [
     "Figma", "Jira", "Confluence", "Slack", "Notion", "Miro", 
-    "Google Analytics", "Mixpanel", "Tableau", "SQL", "Python", 
+    "Google Analytics", "Mixpanel", "PowerBI", "SQL", "Python", 
     "AWS", "Docker", "Git", "Postman", "Airtable"
   ];
 
