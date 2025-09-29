@@ -51,9 +51,10 @@ const About = () => {
               About <span className="gradient-text">Me</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              An AI Product Manager specializing in building intelligent systems and machine learning solutions 
-              that transform business operations, driving millions in revenue growth through strategic implementation 
-              of AI-powered products and cross-functional team leadership.
+              An AI Product Manager with 7+ years of experience building intelligent systems that drive measurable business impact. 
+              From launching data platforms enabling AI use cases to deploying ML-powered solutions for fraud detection, sentiment analysis, 
+              and recommendation engines—I've led cross-functional teams to deliver products that generated €15M+ in revenue growth 
+              and transformed operational efficiency for global organizations.
             </p>
           </div>
 
