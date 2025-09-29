@@ -52,34 +52,6 @@ const Contact = () => {
 
   const contactInfo = [
     {
-      icon: Mail,
-      label: "Email",
-      value: "inshakanue@protonmail.com",
-      href: "mailto:inshakanue@protonmail.com",
-      color: "text-primary"
-    },
-    {
-      icon: Linkedin,
-      label: "LinkedIn",
-      value: "linkedin.com/in/inshakanue",
-      href: "https://linkedin.com/in/inshakanue",
-      color: "text-accent"
-    },
-    {
-      icon: Github,
-      label: "GitHub",
-      value: "github.com/inshakanue",
-      href: "https://github.com/inshakanue",
-      color: "text-accent"
-    },
-    {
-      icon: Twitter,
-      label: "X (Twitter)",
-      value: "x.com/inshakanue",
-      href: "https://x.com/inshakanue",
-      color: "text-accent"
-    },
-    {
       icon: MapPin,
       label: "Location",
       value: "Available for Remote Work",
