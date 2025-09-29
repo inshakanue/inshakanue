@@ -51,8 +51,9 @@ const About = () => {
               About <span className="gradient-text">Me</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              A product management professional with a proven track record of transforming 
-              ideas into successful products that drive business growth and customer satisfaction.
+              An AI Product Manager specializing in building intelligent systems and machine learning solutions 
+              that transform business operations, driving millions in revenue growth through strategic implementation 
+              of AI-powered products and cross-functional team leadership.
             </p>
           </div>
 
