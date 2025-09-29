@@ -22,7 +22,7 @@ const Hero = () => {
           {/* Subtitle */}
           <div className="fade-in-up animate-delay-100">
             <h2 className="text-xl md:text-2xl lg:text-3xl text-muted-foreground font-medium mb-8">
-              Product Manager & Digital Transformation Expert
+              AI Product Manager
             </h2>
           </div>
 
