@@ -115,7 +115,7 @@ const Hero = () => {
         <div className="max-w-4xl mx-auto text-center rounded-2xl bg-background/50 backdrop-blur-md border border-border/50 shadow-strong p-6 md:p-10">
           {/* Main Heading */}
           <div className="fade-in-up">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 whitespace-nowrap">
               <span className="text-foreground">Salaam, I'm </span>
               <span className="gradient-text">Insha Kanue</span>
             </h1>
