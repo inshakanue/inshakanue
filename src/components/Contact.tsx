@@ -60,10 +60,10 @@ const Contact = () => {
       color: "text-primary"
     },
     {
-      icon: Linkedin,
-      label: "LinkedIn",
-      value: "linkedin.com/in/inshakanue",
-      href: "https://linkedin.com/in/inshakanue",
+      icon: Github,
+      label: "GitHub",
+      value: "github.com/inshakanue",
+      href: "https://github.com/inshakanue",
       color: "text-accent"
     },
     {
@@ -74,10 +74,10 @@ const Contact = () => {
       color: "text-accent"
     },
     {
-      icon: Github,
-      label: "GitHub",
-      value: "github.com/inshakanue",
-      href: "https://github.com/inshakanue",
+      icon: Linkedin,
+      label: "LinkedIn",
+      value: "linkedin.com/in/inshakanue",
+      href: "https://linkedin.com/in/inshakanue",
       color: "text-accent"
     },
     {
@@ -173,9 +173,9 @@ const Contact = () => {
                     className="text-lg py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
                     asChild
                   >
-                    <a href="https://x.com/inshakanue" target="_blank" rel="noopener noreferrer">
-                      <Twitter className="w-5 h-5 mr-2" />
-                      Follow on X
+                    <a href="https://github.com/inshakanue" target="_blank" rel="noopener noreferrer">
+                      <Github className="w-5 h-5 mr-2" />
+                      View GitHub
                     </a>
                   </Button>
                   
@@ -184,9 +184,9 @@ const Contact = () => {
                     className="text-lg py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
                     asChild
                   >
-                    <a href="https://github.com/inshakanue" target="_blank" rel="noopener noreferrer">
-                      <Github className="w-5 h-5 mr-2" />
-                      View GitHub
+                    <a href="https://x.com/inshakanue" target="_blank" rel="noopener noreferrer">
+                      <Twitter className="w-5 h-5 mr-2" />
+                      Follow on X
                     </a>
                   </Button>
                 </div>
