@@ -20,7 +20,7 @@ const Hero = () => {
       }}
     >
       {/* Animated Background Elements */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0 z-10 pointer-events-none">
         {/* Floating Particles */}
         <div className="absolute inset-0">
           {[...Array(15)].map((_, i) => (
@@ -108,9 +108,9 @@ const Hero = () => {
       </div>
       
       {/* Background overlay for text readability */}
-      <div className="absolute inset-0 bg-background/85 backdrop-blur-sm"></div>
+      <div className="absolute inset-0 z-0 bg-background/70 backdrop-blur-sm"></div>
       
-      <div className="container-custom relative z-10">
+      <div className="container-custom relative z-20">
         <div className="max-w-4xl mx-auto text-center">
           {/* Main Heading */}
           <div className="fade-in-up">
