@@ -111,11 +111,11 @@ const Hero = () => {
       <div className="absolute inset-0 z-0 bg-background/70"></div>
       <div className="absolute inset-0 z-20 bg-background/60 backdrop-blur-sm pointer-events-none"></div>
       
-      <div className="container-custom relative z-30">
-        <div className="max-w-4xl mx-auto text-center rounded-2xl bg-background/50 backdrop-blur-md border border-border/50 shadow-strong p-4 md:p-8">
+      <div className="container-custom relative z-30 px-4">
+        <div className="max-w-4xl mx-auto text-center rounded-xl md:rounded-2xl bg-background/50 backdrop-blur-md border border-border/50 shadow-strong p-6 sm:p-8 md:p-10 lg:p-12">
           {/* Main Heading */}
           <div className="fade-in-up">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 whitespace-nowrap">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight mb-4 md:mb-6 break-words">
               <span className="text-foreground">Salaam, I'm </span>
               <span className="gradient-text">Insha Kanue</span>
             </h1>
@@ -123,14 +123,14 @@ const Hero = () => {
 
           {/* Subtitle */}
           <div className="fade-in-up animate-delay-100">
-            <h2 className="text-xl md:text-2xl lg:text-3xl text-muted-foreground font-medium mb-8">
+            <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-muted-foreground font-medium mb-6 md:mb-8">
               AI Product Manager
             </h2>
           </div>
 
           {/* Description */}
           <div className="fade-in-up animate-delay-200">
-            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-12 leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-8 md:mb-12 leading-relaxed px-2">
               7+ years of experience building AI-powered products and machine learning solutions, 
               leading cross-functional teams to implement intelligent systems that drive millions in revenue growth.
             </p>
@@ -138,19 +138,19 @@ const Hero = () => {
 
           {/* CTA Buttons */}
           <div className="fade-in-up animate-delay-300">
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
+            <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-stretch sm:items-center mb-12 md:mb-16">
               <Button
                 size="lg"
-                className="btn-primary text-lg px-8 py-6"
+                className="btn-primary text-base md:text-lg px-6 md:px-8 py-5 md:py-6 w-full sm:w-auto"
                 onClick={() => scrollToSection("contact")}
               >
-                <Mail className="w-5 h-5 mr-2" />
+                <Mail className="w-4 h-4 md:w-5 md:h-5 mr-2" />
                 Get In Touch
               </Button>
               <Button
                 variant="outline"
                 size="lg"
-                className="text-lg px-8 py-6 border-2 hover:bg-primary hover:text-primary-foreground hover:border-primary"
+                className="text-base md:text-lg px-6 md:px-8 py-5 md:py-6 border-2 hover:bg-primary hover:text-primary-foreground hover:border-primary w-full sm:w-auto"
                 onClick={() => scrollToSection("experience")}
               >
                 View My Work
@@ -162,10 +162,10 @@ const Hero = () => {
           <div className="fade-in-up animate-delay-300">
             <button
               onClick={() => scrollToSection("about")}
-              className="inline-flex flex-col items-center space-y-2 text-muted-foreground hover:text-primary transition-colors duration-300 animate-float"
+              className="inline-flex flex-col items-center space-y-1 md:space-y-2 text-muted-foreground hover:text-primary transition-colors duration-300 animate-float"
             >
-              <span className="text-sm font-medium">Scroll to explore</span>
-              <ArrowDown className="w-5 h-5" />
+              <span className="text-xs sm:text-sm font-medium">Scroll to explore</span>
+              <ArrowDown className="w-4 h-4 md:w-5 md:h-5" />
             </button>
           </div>
         </div>
