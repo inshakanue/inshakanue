@@ -1,4 +1,4 @@
-import { Mail, Linkedin, ArrowUp } from "lucide-react";
+import { Mail, Linkedin, ArrowUp, Twitter, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Footer = () => {
@@ -75,6 +75,26 @@ const Footer = () => {
                 >
                   <a href="https://linkedin.com/in/inshakanue" target="_blank" rel="noopener noreferrer">
                     <Linkedin className="w-4 h-4" />
+                  </a>
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10"
+                  asChild
+                >
+                  <a href="https://x.com/inshakanue" target="_blank" rel="noopener noreferrer">
+                    <Twitter className="w-4 h-4" />
+                  </a>
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10"
+                  asChild
+                >
+                  <a href="https://github.com/inshakanue" target="_blank" rel="noopener noreferrer">
+                    <Github className="w-4 h-4" />
                   </a>
                 </Button>
                 <Button

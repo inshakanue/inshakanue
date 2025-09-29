@@ -11,7 +11,9 @@ import {
   MapPin, 
   Send, 
   Download,
-  Calendar
+  Calendar,
+  Twitter,
+  Github
 } from "lucide-react";
 
 const Contact = () => {
@@ -62,6 +64,20 @@ const Contact = () => {
       label: "LinkedIn",
       value: "linkedin.com/in/inshakanue",
       href: "https://linkedin.com/in/inshakanue",
+      color: "text-accent"
+    },
+    {
+      icon: Twitter,
+      label: "X (Twitter)",
+      value: "x.com/inshakanue",
+      href: "https://x.com/inshakanue",
+      color: "text-accent"
+    },
+    {
+      icon: Github,
+      label: "GitHub",
+      value: "github.com/inshakanue",
+      href: "https://github.com/inshakanue",
       color: "text-accent"
     },
     {
@@ -150,6 +166,30 @@ const Contact = () => {
                     Connect on LinkedIn
                   </a>
                 </Button>
+                
+                <div className="grid grid-cols-2 gap-4">
+                  <Button
+                    variant="outline"
+                    className="text-lg py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
+                    asChild
+                  >
+                    <a href="https://x.com/inshakanue" target="_blank" rel="noopener noreferrer">
+                      <Twitter className="w-5 h-5 mr-2" />
+                      Follow on X
+                    </a>
+                  </Button>
+                  
+                  <Button
+                    variant="outline"
+                    className="text-lg py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
+                    asChild
+                  >
+                    <a href="https://github.com/inshakanue" target="_blank" rel="noopener noreferrer">
+                      <Github className="w-5 h-5 mr-2" />
+                      View GitHub
+                    </a>
+                  </Button>
+                </div>
               </div>
             </div>
 
