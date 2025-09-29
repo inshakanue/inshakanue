@@ -112,7 +112,7 @@ const Hero = () => {
       <div className="absolute inset-0 z-20 bg-background/60 backdrop-blur-sm pointer-events-none"></div>
       
       <div className="container-custom relative z-30">
-        <div className="max-w-4xl mx-auto text-center rounded-2xl bg-background/50 backdrop-blur-md border border-border/50 shadow-strong p-6 md:p-10">
+        <div className="max-w-4xl mx-auto text-center rounded-2xl bg-background/50 backdrop-blur-md border border-border/50 shadow-strong p-4 md:p-8">
           {/* Main Heading */}
           <div className="fade-in-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 whitespace-nowrap">
