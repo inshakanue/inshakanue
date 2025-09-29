@@ -60,6 +60,13 @@ const Contact = () => {
       color: "text-primary"
     },
     {
+      icon: Linkedin,
+      label: "LinkedIn",
+      value: "linkedin.com/in/inshakanue",
+      href: "https://linkedin.com/in/inshakanue",
+      color: "text-accent"
+    },
+    {
       icon: Github,
       label: "GitHub",
       value: "github.com/inshakanue",
@@ -71,13 +78,6 @@ const Contact = () => {
       label: "X (Twitter)",
       value: "x.com/inshakanue",
       href: "https://x.com/inshakanue",
-      color: "text-accent"
-    },
-    {
-      icon: Linkedin,
-      label: "LinkedIn",
-      value: "linkedin.com/in/inshakanue",
-      href: "https://linkedin.com/in/inshakanue",
       color: "text-accent"
     },
     {

@@ -76,6 +76,16 @@ const Header = () => {
               className="text-muted-foreground hover:text-primary"
               asChild
             >
+              <a href="https://linkedin.com/in/inshakanue" target="_blank" rel="noopener noreferrer">
+                <Linkedin className="w-4 h-4" />
+              </a>
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-muted-foreground hover:text-primary"
+              asChild
+            >
               <a href="https://github.com/inshakanue" target="_blank" rel="noopener noreferrer">
                 <Github className="w-4 h-4" />
               </a>
@@ -88,16 +98,6 @@ const Header = () => {
             >
               <a href="https://x.com/inshakanue" target="_blank" rel="noopener noreferrer">
                 <Twitter className="w-4 h-4" />
-              </a>
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="text-muted-foreground hover:text-primary"
-              asChild
-            >
-              <a href="https://linkedin.com/in/inshakanue" target="_blank" rel="noopener noreferrer">
-                <Linkedin className="w-4 h-4" />
               </a>
             </Button>
           </div>
@@ -143,6 +143,16 @@ const Header = () => {
                   className="text-muted-foreground hover:text-primary"
                   asChild
                 >
+                  <a href="https://linkedin.com/in/inshakanue" target="_blank" rel="noopener noreferrer">
+                    <Linkedin className="w-4 h-4" />
+                  </a>
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-muted-foreground hover:text-primary"
+                  asChild
+                >
                   <a href="https://github.com/inshakanue" target="_blank" rel="noopener noreferrer">
                     <Github className="w-4 h-4" />
                   </a>
@@ -155,16 +165,6 @@ const Header = () => {
                 >
                   <a href="https://x.com/inshakanue" target="_blank" rel="noopener noreferrer">
                     <Twitter className="w-4 h-4" />
-                  </a>
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="text-muted-foreground hover:text-primary"
-                  asChild
-                >
-                  <a href="https://linkedin.com/in/inshakanue" target="_blank" rel="noopener noreferrer">
-                    <Linkedin className="w-4 h-4" />
                   </a>
                 </Button>
               </div>
