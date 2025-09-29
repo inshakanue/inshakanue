@@ -63,7 +63,7 @@ const About = () => {
             {/* Text Content */}
             <div className="slide-in-left">
               <h3 className="text-2xl font-bold mb-6 text-foreground">
-                Transforming Businesses Through Strategic Product Leadership
+                Building AI-Powered Products That Deliver Measurable Business Impact
               </h3>
               <div className="space-y-4 text-muted-foreground">
                 <p className="text-lg leading-relaxed">
