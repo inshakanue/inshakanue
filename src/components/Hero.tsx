@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowDown, Download, Mail } from "lucide-react";
+import heroBackground from "@/assets/ai-hero-background.jpg";
 
 const Hero = () => {
   const scrollToSection = (sectionId: string) => {
@@ -8,8 +9,20 @@ const Hero = () => {
   };
 
   return (
-    <section id="hero" className="min-h-screen flex items-center justify-center section-padding">
-      <div className="container-custom">
+    <section 
+      id="hero" 
+      className="min-h-screen flex items-center justify-center section-padding relative overflow-hidden"
+      style={{
+        backgroundImage: `url(${heroBackground})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }}
+    >
+      {/* Background overlay for text readability */}
+      <div className="absolute inset-0 bg-background/80 backdrop-blur-sm"></div>
+      
+      <div className="container-custom relative z-10">
         <div className="max-w-4xl mx-auto text-center">
           {/* Main Heading */}
           <div className="fade-in-up">
