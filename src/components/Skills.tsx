@@ -71,7 +71,8 @@ const Skills = () => {
   ];
 
   const certifications = [
-    "Product Discovery Micro-Certification (PDC)™️ - Product School"
+    "Product Discovery Micro-Certification (PDC)™️ - Product School",
+    "Product Prioritization Micro-Certification (PPC)™️ - Product School"
   ];
 
   return (
