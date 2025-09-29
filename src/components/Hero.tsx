@@ -23,10 +23,10 @@ const Hero = () => {
       <div className="absolute inset-0">
         {/* Floating Particles */}
         <div className="absolute inset-0">
-          {[...Array(20)].map((_, i) => (
+          {[...Array(15)].map((_, i) => (
             <div
-              key={i}
-              className="absolute w-2 h-2 bg-primary/20 rounded-full animate-float"
+              key={`particle-${i}`}
+              className="absolute w-3 h-3 bg-primary/40 rounded-full animate-float"
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
@@ -39,16 +39,17 @@ const Hero = () => {
         
         {/* Data Flow Lines */}
         <div className="absolute inset-0">
-          {[...Array(8)].map((_, i) => (
+          {[...Array(6)].map((_, i) => (
             <div
-              key={i}
-              className="absolute h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent animate-pulse"
+              key={`line-${i}`}
+              className="absolute h-0.5 bg-gradient-to-r from-transparent via-accent/50 to-transparent animate-pulse"
               style={{
-                width: `${200 + Math.random() * 300}px`,
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
+                width: `${150 + Math.random() * 250}px`,
+                left: `${Math.random() * 80}%`,
+                top: `${20 + Math.random() * 60}%`,
                 animationDelay: `${Math.random() * 3}s`,
                 animationDuration: `${2 + Math.random() * 2}s`,
+                transform: `rotate(${Math.random() * 30 - 15}deg)`,
               }}
             />
           ))}
@@ -56,15 +57,16 @@ const Hero = () => {
         
         {/* Neural Network Nodes */}
         <div className="absolute inset-0">
-          {[...Array(6)].map((_, i) => (
+          {[...Array(8)].map((_, i) => (
             <div
-              key={i}
-              className="absolute w-4 h-4 border-2 border-primary/40 rounded-full animate-pulse"
+              key={`node-${i}`}
+              className="absolute w-2 h-2 bg-primary/60 rounded-full animate-pulse"
               style={{
-                left: `${20 + Math.random() * 60}%`,
-                top: `${20 + Math.random() * 60}%`,
+                left: `${10 + Math.random() * 80}%`,
+                top: `${10 + Math.random() * 80}%`,
                 animationDelay: `${Math.random() * 4}s`,
-                animationDuration: `${1.5 + Math.random() * 2}s`,
+                animationDuration: `${1 + Math.random() * 2}s`,
+                boxShadow: '0 0 10px currentColor',
               }}
             />
           ))}
@@ -74,13 +76,31 @@ const Hero = () => {
         <div className="absolute inset-0">
           {[...Array(4)].map((_, i) => (
             <div
-              key={i}
-              className="absolute w-8 h-8 border border-accent/30 rotate-45 animate-spin"
+              key={`shape-${i}`}
+              className="absolute w-6 h-6 border border-accent/40 animate-spin"
               style={{
+                left: `${Math.random() * 90}%`,
+                top: `${Math.random() * 90}%`,
+                animationDuration: `${15 + Math.random() * 10}s`,
+                animationDelay: `${Math.random() * 5}s`,
+                transform: `rotate(${Math.random() * 360}deg)`,
+              }}
+            />
+          ))}
+        </div>
+        
+        {/* Circuit-like connections */}
+        <div className="absolute inset-0">
+          {[...Array(4)].map((_, i) => (
+            <div
+              key={`circuit-${i}`}
+              className="absolute border-l border-primary/30 animate-pulse"
+              style={{
+                height: `${50 + Math.random() * 100}px`,
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
-                animationDuration: `${10 + Math.random() * 10}s`,
-                animationDelay: `${Math.random() * 5}s`,
+                animationDelay: `${Math.random() * 2}s`,
+                animationDuration: `${3 + Math.random() * 2}s`,
               }}
             />
           ))}
