@@ -14,7 +14,7 @@ const Hero = () => {
           {/* Main Heading */}
           <div className="fade-in-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
-              <span className="text-foreground">Hi, I'm </span>
+              <span className="text-foreground">Salaam, I'm </span>
               <span className="gradient-text">Insha Kanue</span>
             </h1>
           </div>
