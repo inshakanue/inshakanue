@@ -71,11 +71,7 @@ const Skills = () => {
   ];
 
   const certifications = [
-    "Product Management Certification",
-    "Agile & Scrum Master",
-    "Google Analytics Certified",
-    "AWS Cloud Practitioner",
-    "Data Analytics Certificate"
+    "Product Discovery Micro-Certification (PDC)™️ - Product School"
   ];
 
   return (
