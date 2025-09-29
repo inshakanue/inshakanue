@@ -105,56 +105,56 @@ const Contact = () => {
                       </div>
                     </div>
                   ))}
-                </CardContent>
-              </Card>
+                 </CardContent>
+               </Card>
 
-              {/* Quick Actions */}
-              <div className="space-y-4">
-                <Button
-                  className="btn-primary w-full text-lg py-6"
-                  asChild
-                >
-                  <a href="mailto:inshakanue@protonmail.com">
-                    <Mail className="w-5 h-5 mr-2" />
-                    Send Direct Email
-                  </a>
-                </Button>
-                
-                <Button
-                  variant="outline"
-                  className="w-full text-lg py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
-                  asChild
-                >
-                  <a href="https://linkedin.com/in/inshakanue" target="_blank" rel="noopener noreferrer">
-                    <Linkedin className="w-5 h-5 mr-2" />
-                    Connect on LinkedIn
-                  </a>
-                </Button>
-                
-                <div className="grid grid-cols-2 gap-4">
-                  <Button
-                    variant="outline"
-                    className="text-lg py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
-                    asChild
-                  >
-                    <a href="https://github.com/inshakanue" target="_blank" rel="noopener noreferrer">
-                      <Github className="w-5 h-5 mr-2" />
-                      View GitHub
-                    </a>
-                  </Button>
-                  
-                  <Button
-                    variant="outline"
-                    className="text-lg py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
-                    asChild
-                  >
-                    <a href="https://x.com/inshakanue" target="_blank" rel="noopener noreferrer">
-                      <Twitter className="w-5 h-5 mr-2" />
-                      Follow on X
-                    </a>
-                  </Button>
-                </div>
-              </div>
+               {/* Contact Actions */}
+               <div className="space-y-4">
+                 <Button
+                   className="btn-primary w-full text-lg py-6"
+                   asChild
+                 >
+                   <a href="mailto:inshakanue@protonmail.com">
+                     <Mail className="w-5 h-5 mr-2" />
+                     Send Direct Email
+                   </a>
+                 </Button>
+                 
+                 <Button
+                   variant="outline"
+                   className="w-full text-lg py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
+                   asChild
+                 >
+                   <a href="https://linkedin.com/in/inshakanue" target="_blank" rel="noopener noreferrer">
+                     <Linkedin className="w-5 h-5 mr-2" />
+                     Connect on LinkedIn
+                   </a>
+                 </Button>
+                 
+                 <div className="grid grid-cols-2 gap-4">
+                   <Button
+                     variant="outline"
+                     className="text-lg py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
+                     asChild
+                   >
+                     <a href="https://github.com/inshakanue" target="_blank" rel="noopener noreferrer">
+                       <Github className="w-5 h-5 mr-2" />
+                       View GitHub
+                     </a>
+                   </Button>
+                   
+                   <Button
+                     variant="outline"
+                     className="text-lg py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
+                     asChild
+                   >
+                     <a href="https://x.com/inshakanue" target="_blank" rel="noopener noreferrer">
+                       <Twitter className="w-5 h-5 mr-2" />
+                       Follow on X
+                     </a>
+                   </Button>
+                 </div>
+               </div>
             </div>
 
             {/* Contact Form */}
