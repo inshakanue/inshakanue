@@ -19,8 +19,76 @@ const Hero = () => {
         backgroundRepeat: 'no-repeat',
       }}
     >
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0">
+        {/* Floating Particles */}
+        <div className="absolute inset-0">
+          {[...Array(20)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-2 h-2 bg-primary/20 rounded-full animate-float"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 5}s`,
+                animationDuration: `${3 + Math.random() * 4}s`,
+              }}
+            />
+          ))}
+        </div>
+        
+        {/* Data Flow Lines */}
+        <div className="absolute inset-0">
+          {[...Array(8)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent animate-pulse"
+              style={{
+                width: `${200 + Math.random() * 300}px`,
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animationDelay: `${Math.random() * 3}s`,
+                animationDuration: `${2 + Math.random() * 2}s`,
+              }}
+            />
+          ))}
+        </div>
+        
+        {/* Neural Network Nodes */}
+        <div className="absolute inset-0">
+          {[...Array(6)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-4 h-4 border-2 border-primary/40 rounded-full animate-pulse"
+              style={{
+                left: `${20 + Math.random() * 60}%`,
+                top: `${20 + Math.random() * 60}%`,
+                animationDelay: `${Math.random() * 4}s`,
+                animationDuration: `${1.5 + Math.random() * 2}s`,
+              }}
+            />
+          ))}
+        </div>
+        
+        {/* Geometric Shapes */}
+        <div className="absolute inset-0">
+          {[...Array(4)].map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-8 h-8 border border-accent/30 rotate-45 animate-spin"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                animationDuration: `${10 + Math.random() * 10}s`,
+                animationDelay: `${Math.random() * 5}s`,
+              }}
+            />
+          ))}
+        </div>
+      </div>
+      
       {/* Background overlay for text readability */}
-      <div className="absolute inset-0 bg-background/80 backdrop-blur-sm"></div>
+      <div className="absolute inset-0 bg-background/85 backdrop-blur-sm"></div>
       
       <div className="container-custom relative z-10">
         <div className="max-w-4xl mx-auto text-center">
