@@ -17,7 +17,7 @@ const Footer = () => {
             <div className="space-y-4">
               <h3 className="text-2xl font-bold">Insha Kanue</h3>
               <p className="text-primary-foreground/80 text-sm leading-relaxed">
-                Product Manager & Digital Transformation Expert.<br />
+                AI Product Manager.<br />
                 Transforming ideas into successful products.
               </p>
             </div>
