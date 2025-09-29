@@ -29,8 +29,8 @@ const Hero = () => {
           {/* Description */}
           <div className="fade-in-up animate-delay-200">
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-12 leading-relaxed">
-              7+ years of experience transforming businesses through data-driven product strategies, 
-              leading cross-functional teams, and delivering solutions that drive millions in revenue growth.
+              7+ years of experience building AI-powered products and machine learning solutions, 
+              leading cross-functional teams to implement intelligent systems that drive millions in revenue growth.
             </p>
           </div>
 
