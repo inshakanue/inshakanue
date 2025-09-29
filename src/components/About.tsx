@@ -67,18 +67,22 @@ const About = () => {
               </h3>
               <div className="space-y-4 text-muted-foreground">
                 <p className="text-lg leading-relaxed">
-                  With over 7 years of experience in product management, I specialize in building 
-                  scalable solutions that bridge the gap between complex technical capabilities 
-                  and real-world business needs.
+                  With 7+ years specializing in AI Product Management, I've built and deployed intelligent systems 
+                  that transform how global organizations operate. From launching Datahub—a scalable data ingestion 
+                  platform that reduced onboarding time by 40% and enabled AI use cases driving 15% revenue growth—to 
+                  deploying machine learning solutions for fraud detection, sentiment analysis, and recommendation engines.
                 </p>
                 <p className="text-lg leading-relaxed">
-                  My journey spans from being a front-end developer to founding my own IoT startup, 
-                  and eventually leading product initiatives at global companies like HRS Group, 
-                  where I've consistently delivered products that generate millions in revenue.
+                  My journey from front-end developer to founding an IoT startup with predictive analytics, to leading 
+                  AI product initiatives at HRS Group and Hypha.cc, has given me unique insight into the full AI product 
+                  lifecycle. I've consistently delivered ML-powered products that generated €15M+ in revenue while 
+                  achieving measurable improvements: 70% fraud reduction, 96.7% lead generation optimization, and 95% 
+                  enhancement in operational performance.
                 </p>
                 <p className="text-lg leading-relaxed">
-                  I thrive in ambiguous environments, turning data into actionable insights and 
-                  collaborating with diverse teams to bring innovative solutions to market.
+                  I excel at translating complex AI capabilities into business value, collaborating with data scientists, 
+                  engineers, and stakeholders to bring intelligent products from prototype to production scale across 
+                  diverse industries—from travel tech to agriculture to knowledge management.
                 </p>
               </div>
             </div>
