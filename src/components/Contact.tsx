@@ -7,7 +7,6 @@ import { useToast } from "@/hooks/use-toast";
 import { 
   Mail, 
   Linkedin, 
-  Phone, 
   MapPin, 
   Send, 
   Download,
@@ -79,13 +78,6 @@ const Contact = () => {
       value: "x.com/inshakanue",
       href: "https://x.com/inshakanue",
       color: "text-accent"
-    },
-    {
-      icon: Phone,
-      label: "Phone",
-      value: "+91-7889793897",
-      href: "tel:+917889793897",
-      color: "text-success"
     },
     {
       icon: MapPin,
