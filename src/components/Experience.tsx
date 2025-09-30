@@ -54,6 +54,7 @@ const Experience = () => {
     {
       title: "Product Manager (Partner, Digital Transformation)",
       company: "FastBeetle",
+      companyUrl: "https://fastbeetle.com/",
       location: "India",
       period: "Apr 2020 – Mar 2021",
       type: "Full-time",
