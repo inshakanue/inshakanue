@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Download, Mail, Linkedin, Twitter, Github } from "lucide-react";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isHomePage = location.pathname === "/";
 
   useEffect(() => {
     const handleScroll = () => {
@@ -14,16 +18,32 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    element?.scrollIntoView({ behavior: "smooth" });
+  const handleNavigation = (href: string) => {
     setIsMobileMenuOpen(false);
+    
+    if (href.startsWith("/")) {
+      // It's a page link
+      navigate(href);
+    } else {
+      // It's a section link on homepage
+      if (!isHomePage) {
+        navigate("/");
+        setTimeout(() => {
+          const element = document.getElementById(href);
+          element?.scrollIntoView({ behavior: "smooth" });
+        }, 100);
+      } else {
+        const element = document.getElementById(href);
+        element?.scrollIntoView({ behavior: "smooth" });
+      }
+    }
   };
 
   const navItems = [
     { label: "About", href: "about" },
     { label: "Experience", href: "experience" },
     { label: "Skills", href: "skills" },
+    { label: "Blog", href: "/blog" },
     { label: "Contact", href: "contact" },
   ];
 
@@ -38,19 +58,19 @@ const Header = () => {
       <nav className="container-custom">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <button
-            onClick={() => scrollToSection("hero")}
+          <Link
+            to="/"
             className="text-xl lg:text-2xl font-bold gradient-text hover:scale-105 transition-transform duration-300"
           >
             IK
-          </button>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
               <button
                 key={item.href}
-                onClick={() => scrollToSection(item.href)}
+                onClick={() => handleNavigation(item.href)}
                 className="text-muted-foreground hover:text-primary transition-colors duration-300 font-medium"
               >
                 {item.label}
@@ -120,7 +140,7 @@ const Header = () => {
               {navItems.map((item) => (
                 <button
                   key={item.href}
-                  onClick={() => scrollToSection(item.href)}
+                  onClick={() => handleNavigation(item.href)}
                   className="block w-full text-left px-4 py-2 text-muted-foreground hover:text-primary transition-colors duration-300"
                 >
                   {item.label}
