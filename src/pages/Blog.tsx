@@ -8,7 +8,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar, Clock, ArrowRight, PlusCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-
 type BlogPost = {
   id: string;
   title: string;
@@ -19,24 +18,23 @@ type BlogPost = {
   published_at: string | null;
   created_at: string;
 };
-
 const Blog = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
-  const { toast } = useToast();
-
+  const {
+    toast
+  } = useToast();
   useEffect(() => {
     fetchPosts();
   }, []);
-
   const fetchPosts = async () => {
     try {
-      const { data, error } = await supabase
-        .from("blog_posts")
-        .select("id, title, slug, excerpt, cover_image, author_name, published_at, created_at")
-        .eq("published", true)
-        .order("published_at", { ascending: false });
-
+      const {
+        data,
+        error
+      } = await supabase.from("blog_posts").select("id, title, slug, excerpt, cover_image, author_name, published_at, created_at").eq("published", true).order("published_at", {
+        ascending: false
+      });
       if (error) throw error;
       setPosts(data || []);
     } catch (error) {
@@ -44,24 +42,21 @@ const Blog = () => {
       toast({
         title: "Error",
         description: "Failed to load blog posts",
-        variant: "destructive",
+        variant: "destructive"
       });
     } finally {
       setLoading(false);
     }
   };
-
   const formatDate = (dateString: string | null) => {
     if (!dateString) return "Not published";
     return new Date(dateString).toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
-      day: "numeric",
+      day: "numeric"
     });
   };
-
-  return (
-    <div className="min-h-screen">
+  return <div className="min-h-screen">
       <Header />
       <main className="pt-24 pb-16">
         <div className="container-custom">
@@ -71,9 +66,7 @@ const Blog = () => {
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
                 My <span className="gradient-text">Blog</span>
               </h1>
-              <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
-                Insights on product management, AI/ML, and technology leadership
-              </p>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">Insights on Data/AI product management and technology leadership</p>
               <Button asChild>
                 <Link to="/blog/admin">
                   <PlusCircle className="w-4 h-4 mr-2" />
@@ -83,10 +76,8 @@ const Blog = () => {
             </div>
 
             {/* Blog Posts Grid */}
-            {loading ? (
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {[1, 2, 3].map((i) => (
-                  <Card key={i} className="card-elevated animate-pulse">
+            {loading ? <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {[1, 2, 3].map(i => <Card key={i} className="card-elevated animate-pulse">
                     <div className="h-48 bg-muted rounded-t-lg"></div>
                     <CardHeader>
                       <div className="h-6 bg-muted rounded w-3/4 mb-2"></div>
@@ -99,11 +90,8 @@ const Blog = () => {
                         <div className="h-4 bg-muted rounded w-2/3"></div>
                       </div>
                     </CardContent>
-                  </Card>
-                ))}
-              </div>
-            ) : posts.length === 0 ? (
-              <Card className="card-elevated text-center py-12">
+                  </Card>)}
+              </div> : posts.length === 0 ? <Card className="card-elevated text-center py-12">
                 <CardContent>
                   <p className="text-xl text-muted-foreground mb-4">
                     No blog posts yet. Check back soon!
@@ -112,24 +100,13 @@ const Blog = () => {
                     <Link to="/blog/admin">Write your first post</Link>
                   </Button>
                 </CardContent>
-              </Card>
-            ) : (
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {posts.map((post, index) => (
-                  <Card
-                    key={post.id}
-                    className="card-elevated fade-in-up hover:scale-105 transition-transform duration-300"
-                    style={{ animationDelay: `${index * 0.1}s` }}
-                  >
-                    {post.cover_image && (
-                      <div className="h-48 overflow-hidden rounded-t-lg">
-                        <img
-                          src={post.cover_image}
-                          alt={post.title}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    )}
+              </Card> : <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {posts.map((post, index) => <Card key={post.id} className="card-elevated fade-in-up hover:scale-105 transition-transform duration-300" style={{
+              animationDelay: `${index * 0.1}s`
+            }}>
+                    {post.cover_image && <div className="h-48 overflow-hidden rounded-t-lg">
+                        <img src={post.cover_image} alt={post.title} className="w-full h-full object-cover" />
+                      </div>}
                     <CardHeader>
                       <CardTitle className="line-clamp-2 hover:gradient-text transition-all duration-300">
                         <Link to={`/blog/${post.slug}`}>{post.title}</Link>
@@ -140,11 +117,9 @@ const Blog = () => {
                       </div>
                     </CardHeader>
                     <CardContent>
-                      {post.excerpt && (
-                        <p className="text-muted-foreground mb-4 line-clamp-3">
+                      {post.excerpt && <p className="text-muted-foreground mb-4 line-clamp-3">
                           {post.excerpt}
-                        </p>
-                      )}
+                        </p>}
                       <Button variant="ghost" size="sm" asChild className="group">
                         <Link to={`/blog/${post.slug}`}>
                           Read More
@@ -152,16 +127,12 @@ const Blog = () => {
                         </Link>
                       </Button>
                     </CardContent>
-                  </Card>
-                ))}
-              </div>
-            )}
+                  </Card>)}
+              </div>}
           </div>
         </div>
       </main>
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default Blog;
