@@ -129,7 +129,7 @@ const Contact = () => {
                        </a>
                      </Button>
                      
-                      <div className="flex flex-col sm:grid sm:grid-cols-2 gap-4">
+                      <div className="grid grid-cols-2 gap-4">
                         <Button
                           variant="outline"
                           className="text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
