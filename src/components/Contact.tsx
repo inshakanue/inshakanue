@@ -7,6 +7,13 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
 import { 
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { 
   Mail, 
   Linkedin, 
   MapPin, 
@@ -20,6 +27,7 @@ import {
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
   email: z.string().trim().email("Invalid email address").max(255, "Email must be less than 255 characters"),
+  inquiryType: z.string().min(1, "Please select an inquiry type"),
   subject: z.string().trim().min(1, "Subject is required").max(200, "Subject must be less than 200 characters"),
   message: z.string().trim().min(1, "Message is required").max(2000, "Message must be less than 2000 characters")
 });
@@ -28,6 +36,7 @@ const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    inquiryType: "",
     subject: "",
     message: ""
   });
@@ -66,7 +75,7 @@ const Contact = () => {
       });
 
       // Reset form
-      setFormData({ name: "", email: "", subject: "", message: "" });
+      setFormData({ name: "", email: "", inquiryType: "", subject: "", message: "" });
     } catch (error: any) {
       console.error("Error sending message:", error);
       toast({
@@ -232,6 +241,27 @@ const Contact = () => {
                           placeholder="your.email@example.com"
                         />
                       </div>
+                    </div>
+
+                    <div>
+                      <label htmlFor="inquiryType" className="block text-sm font-medium mb-2 text-foreground">
+                        Inquiry Type *
+                      </label>
+                      <Select
+                        value={formData.inquiryType}
+                        onValueChange={(value) => setFormData(prev => ({ ...prev, inquiryType: value }))}
+                      >
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder="Select inquiry type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Job Opportunity">Job Opportunity</SelectItem>
+                          <SelectItem value="Freelance Work">Freelance Work</SelectItem>
+                          <SelectItem value="Consulting Services">Consulting Services</SelectItem>
+                          <SelectItem value="Partnership & Collaboration">Partnership & Collaboration</SelectItem>
+                          <SelectItem value="General Inquiry">General Inquiry</SelectItem>
+                        </SelectContent>
+                      </Select>
                     </div>
 
                     <div>
