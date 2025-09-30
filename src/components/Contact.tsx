@@ -251,7 +251,7 @@ const Contact = () => {
                         value={formData.inquiryType}
                         onValueChange={(value) => setFormData(prev => ({ ...prev, inquiryType: value }))}
                       >
-                        <SelectTrigger className="w-full">
+                        <SelectTrigger className="w-full text-foreground data-[placeholder]:text-muted-foreground">
                           <SelectValue placeholder="Select inquiry type" />
                         </SelectTrigger>
                         <SelectContent>
