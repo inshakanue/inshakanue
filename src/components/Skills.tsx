@@ -9,7 +9,8 @@ import {
   Target,
   Zap,
   Star,
-  Lightbulb
+  Lightbulb,
+  Award
 } from "lucide-react";
 
 const Skills = () => {
@@ -118,7 +119,8 @@ const Skills = () => {
 
   const certifications = [
     "Product Discovery Micro-Certification (PDC)™️ - Product School",
-    "Product Prioritization Micro-Certification (PPC)™️ - Product School"
+    "Product Prioritization Micro-Certification (PPC)™️ - Product School",
+    "Intermediate SQL - DataCamp"
   ];
 
   return (
@@ -202,7 +204,7 @@ const Skills = () => {
             <Card className="card-elevated fade-in-up animate-delay-100">
               <CardHeader>
                 <CardTitle className="flex items-center gap-3 text-xl">
-                  <Lightbulb className="w-6 h-6 text-success" />
+                  <Award className="w-6 h-6 text-success" />
                   Certifications
                 </CardTitle>
               </CardHeader>
