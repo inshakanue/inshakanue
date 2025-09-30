@@ -5,10 +5,11 @@ import {
   Brain, 
   Users, 
   Code, 
-  Lightbulb,
+  Palette,
   Target,
   Zap,
-  Star
+  Star,
+  Lightbulb
 } from "lucide-react";
 
 const Skills = () => {
@@ -100,7 +101,7 @@ const Skills = () => {
     },
     {
       title: "Design & UX",
-      icon: Lightbulb,
+      icon: Palette,
       color: "text-secondary",
       skills: [
         { name: "User-Centered Design", level: 88 },
