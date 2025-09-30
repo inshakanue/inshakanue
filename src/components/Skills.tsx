@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 
 const Skills = () => {
+
   const skillCategories = [
     {
       title: "Product Management",
