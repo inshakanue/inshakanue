@@ -129,29 +129,29 @@ const Contact = () => {
                        </a>
                      </Button>
                      
-                     <div className="grid grid-cols-2 gap-4">
-                       <Button
-                         variant="outline"
-                         className="text-lg py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
-                         asChild
-                       >
-                         <a href="https://github.com/inshakanue" target="_blank" rel="noopener noreferrer">
-                           <Github className="w-5 h-5 mr-2" />
-                           View GitHub
-                         </a>
-                       </Button>
-                       
-                       <Button
-                         variant="outline"
-                         className="text-lg py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
-                         asChild
-                       >
-                         <a href="https://x.com/inshakanue" target="_blank" rel="noopener noreferrer">
-                           <Twitter className="w-5 h-5 mr-2" />
-                           Follow on X
-                         </a>
-                       </Button>
-                     </div>
+                      <div className="flex flex-col sm:grid sm:grid-cols-2 gap-4">
+                        <Button
+                          variant="outline"
+                          className="text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
+                          asChild
+                        >
+                          <a href="https://github.com/inshakanue" target="_blank" rel="noopener noreferrer">
+                            <Github className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                            View GitHub
+                          </a>
+                        </Button>
+                        
+                        <Button
+                          variant="outline"
+                          className="text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
+                          asChild
+                        >
+                          <a href="https://x.com/inshakanue" target="_blank" rel="noopener noreferrer">
+                            <Twitter className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                            Follow on X
+                          </a>
+                        </Button>
+                      </div>
                    </div>
                  </CardContent>
                </Card>
