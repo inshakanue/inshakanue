@@ -118,9 +118,9 @@ const Skills = () => {
   ];
 
   const certifications = [
-    "Product Discovery Micro-Certification (PDC)™️ - Product School",
-    "Product Prioritization Micro-Certification (PPC)™️ - Product School",
-    "Intermediate SQL - DataCamp"
+    { name: "Product Discovery Micro-Certification (PDC)™️ - Product School", link: null },
+    { name: "Product Prioritization Micro-Certification (PPC)™️ - Product School", link: null },
+    { name: "Intermediate SQL - DataCamp", link: "https://www.datacamp.com/statement-of-accomplishment/course/ce3ed0e9e3c0ad2c3b04a07be91b3eb09fc95a23" }
   ];
 
   return (
@@ -213,7 +213,18 @@ const Skills = () => {
                   {certifications.map((cert, index) => (
                     <div key={index} className="flex items-center gap-3">
                       <Zap className="w-4 h-4 text-success flex-shrink-0" />
-                      <span className="text-sm text-foreground">{cert}</span>
+                      {cert.link ? (
+                        <a 
+                          href={cert.link} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-sm text-foreground hover:text-primary transition-colors duration-300 hover:underline"
+                        >
+                          {cert.name}
+                        </a>
+                      ) : (
+                        <span className="text-sm text-foreground">{cert.name}</span>
+                      )}
                     </div>
                   ))}
                 </div>
