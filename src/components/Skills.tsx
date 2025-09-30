@@ -50,11 +50,16 @@ const Skills = () => {
       icon: Target,
       color: "text-primary",
       skills: [
-        { name: "Product Strategy & Roadmapping", level: 95 },
-        { name: "Market Research & Validation", level: 90 },
-        { name: "Agile & Scrum Methodologies", level: 92 },
-        { name: "Stakeholder Management", level: 88 },
-        { name: "Go-to-Market Strategy", level: 85 }
+        { name: "Product Vision & Strategy", level: 95 },
+        { name: "Product Roadmap Planning", level: 95 },
+        { name: "Strategic Planning and Execution", level: 93 },
+        { name: "Product Market Fit", level: 92 },
+        { name: "MVP Development", level: 90 },
+        { name: "Product Lifecycle Management", level: 90 },
+        { name: "Market Research", level: 90 },
+        { name: "Business Case Development", level: 88 },
+        { name: "Market Segmentation & Targeting", level: 87 },
+        { name: "Product Launch & Go-to-Market Strategy", level: 85 }
       ]
     },
     {
@@ -62,11 +67,11 @@ const Skills = () => {
       icon: BarChart3,
       color: "text-accent",
       skills: [
-        { name: "Data Strategy & Governance", level: 90 },
-        { name: "ML Model Evaluation & Metrics", level: 85 },
-        { name: "A/B Testing & Experimentation", level: 88 },
-        { name: "Data Pipeline Management", level: 82 },
-        { name: "Predictive Analytics & Forecasting", level: 80 }
+        { name: "Data Analysis", level: 90 },
+        { name: "Key Performance Indicators (KPIs)", level: 88 },
+        { name: "Quality Assurance & A/B Testing", level: 88 },
+        { name: "Data Visualization", level: 85 },
+        { name: "Service Level Agreements (SLAs)", level: 82 }
       ]
     },
     {
@@ -86,11 +91,21 @@ const Skills = () => {
       icon: Users,
       color: "text-primary-light",
       skills: [
-        { name: "Cross-functional Team Leadership", level: 95 },
-        { name: "Strategic Communication", level: 90 },
-        { name: "Change Management", level: 88 },
-        { name: "Mentoring & Coaching", level: 85 },
-        { name: "Executive Presentations", level: 87 }
+        { name: "Stakeholder Management", level: 95 },
+        { name: "Documentation (PRD, Narratives, PRFAQ)", level: 93 },
+        { name: "Agile and Scrum Methodologies", level: 92 },
+        { name: "OKRs", level: 90 },
+        { name: "Backlog Management", level: 90 },
+        { name: "Budgeting & Resource Allocation", level: 88 }
+      ]
+    },
+    {
+      title: "Design & UX",
+      icon: Lightbulb,
+      color: "text-secondary",
+      skills: [
+        { name: "User-Centered Design", level: 88 },
+        { name: "Prototyping & Wireframing", level: 85 }
       ]
     }
   ];
