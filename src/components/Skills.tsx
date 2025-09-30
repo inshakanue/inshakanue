@@ -52,12 +52,11 @@ const Skills = () => {
       skills: [
         { name: "Product Vision & Strategy", level: 95 },
         { name: "Product Roadmap Planning", level: 95 },
-        { name: "Strategic Planning and Execution", level: 93 },
-        { name: "Product Market Fit", level: 92 },
-        { name: "MVP Development", level: 90 },
         { name: "Product Lifecycle Management", level: 90 },
-        { name: "Market Research", level: 90 },
+        { name: "Market Research & Validation", level: 90 },
         { name: "Business Case Development", level: 88 },
+        { name: "MVP Development", level: 90 },
+        { name: "Product Market Fit", level: 92 },
         { name: "Market Segmentation & Targeting", level: 87 },
         { name: "Product Launch & Go-to-Market Strategy", level: 85 }
       ]
