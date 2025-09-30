@@ -21,109 +21,16 @@ const Hero = () => {
     >
       {/* Animated Background Elements */}
       <div className="absolute inset-0 z-10 pointer-events-none">
-        {/* Floating Particles - Enhanced */}
+        {/* Simplified animations */}
         <div className="absolute inset-0">
-          {[...Array(20)].map((_, i) => (
+          {[...Array(10)].map((_, i) => (
             <div
               key={`particle-${i}`}
-              className="absolute w-4 h-4 bg-primary/70 rounded-full animate-float"
+              className="absolute w-2 h-2 bg-primary/40 rounded-full animate-float"
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 5}s`,
-                animationDuration: `${3 + Math.random() * 4}s`,
-                boxShadow: '0 0 20px currentColor, 0 0 40px currentColor',
-                filter: 'blur(1px)',
-              }}
-            />
-          ))}
-        </div>
-        
-        {/* Data Flow Lines - Enhanced */}
-        <div className="absolute inset-0">
-          {[...Array(8)].map((_, i) => (
-            <div
-              key={`line-${i}`}
-              className="absolute h-1 bg-gradient-to-r from-transparent via-accent to-transparent animate-pulse"
-              style={{
-                width: `${200 + Math.random() * 300}px`,
-                left: `${Math.random() * 80}%`,
-                top: `${20 + Math.random() * 60}%`,
                 animationDelay: `${Math.random() * 3}s`,
-                animationDuration: `${2 + Math.random() * 2}s`,
-                transform: `rotate(${Math.random() * 30 - 15}deg)`,
-                boxShadow: '0 0 10px currentColor',
-              }}
-            />
-          ))}
-        </div>
-        
-        {/* Neural Network Nodes - Enhanced */}
-        <div className="absolute inset-0">
-          {[...Array(12)].map((_, i) => (
-            <div
-              key={`node-${i}`}
-              className="absolute w-3 h-3 bg-primary rounded-full animate-pulse"
-              style={{
-                left: `${10 + Math.random() * 80}%`,
-                top: `${10 + Math.random() * 80}%`,
-                animationDelay: `${Math.random() * 4}s`,
-                animationDuration: `${1 + Math.random() * 2}s`,
-                boxShadow: '0 0 20px currentColor, 0 0 40px currentColor',
-              }}
-            />
-          ))}
-        </div>
-        
-        {/* Geometric Shapes - Enhanced */}
-        <div className="absolute inset-0">
-          {[...Array(6)].map((_, i) => (
-            <div
-              key={`shape-${i}`}
-              className="absolute w-10 h-10 border-2 border-accent/70 animate-spin"
-              style={{
-                left: `${Math.random() * 90}%`,
-                top: `${Math.random() * 90}%`,
-                animationDuration: `${10 + Math.random() * 8}s`,
-                animationDelay: `${Math.random() * 5}s`,
-                transform: `rotate(${Math.random() * 360}deg)`,
-                boxShadow: '0 0 15px currentColor',
-              }}
-            />
-          ))}
-        </div>
-        
-        {/* Circuit-like connections - Enhanced */}
-        <div className="absolute inset-0">
-          {[...Array(6)].map((_, i) => (
-            <div
-              key={`circuit-${i}`}
-              className="absolute border-l-2 border-primary/60 animate-pulse"
-              style={{
-                height: `${80 + Math.random() * 150}px`,
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 2}s`,
-                animationDuration: `${2 + Math.random() * 2}s`,
-                boxShadow: '0 0 10px currentColor',
-              }}
-            />
-          ))}
-        </div>
-        
-        {/* Moving Orbs - New */}
-        <div className="absolute inset-0">
-          {[...Array(5)].map((_, i) => (
-            <div
-              key={`orb-${i}`}
-              className="absolute w-16 h-16 rounded-full bg-gradient-to-br from-primary/40 to-accent/40 animate-float"
-              style={{
-                left: `${Math.random() * 90}%`,
-                top: `${Math.random() * 90}%`,
-                animationDelay: `${Math.random() * 6}s`,
-                animationDuration: `${6 + Math.random() * 6}s`,
-                boxShadow: '0 0 40px currentColor, 0 0 80px currentColor',
-                filter: 'blur(8px)',
               }}
             />
           ))}
