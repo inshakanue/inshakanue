@@ -5,15 +5,24 @@ import { Menu, X, Download, Mail, Linkedin, Twitter, Github } from "lucide-react
 import { supabase } from "@/integrations/supabase/client";
 import type { User } from "@supabase/supabase-js";
 import { useToast } from "@/hooks/use-toast";
+import { useAdminStatus } from "@/hooks/useAdminStatus";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const { isAdmin } = useAdminStatus();
   const location = useLocation();
   const navigate = useNavigate();
   const { toast } = useToast();
   const isHomePage = location.pathname === "/";
+  
+  // Check if we should show admin controls
+  const urlParams = new URLSearchParams(window.location.search);
+  const showAdminControls = location.pathname.includes('/admin') || 
+                            location.pathname.includes('/auth') ||
+                            urlParams.get('admin') === 'true' ||
+                            (user && isAdmin);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -145,14 +154,18 @@ const Header = () => {
                 <Twitter className="w-4 h-4" />
               </a>
             </Button>
-            {user ? (
-              <Button variant="ghost" size="sm" onClick={handleLogout}>
-                Logout
-              </Button>
-            ) : (
-              <Button variant="ghost" size="sm" asChild>
-                <Link to="/auth">Login</Link>
-              </Button>
+            {showAdminControls && (
+              <>
+                {user ? (
+                  <Button variant="ghost" size="sm" onClick={handleLogout}>
+                    Logout
+                  </Button>
+                ) : (
+                  <Button variant="ghost" size="sm" asChild>
+                    <Link to="/auth">Login</Link>
+                  </Button>
+                )}
+              </>
             )}
           </div>
 
@@ -223,27 +236,31 @@ const Header = () => {
                     </a>
                   </Button>
                 </div>
-                {user ? (
-                  <Button 
-                    variant="ghost" 
-                    size="sm"
-                    onClick={() => {
-                      handleLogout();
-                      setIsMobileMenuOpen(false);
-                    }}
-                    className="w-full"
-                  >
-                    Logout
-                  </Button>
-                ) : (
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    asChild
-                    className="w-full"
-                  >
-                    <Link to="/auth" onClick={() => setIsMobileMenuOpen(false)}>Login</Link>
-                  </Button>
+                {showAdminControls && (
+                  <>
+                    {user ? (
+                      <Button 
+                        variant="ghost" 
+                        size="sm"
+                        onClick={() => {
+                          handleLogout();
+                          setIsMobileMenuOpen(false);
+                        }}
+                        className="w-full"
+                      >
+                        Logout
+                      </Button>
+                    ) : (
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        asChild
+                        className="w-full"
+                      >
+                        <Link to="/auth" onClick={() => setIsMobileMenuOpen(false)}>Login</Link>
+                      </Button>
+                    )}
+                  </>
                 )}
               </div>
             </div>

@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar, Clock, ArrowRight, PlusCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useAdminStatus } from "@/hooks/useAdminStatus";
 type BlogPost = {
   id: string;
   title: string;
@@ -21,9 +22,8 @@ type BlogPost = {
 const Blog = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
-  const {
-    toast
-  } = useToast();
+  const { isAdmin } = useAdminStatus();
+  const { toast } = useToast();
   useEffect(() => {
     fetchPosts();
   }, []);
@@ -67,12 +67,14 @@ const Blog = () => {
                 My <span className="gradient-text">Blog</span>
               </h1>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">Insights on Data/AI product management and technology leadership</p>
-              <Button asChild>
-                <Link to="/blog/admin">
-                  <PlusCircle className="w-4 h-4 mr-2" />
-                  Write New Post
-                </Link>
-              </Button>
+              {isAdmin && (
+                <Button asChild>
+                  <Link to="/blog/admin">
+                    <PlusCircle className="w-4 h-4 mr-2" />
+                    Write New Post
+                  </Link>
+                </Button>
+              )}
             </div>
 
             {/* Blog Posts Grid */}
@@ -96,9 +98,11 @@ const Blog = () => {
                   <p className="text-xl text-muted-foreground mb-4">
                     No blog posts yet. Check back soon!
                   </p>
-                  <Button asChild>
-                    <Link to="/blog/admin">Write your first post</Link>
-                  </Button>
+                  {isAdmin && (
+                    <Button asChild>
+                      <Link to="/blog/admin">Write your first post</Link>
+                    </Button>
+                  )}
                 </CardContent>
               </Card> : <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {posts.map((post, index) => <Card key={post.id} className="card-elevated fade-in-up hover:scale-105 transition-transform duration-300" style={{

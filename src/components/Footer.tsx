@@ -130,7 +130,15 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-primary-foreground/20 py-6">
           <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-primary-foreground/60">
-            <p>© {currentYear} Insha Kanue. All rights reserved.</p>
+            <div className="flex items-center gap-2">
+              <p>© {currentYear} Insha Kanue. All rights reserved.</p>
+              <Link 
+                to="/blog?admin=true" 
+                className="text-primary-foreground/30 hover:text-primary-foreground/60 transition-colors"
+              >
+                •
+              </Link>
+            </div>
             <p>Built with passion for great product experiences.</p>
           </div>
         </div>
