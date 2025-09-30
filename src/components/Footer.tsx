@@ -24,7 +24,6 @@ const Footer = () => {
 
             {/* Quick Links */}
             <div className="space-y-4">
-              <h4 className="font-semibold">Quick Links</h4>
               <div className="flex flex-col space-y-2 text-sm">
                 <button
                   onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
