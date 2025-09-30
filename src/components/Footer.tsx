@@ -1,9 +1,21 @@
 import { Mail, Linkedin, ArrowUp, Twitter, Github } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link, useLocation } from "react-router-dom";
 
 const Footer = () => {
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
+  
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleSectionClick = (sectionId: string) => {
+    if (isHomePage) {
+      document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+    } else {
+      window.location.href = `/#${sectionId}`;
+    }
   };
 
   const currentYear = new Date().getFullYear();
@@ -26,25 +38,31 @@ const Footer = () => {
             <div className="space-y-4">
               <div className="flex flex-col space-y-2 text-sm">
                 <button
-                  onClick={() => document.getElementById("about")?.scrollIntoView({ behavior: "smooth" })}
+                  onClick={() => handleSectionClick("about")}
                   className="text-left text-primary-foreground/80 hover:text-primary-foreground transition-colors duration-300"
                 >
                   About
                 </button>
                 <button
-                  onClick={() => document.getElementById("experience")?.scrollIntoView({ behavior: "smooth" })}
+                  onClick={() => handleSectionClick("experience")}
                   className="text-left text-primary-foreground/80 hover:text-primary-foreground transition-colors duration-300"
                 >
                   Experience
                 </button>
                 <button
-                  onClick={() => document.getElementById("skills")?.scrollIntoView({ behavior: "smooth" })}
+                  onClick={() => handleSectionClick("skills")}
                   className="text-left text-primary-foreground/80 hover:text-primary-foreground transition-colors duration-300"
                 >
                   Skills
                 </button>
+                <Link
+                  to="/blog"
+                  className="text-left text-primary-foreground/80 hover:text-primary-foreground transition-colors duration-300"
+                >
+                  Blog
+                </Link>
                 <button
-                  onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
+                  onClick={() => handleSectionClick("contact")}
                   className="text-left text-primary-foreground/80 hover:text-primary-foreground transition-colors duration-300"
                 >
                   Contact
