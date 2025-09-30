@@ -120,11 +120,11 @@ const Contact = () => {
                      
                      <Button
                        variant="outline"
-                       className="w-full text-lg py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
+                       className="w-full text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
                        asChild
                      >
                        <a href="https://linkedin.com/in/inshakanue" target="_blank" rel="noopener noreferrer">
-                         <Linkedin className="w-5 h-5 mr-2" />
+                         <Linkedin className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                          Connect on LinkedIn
                        </a>
                      </Button>
