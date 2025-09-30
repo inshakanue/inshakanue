@@ -11,7 +11,15 @@ interface ContactEmailRequest {
   inquiryType: string;
   subject: string;
   message: string;
+  honeypot?: string;
 }
+
+// Rate limit configuration
+const RATE_LIMITS = {
+  PER_EMAIL: { count: 3, window: 60 * 60 * 1000 }, // 3 per hour
+  PER_IP: { count: 5, window: 60 * 60 * 1000 }, // 5 per hour
+  GLOBAL: { count: 100, window: 60 * 60 * 1000 }, // 100 per hour
+};
 
 const escapeHtml = (text: string): string => {
   const map: { [key: string]: string } = {
@@ -31,13 +39,109 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { name, email, inquiryType, subject, message }: ContactEmailRequest = await req.json();
+    const { name, email, inquiryType, subject, message, honeypot }: ContactEmailRequest = await req.json();
+
+    // Bot detection - honeypot field should be empty
+    if (honeypot && honeypot.length > 0) {
+      console.log("Bot detected via honeypot:", email);
+      return new Response(
+        JSON.stringify({ error: "Invalid submission" }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
+    // Get IP address and user agent for rate limiting
+    const ipAddress = req.headers.get("x-forwarded-for")?.split(",")[0] || 
+                     req.headers.get("x-real-ip") || 
+                     "unknown";
+    const userAgent = req.headers.get("user-agent") || "unknown";
 
     if (!name || !email || !subject || !message) {
       return new Response(
         JSON.stringify({ error: "Missing required fields" }),
         {
           status: 400,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
+    // Initialize Supabase client for database operations
+    const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+    const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+    
+    const supabaseClient = await import("https://esm.sh/@supabase/supabase-js@2");
+    const supabase = supabaseClient.createClient(supabaseUrl, supabaseServiceKey);
+
+    // Check rate limits
+    const now = new Date();
+    const hourAgo = new Date(now.getTime() - RATE_LIMITS.PER_EMAIL.window);
+
+    // Check per-email rate limit
+    const { data: emailSubmissions, error: emailError } = await supabase
+      .from("contact_form_submissions")
+      .select("id")
+      .eq("email", email)
+      .gte("created_at", hourAgo.toISOString());
+
+    if (emailError) {
+      console.error("Error checking email rate limit:", emailError);
+    } else if (emailSubmissions && emailSubmissions.length >= RATE_LIMITS.PER_EMAIL.count) {
+      console.log("Rate limit exceeded for email:", email);
+      return new Response(
+        JSON.stringify({ 
+          error: "Rate limit exceeded. You can submit up to 3 messages per hour. Please try again later or contact me directly at inshakanue@protonmail.com" 
+        }),
+        {
+          status: 429,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
+    // Check per-IP rate limit
+    if (ipAddress !== "unknown") {
+      const { data: ipSubmissions, error: ipError } = await supabase
+        .from("contact_form_submissions")
+        .select("id")
+        .eq("ip_address", ipAddress)
+        .gte("created_at", hourAgo.toISOString());
+
+      if (ipError) {
+        console.error("Error checking IP rate limit:", ipError);
+      } else if (ipSubmissions && ipSubmissions.length >= RATE_LIMITS.PER_IP.count) {
+        console.log("Rate limit exceeded for IP:", ipAddress);
+        return new Response(
+          JSON.stringify({ 
+            error: "Rate limit exceeded from your location. Please try again later or contact me directly at inshakanue@protonmail.com" 
+          }),
+          {
+            status: 429,
+            headers: { "Content-Type": "application/json", ...corsHeaders },
+          }
+        );
+      }
+    }
+
+    // Check global rate limit
+    const { data: globalSubmissions, error: globalError } = await supabase
+      .from("contact_form_submissions")
+      .select("id")
+      .gte("created_at", hourAgo.toISOString());
+
+    if (globalError) {
+      console.error("Error checking global rate limit:", globalError);
+    } else if (globalSubmissions && globalSubmissions.length >= RATE_LIMITS.GLOBAL.count) {
+      console.log("Global rate limit exceeded");
+      return new Response(
+        JSON.stringify({ 
+          error: "Service temporarily unavailable due to high volume. Please try again later or contact me directly at inshakanue@protonmail.com" 
+        }),
+        {
+          status: 429,
           headers: { "Content-Type": "application/json", ...corsHeaders },
         }
       );
@@ -91,7 +195,22 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log("Email sent successfully:", data);
 
-    return new Response(JSON.stringify(data), {
+    // Log successful submission to database
+    const { error: insertError } = await supabase
+      .from("contact_form_submissions")
+      .insert({
+        email: safeEmail,
+        ip_address: ipAddress,
+        user_agent: userAgent,
+        status: "success",
+      });
+
+    if (insertError) {
+      console.error("Error logging submission:", insertError);
+      // Don't fail the request if logging fails
+    }
+
+    return new Response(JSON.stringify({ success: true, id: data.id }), {
       status: 200,
       headers: {
         "Content-Type": "application/json",
