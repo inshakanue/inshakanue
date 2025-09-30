@@ -68,10 +68,13 @@ const Skills = () => {
       icon: BarChart3,
       color: "text-accent",
       skills: [
+        { name: "Data Strategy and Governance", level: 90 },
         { name: "Data Analysis", level: 90 },
-        { name: "Key Performance Indicators (KPIs)", level: 88 },
         { name: "A/B Testing & Experimentation", level: 88 },
+        { name: "Data pipeline management", level: 85 },
+        { name: "Predictive analytics and forecasting", level: 85 },
         { name: "Data Visualization", level: 85 },
+        { name: "Key Performance Indicators (KPIs)", level: 88 },
         { name: "Service Level Agreements (SLAs)", level: 82 }
       ]
     },
