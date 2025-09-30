@@ -134,7 +134,10 @@ const Contact = () => {
       // Reset form
       setFormData({ name: "", email: "", inquiryType: "", subject: "", message: "", honeypot: "" });
     } catch (error: any) {
-      console.error("Error sending message:", error);
+      // Log error without exposing sensitive details
+      if (import.meta.env.DEV) {
+        console.error("Error sending message:", error);
+      }
       toast({
         title: "Error",
         description: "Failed to send message. Please try again or contact me directly.",

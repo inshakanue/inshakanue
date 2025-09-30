@@ -23,13 +23,17 @@ export const useAdminStatus = () => {
         });
 
         if (error) {
-          console.error('Error checking admin status:', error);
+          if (import.meta.env.DEV) {
+            console.error('Error checking admin status:', error);
+          }
           setIsAdmin(false);
         } else {
           setIsAdmin(data || false);
         }
       } catch (error) {
-        console.error('Error in admin check:', error);
+        if (import.meta.env.DEV) {
+          console.error('Error in admin check:', error);
+        }
         setIsAdmin(false);
       } finally {
         setLoading(false);
