@@ -31,14 +31,14 @@ const About = () => {
   ];
 
   const expertise = [
-    "Product Strategy & Roadmapping",
-    "Data Analytics & AI/ML",
-    "Cross-functional Leadership",
-    "Market Research & Validation",
-    "Agile Methodologies",
-    "Revenue Optimization",
-    "Digital Transformation",
-    "Stakeholder Management"
+    "AI Product Strategy & Roadmapping",
+    "Data Strategy & Governance",
+    "LLM Integration & Prompt Engineering",
+    "ML Lifecycle & MLOps",
+    "Experimentation & A/B Testing",
+    "Product Analytics & Measurement",
+    "Responsible AI & Ethics",
+    "Data Pipeline & Feature Engineering"
   ];
 
   return (
