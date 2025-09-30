@@ -33,18 +33,17 @@ const Skills = () => {
     for (let i = 1; i <= 5; i++) {
       if (i <= rating) {
         stars.push(
-          <Star key={i} className="w-4 h-4 fill-primary text-primary transition-all duration-300" />
+          <Star key={i} className="w-4 h-4 text-primary transition-all duration-300" />
         );
       } else {
         stars.push(
-          <Star key={i} className="w-4 h-4 text-muted transition-all duration-300" />
+          <Star key={i} className="w-4 h-4 text-muted-foreground transition-all duration-300" />
         );
       }
     }
     
     return <div className="flex gap-1">{stars}</div>;
   };
-
   const skillCategories = [
     {
       title: "Product Management",
