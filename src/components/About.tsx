@@ -38,7 +38,10 @@ const About = () => {
     "Experimentation & A/B Testing",
     "Product Analytics & Measurement",
     "Responsible AI & Ethics",
-    "Data Pipeline & Feature Engineering"
+    "Market Research and Validation",
+    "Agile Methodologies",
+    "Revenue Optimization",
+    "Stakeholder Management"
   ];
 
   return (
