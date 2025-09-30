@@ -31,23 +31,23 @@ const Skills = () => {
       icon: BarChart3,
       color: "text-accent",
       skills: [
-        { name: "Data Analysis & Insights", level: 90 },
-        { name: "A/B Testing & Experimentation", level: 85 },
-        { name: "KPI Definition & Tracking", level: 92 },
-        { name: "Business Intelligence", level: 80 },
-        { name: "Predictive Analytics", level: 75 }
+        { name: "Data Strategy & Governance", level: 90 },
+        { name: "ML Model Evaluation & Metrics", level: 85 },
+        { name: "A/B Testing & Experimentation", level: 88 },
+        { name: "Data Pipeline Management", level: 82 },
+        { name: "Predictive Analytics & Forecasting", level: 80 }
       ]
     },
     {
-      title: "Technology & AI/ML",
+      title: "AI/ML Product Development",
       icon: Brain,
       color: "text-success",
       skills: [
-        { name: "AI/ML Product Development", level: 85 },
-        { name: "API Design & Integration", level: 80 },
-        { name: "System Architecture", level: 75 },
-        { name: "IoT & Connected Devices", level: 82 },
-        { name: "Cloud Platforms", level: 78 }
+        { name: "AI Product Strategy & Roadmapping", level: 90 },
+        { name: "LLM Integration & Prompt Engineering", level: 85 },
+        { name: "ML Model Lifecycle Management", level: 82 },
+        { name: "AI Ethics & Responsible AI", level: 88 },
+        { name: "Feature Engineering & Data Labeling", level: 80 }
       ]
     },
     {
