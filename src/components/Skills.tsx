@@ -102,7 +102,7 @@ const Skills = () => {
     {
       title: "Design & UX",
       icon: Palette,
-      color: "text-secondary",
+      color: "text-accent",
       skills: [
         { name: "User-Centered Design", level: 88 },
         { name: "Prototyping & Wireframing", level: 85 }
