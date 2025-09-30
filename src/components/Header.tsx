@@ -2,12 +2,17 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Download, Mail, Linkedin, Twitter, Github } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import type { User } from "@supabase/supabase-js";
+import { useToast } from "@/hooks/use-toast";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
+  const { toast } = useToast();
   const isHomePage = location.pathname === "/";
 
   useEffect(() => {
@@ -17,6 +22,26 @@ const Header = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    toast({
+      title: "Logged out successfully",
+    });
+    navigate("/");
+  };
 
   const handleNavigation = (href: string) => {
     setIsMobileMenuOpen(false);
@@ -120,6 +145,15 @@ const Header = () => {
                 <Twitter className="w-4 h-4" />
               </a>
             </Button>
+            {user ? (
+              <Button variant="ghost" size="sm" onClick={handleLogout}>
+                Logout
+              </Button>
+            ) : (
+              <Button variant="ghost" size="sm" asChild>
+                <Link to="/auth">Login</Link>
+              </Button>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -146,47 +180,71 @@ const Header = () => {
                   {item.label}
                 </button>
               ))}
-              <div className="flex items-center justify-center space-x-4 pt-4 border-t border-border">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="text-muted-foreground hover:text-primary"
-                  asChild
-                >
-                  <a href="mailto:inshakanue@protonmail.com">
-                    <Mail className="w-4 h-4" />
-                  </a>
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="text-muted-foreground hover:text-primary"
-                  asChild
-                >
-                  <a href="https://linkedin.com/in/inshakanue" target="_blank" rel="noopener noreferrer">
-                    <Linkedin className="w-4 h-4" />
-                  </a>
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="text-muted-foreground hover:text-primary"
-                  asChild
-                >
-                  <a href="https://github.com/inshakanue" target="_blank" rel="noopener noreferrer">
-                    <Github className="w-4 h-4" />
-                  </a>
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="text-muted-foreground hover:text-primary"
-                  asChild
-                >
-                  <a href="https://x.com/inshakanue" target="_blank" rel="noopener noreferrer">
-                    <Twitter className="w-4 h-4" />
-                  </a>
-                </Button>
+              <div className="flex flex-col items-stretch pt-4 border-t border-border space-y-2">
+                <div className="flex items-center justify-center space-x-4">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-muted-foreground hover:text-primary"
+                    asChild
+                  >
+                    <a href="mailto:inshakanue@protonmail.com">
+                      <Mail className="w-4 h-4" />
+                    </a>
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-muted-foreground hover:text-primary"
+                    asChild
+                  >
+                    <a href="https://linkedin.com/in/inshakanue" target="_blank" rel="noopener noreferrer">
+                      <Linkedin className="w-4 h-4" />
+                    </a>
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-muted-foreground hover:text-primary"
+                    asChild
+                  >
+                    <a href="https://github.com/inshakanue" target="_blank" rel="noopener noreferrer">
+                      <Github className="w-4 h-4" />
+                    </a>
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-muted-foreground hover:text-primary"
+                    asChild
+                  >
+                    <a href="https://x.com/inshakanue" target="_blank" rel="noopener noreferrer">
+                      <Twitter className="w-4 h-4" />
+                    </a>
+                  </Button>
+                </div>
+                {user ? (
+                  <Button 
+                    variant="ghost" 
+                    size="sm"
+                    onClick={() => {
+                      handleLogout();
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="w-full"
+                  >
+                    Logout
+                  </Button>
+                ) : (
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    asChild
+                    className="w-full"
+                  >
+                    <Link to="/auth" onClick={() => setIsMobileMenuOpen(false)}>Login</Link>
+                  </Button>
+                )}
               </div>
             </div>
           </div>

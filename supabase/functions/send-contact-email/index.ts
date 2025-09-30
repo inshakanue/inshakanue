@@ -13,6 +13,17 @@ interface ContactEmailRequest {
   message: string;
 }
 
+const escapeHtml = (text: string): string => {
+  const map: { [key: string]: string } = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+  return text.replace(/[&<>"']/g, (m) => map[m]);
+};
+
 const handler = async (req: Request): Promise<Response> => {
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
@@ -22,7 +33,23 @@ const handler = async (req: Request): Promise<Response> => {
   try {
     const { name, email, inquiryType, subject, message }: ContactEmailRequest = await req.json();
 
-    console.log("Sending contact email from:", email, "Name:", name, "Inquiry Type:", inquiryType);
+    if (!name || !email || !subject || !message) {
+      return new Response(
+        JSON.stringify({ error: "Missing required fields" }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+
+    const safeName = escapeHtml(name);
+    const safeEmail = escapeHtml(email);
+    const safeSubject = escapeHtml(subject);
+    const safeMessage = escapeHtml(message);
+    const safeInquiryType = escapeHtml(inquiryType);
+
+    console.log("Sending contact email from:", safeEmail, "Name:", safeName, "Inquiry Type:", safeInquiryType);
 
     const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
     
@@ -40,17 +67,17 @@ const handler = async (req: Request): Promise<Response> => {
       body: JSON.stringify({
         from: "Portfolio Contact <onboarding@resend.dev>",
         to: ["inshakanue@protonmail.com"],
-        reply_to: email,
-        subject: `Portfolio Contact: ${subject}`,
+        reply_to: safeEmail,
+        subject: `Portfolio Contact: ${safeSubject}`,
         html: `
           <h2>New Contact Form Submission</h2>
-          <p><strong>From:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
-          <p><strong>Inquiry Type:</strong> <span style="background-color: #f3f4f6; padding: 4px 12px; border-radius: 4px; font-weight: 600;">${inquiryType}</span></p>
-          <p><strong>Subject:</strong> ${subject}</p>
+          <p><strong>From:</strong> ${safeName}</p>
+          <p><strong>Email:</strong> ${safeEmail}</p>
+          <p><strong>Inquiry Type:</strong> <span style="background-color: #f3f4f6; padding: 4px 12px; border-radius: 4px; font-weight: 600;">${safeInquiryType}</span></p>
+          <p><strong>Subject:</strong> ${safeSubject}</p>
           <hr />
           <h3>Message:</h3>
-          <p>${message.replace(/\n/g, '<br>')}</p>
+          <p>${safeMessage.replace(/\n/g, '<br>')}</p>
         `,
       }),
     });

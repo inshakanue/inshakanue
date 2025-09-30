@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import type { User } from "@supabase/supabase-js";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -19,6 +20,9 @@ const BlogAdmin = () => {
   const editId = searchParams.get("edit");
   const { toast } = useToast();
 
+  const [user, setUser] = useState<User | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [authLoading, setAuthLoading] = useState(true);
   const [formData, setFormData] = useState({
     title: "",
     slug: "",
@@ -31,10 +35,62 @@ const BlogAdmin = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (editId) {
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session) {
+        toast({
+          title: "Authentication required",
+          description: "Please log in to access the blog admin.",
+          variant: "destructive",
+        });
+        navigate("/auth");
+        return;
+      }
+
+      setUser(session.user);
+
+      const { data: roleData, error: roleError } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", session.user.id)
+        .eq("role", "admin")
+        .maybeSingle();
+
+      if (roleError) {
+        console.error("Error checking admin role:", roleError);
+      }
+
+      if (!roleData) {
+        toast({
+          title: "Access denied",
+          description: "You don't have admin privileges to access this page.",
+          variant: "destructive",
+        });
+        navigate("/blog");
+        return;
+      }
+
+      setIsAdmin(true);
+      setAuthLoading(false);
+    };
+
+    checkAuth();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (!session) {
+        navigate("/auth");
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [navigate, toast]);
+
+  useEffect(() => {
+    if (editId && isAdmin) {
       fetchPost();
     }
-  }, [editId]);
+  }, [editId, isAdmin]);
 
   const fetchPost = async () => {
     try {
@@ -142,6 +198,26 @@ const BlogAdmin = () => {
       setLoading(false);
     }
   };
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen">
+        <Header />
+        <main className="pt-24 pb-16">
+          <div className="container-custom">
+            <div className="flex justify-center items-center min-h-[50vh]">
+              <p>Loading...</p>
+            </div>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  if (!isAdmin) {
+    return null;
+  }
 
   return (
     <div className="min-h-screen">
