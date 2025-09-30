@@ -70,7 +70,7 @@ const Skills = () => {
       skills: [
         { name: "Data Analysis", level: 90 },
         { name: "Key Performance Indicators (KPIs)", level: 88 },
-        { name: "Quality Assurance & A/B Testing", level: 88 },
+        { name: "A/B Testing & Experimentation", level: 88 },
         { name: "Data Visualization", level: 85 },
         { name: "Service Level Agreements (SLAs)", level: 82 }
       ]
