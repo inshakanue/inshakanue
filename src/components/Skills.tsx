@@ -1,18 +1,49 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { 
   BarChart3, 
   Brain, 
   Users, 
   Code, 
-  Database, 
   Lightbulb,
   Target,
-  Zap
+  Zap,
+  Star
 } from "lucide-react";
 
 const Skills = () => {
+  // Convert percentage to star rating (out of 5)
+  const getStarRating = (level: number) => {
+    return Math.round((level / 100) * 5 * 2) / 2; // Rounds to nearest 0.5
+  };
+
+  // Get skill level description
+  const getSkillLevel = (level: number): { text: string; colorClass: string } => {
+    if (level >= 90) return { text: "Expert", colorClass: "bg-success/10 text-success border-success/20" };
+    if (level >= 85) return { text: "Advanced", colorClass: "bg-primary/10 text-primary border-primary/20" };
+    if (level >= 80) return { text: "Proficient", colorClass: "bg-accent/10 text-accent border-accent/20" };
+    return { text: "Intermediate", colorClass: "bg-muted text-muted-foreground border-border" };
+  };
+
+  // Render stars
+  const renderStars = (level: number) => {
+    const rating = getStarRating(level);
+    const stars = [];
+    
+    for (let i = 1; i <= 5; i++) {
+      if (i <= rating) {
+        stars.push(
+          <Star key={i} className="w-4 h-4 fill-primary text-primary transition-all duration-300" />
+        );
+      } else {
+        stars.push(
+          <Star key={i} className="w-4 h-4 text-muted transition-all duration-300" />
+        );
+      }
+    }
+    
+    return <div className="flex gap-1">{stars}</div>;
+  };
 
   const skillCategories = [
     {
@@ -105,19 +136,26 @@ const Skills = () => {
                     {category.title}
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="space-y-4">
-                  {category.skills.map((skill, idx) => (
-                    <div key={idx} className="space-y-2">
-                      <div className="flex justify-between items-center">
-                        <span className="text-sm font-medium text-foreground">{skill.name}</span>
-                        <span className="text-xs text-muted-foreground">{skill.level}%</span>
+                <CardContent className="space-y-5">
+                  {category.skills.map((skill, idx) => {
+                    const skillLevel = getSkillLevel(skill.level);
+                    return (
+                      <div key={idx} className="space-y-2 group">
+                        <div className="flex justify-between items-start gap-3">
+                          <span className="text-sm font-medium text-foreground flex-1">{skill.name}</span>
+                          <Badge 
+                            variant="outline" 
+                            className={`${skillLevel.colorClass} border text-xs font-medium transition-all duration-300 group-hover:scale-105`}
+                          >
+                            {skillLevel.text}
+                          </Badge>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          {renderStars(skill.level)}
+                        </div>
                       </div>
-                      <Progress 
-                        value={skill.level} 
-                        className="h-2 bg-muted"
-                      />
-                    </div>
-                  ))}
+                    );
+                  })}
                 </CardContent>
               </Card>
             ))}
