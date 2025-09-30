@@ -154,11 +154,11 @@ const Contact = () => {
                    {/* Contact Actions inside the card */}
                    <div className="mt-8 pt-6 border-t border-border space-y-4">
                      <Button
-                       className="btn-primary w-full text-lg py-6"
+                       className="btn-primary w-full text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6"
                        asChild
                      >
                        <a href="mailto:inshakanue@protonmail.com">
-                         <Mail className="w-5 h-5 mr-2" />
+                         <Mail className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                          Send Direct Email
                        </a>
                      </Button>
