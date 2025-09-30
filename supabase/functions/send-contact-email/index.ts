@@ -1,7 +1,4 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { Resend } from "npm:resend@4.0.0";
-
-const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -26,26 +23,46 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log("Sending contact email from:", email, "Name:", name);
 
-    // Send email to your inbox
-    const emailResponse = await resend.emails.send({
-      from: "Portfolio Contact <onboarding@resend.dev>",
-      to: ["inshakanue@protonmail.com"],
-      replyTo: email,
-      subject: `Portfolio Contact: ${subject}`,
-      html: `
-        <h2>New Contact Form Submission</h2>
-        <p><strong>From:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Subject:</strong> ${subject}</p>
-        <hr />
-        <h3>Message:</h3>
-        <p>${message.replace(/\n/g, '<br>')}</p>
-      `,
+    const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
+    
+    if (!RESEND_API_KEY) {
+      throw new Error("RESEND_API_KEY is not set");
+    }
+
+    // Send email using Resend API directly
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${RESEND_API_KEY}`,
+      },
+      body: JSON.stringify({
+        from: "Portfolio Contact <onboarding@resend.dev>",
+        to: ["inshakanue@protonmail.com"],
+        reply_to: email,
+        subject: `Portfolio Contact: ${subject}`,
+        html: `
+          <h2>New Contact Form Submission</h2>
+          <p><strong>From:</strong> ${name}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Subject:</strong> ${subject}</p>
+          <hr />
+          <h3>Message:</h3>
+          <p>${message.replace(/\n/g, '<br>')}</p>
+        `,
+      }),
     });
 
-    console.log("Email sent successfully:", emailResponse);
+    const data = await res.json();
 
-    return new Response(JSON.stringify(emailResponse), {
+    if (!res.ok) {
+      console.error("Resend API error:", data);
+      throw new Error(`Resend API error: ${JSON.stringify(data)}`);
+    }
+
+    console.log("Email sent successfully:", data);
+
+    return new Response(JSON.stringify(data), {
       status: 200,
       headers: {
         "Content-Type": "application/json",
