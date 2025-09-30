@@ -7,6 +7,7 @@ const Experience = () => {
     {
       title: "Product Manager",
       company: "HRS Group",
+      companyUrl: "https://www.hrs.com/enterprise/hrsgroup/",
       location: "Germany (Remote)",
       period: "Sep 2022 – July 2025",
       type: "Full-time",
@@ -22,7 +23,8 @@ const Experience = () => {
     },
     {
       title: "Product Owner",
-      company: "HRS Group", 
+      company: "HRS Group",
+      companyUrl: "https://www.hrs.com/enterprise/hrsgroup/",
       location: "Germany (Remote)",
       period: "Aug 2021 – Aug 2022",
       type: "Full-time",
@@ -134,7 +136,18 @@ const Experience = () => {
                           {exp.type}
                         </Badge>
                       </div>
-                      <h4 className="text-lg lg:text-xl font-semibold text-primary mb-2">{exp.company}</h4>
+                      {exp.companyUrl ? (
+                        <a 
+                          href={exp.companyUrl} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-lg lg:text-xl font-semibold text-primary mb-2 hover:underline inline-block"
+                        >
+                          {exp.company}
+                        </a>
+                      ) : (
+                        <h4 className="text-lg lg:text-xl font-semibold text-primary mb-2">{exp.company}</h4>
+                      )}
                       <p className="text-muted-foreground mb-4">{exp.description}</p>
                     </div>
                     <div className="flex flex-col sm:flex-row lg:flex-col gap-2 text-sm text-muted-foreground">
