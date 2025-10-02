@@ -98,7 +98,7 @@ const Skills = () => {
       skills: [
         { name: "AI Product Strategy & Roadmapping", level: 90 },
         { name: "ML Model Lifecycle Management", level: 82 },
-        { name: "ML model evaluation and metrics", level: 85 },
+        { name: "ML Model Evaluation And Metrics", level: 85 },
         { name: "LLM Integration & Prompt Engineering", level: 85 },
         { name: "Feature Engineering & Data Labeling", level: 80 },
         { name: "AI Ethics & Responsible AI", level: 88 }
