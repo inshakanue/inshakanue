@@ -21,6 +21,7 @@ const Skills = () => {
       if (word.toLowerCase() === 'a/b') return 'A/B';
       if (word.toLowerCase() === 'llm') return 'LLM';
       if (word.toLowerCase() === 'okrs') return 'OKRs';
+      if (word.toLowerCase() === 'ai') return 'AI';
       return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
     }).join(' ');
   };
