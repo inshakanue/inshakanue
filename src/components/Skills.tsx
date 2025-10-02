@@ -14,6 +14,13 @@ import {
 } from "lucide-react";
 
 const Skills = () => {
+  // Convert to title case
+  const toTitleCase = (str: string) => {
+    return str.split(' ').map(word => 
+      word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+    ).join(' ');
+  };
+
   // Convert percentage to star rating (out of 5)
   const getStarRating = (level: number) => {
     return Math.round((level / 100) * 5 * 2) / 2; // Rounds to nearest 0.5
@@ -162,8 +169,8 @@ const Skills = () => {
                     return (
                       <div key={idx} className="space-y-2 group">
                         <div className="flex justify-between items-start gap-3">
-                          <span className="text-sm font-medium text-foreground flex-1">{skill.name}</span>
-                          <Badge 
+                          <span className="text-sm font-medium text-foreground flex-1">{toTitleCase(skill.name)}</span>
+                          <Badge
                             variant="outline" 
                             className={`${skillLevel.colorClass} border text-xs font-medium transition-all duration-300 group-hover:scale-105`}
                           >
