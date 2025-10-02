@@ -17,8 +17,9 @@ const Skills = () => {
   // Convert to title case
   const toTitleCase = (str: string) => {
     return str.split(' ').map(word => {
-      // Handle A/B specifically
+      // Handle special cases
       if (word.toLowerCase() === 'a/b') return 'A/B';
+      if (word.toLowerCase() === 'llm') return 'LLM';
       return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
     }).join(' ');
   };
