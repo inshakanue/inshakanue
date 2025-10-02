@@ -20,6 +20,7 @@ const Skills = () => {
       // Handle special cases
       if (word.toLowerCase() === 'a/b') return 'A/B';
       if (word.toLowerCase() === 'llm') return 'LLM';
+      if (word.toLowerCase() === 'okrs') return 'OKRs';
       return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
     }).join(' ');
   };
