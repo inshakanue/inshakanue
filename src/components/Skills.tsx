@@ -108,7 +108,7 @@ const Skills = () => {
       color: "text-primary-light",
       skills: [
         { name: "Stakeholder Management", level: 95 },
-        { name: "Documentation (PRD, Narratives, PRFAQ)", level: 93 },
+        { name: "Documentation (PRD, Narrative, PRFAQ)", level: 93 },
         { name: "Agile and Scrum Methodologies", level: 92 },
         { name: "OKRs", level: 90 },
         { name: "Backlog Management", level: 90 },
