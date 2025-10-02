@@ -16,9 +16,11 @@ import {
 const Skills = () => {
   // Convert to title case
   const toTitleCase = (str: string) => {
-    return str.split(' ').map(word => 
-      word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
-    ).join(' ');
+    return str.split(' ').map(word => {
+      // Handle A/B specifically
+      if (word.toLowerCase() === 'a/b') return 'A/B';
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    }).join(' ');
   };
 
   // Convert percentage to star rating (out of 5)
