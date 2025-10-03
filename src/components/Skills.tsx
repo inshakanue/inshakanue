@@ -24,6 +24,8 @@ const Skills = () => {
       if (word.toLowerCase() === 'ai') return 'AI';
       if (word.toLowerCase() === 'ml') return 'ML';
       if (word.toLowerCase() === 'mvp') return 'MVP';
+      if (word.toLowerCase() === '(prd,' || word.toLowerCase() === 'prd,') return 'PRD,';
+      if (word.toLowerCase() === 'prfaq)' || word.toLowerCase() === 'prfaq') return 'PRFAQ)';
       return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
     }).join(' ');
   };
