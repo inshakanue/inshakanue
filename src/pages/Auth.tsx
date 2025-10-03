@@ -10,6 +10,7 @@ import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SEO from "@/components/SEO";
 
 const authSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
@@ -133,10 +134,15 @@ const Auth = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Header />
-      <main className="flex-1 container mx-auto px-4 py-20">
-        <div className="max-w-md mx-auto">
+    <>
+      <SEO 
+        title="Sign In - Insha Kanue"
+        description="Sign in to access the blog admin panel and manage content."
+      />
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-1 container mx-auto px-4 py-20">
+          <div className="max-w-md mx-auto">
           <Tabs defaultValue="login" className="w-full">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="login">Login</TabsTrigger>
@@ -233,6 +239,7 @@ const Auth = () => {
       </main>
       <Footer />
     </div>
+  </>
   );
 };
 

@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SEO from "@/components/SEO";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -56,11 +58,18 @@ const Blog = () => {
       day: "numeric"
     });
   };
-  return <div className="min-h-screen">
-      <Header />
-      <main className="pt-24 pb-16">
-        <div className="container-custom">
-          <div className="max-w-6xl mx-auto">
+  return (
+    <>
+      <SEO 
+        title="Blog - Insha Kanue | AI Product Management Insights"
+        description="Insights on Data/AI product management, machine learning, and technology leadership from an experienced AI Product Manager."
+      />
+      <div className="min-h-screen">
+        <Header />
+        <main className="pt-24 pb-16">
+          <div className="container-custom">
+            <div className="max-w-6xl mx-auto">
+              <Breadcrumbs />
             {/* Header */}
             <div className="text-center mb-16">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
@@ -135,8 +144,10 @@ const Blog = () => {
               </div>}
           </div>
         </div>
-      </main>
-      <Footer />
-    </div>;
+        </main>
+        <Footer />
+      </div>
+    </>
+  );
 };
 export default Blog;

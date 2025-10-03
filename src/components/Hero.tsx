@@ -12,6 +12,7 @@ const Hero = () => {
     <section 
       id="hero" 
       className="min-h-screen flex items-center justify-center section-padding relative overflow-hidden"
+      aria-label="Hero section"
       style={{
         backgroundImage: `url(${heroBackground})`,
         backgroundSize: 'cover',
@@ -44,12 +45,12 @@ const Hero = () => {
       <div className="container-custom relative z-30 px-4">
         <div className="max-w-4xl mx-auto text-center rounded-xl md:rounded-2xl bg-background/50 backdrop-blur-md border border-border/50 shadow-strong p-6 sm:p-8 md:p-10 lg:p-12">
           {/* Main Heading */}
-          <div className="fade-in-up">
+          <header className="fade-in-up">
             <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight mb-4 md:mb-6 px-2">
               <span className="text-foreground whitespace-nowrap">Salaam, I'm </span>
               <span className="gradient-text whitespace-nowrap">Insha Kanue</span>
             </h1>
-          </div>
+          </header>
 
           {/* Subtitle */}
           <div className="fade-in-up animate-delay-100">
@@ -67,14 +68,15 @@ const Hero = () => {
           </div>
 
           {/* CTA Buttons */}
-          <div className="fade-in-up animate-delay-300">
+          <nav className="fade-in-up animate-delay-300" aria-label="Primary navigation">
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-stretch sm:items-center mb-12 md:mb-16">
               <Button
                 size="lg"
                 className="btn-primary text-base md:text-lg px-6 md:px-8 py-5 md:py-6 w-full sm:w-auto"
                 onClick={() => scrollToSection("contact")}
+                aria-label="Get in touch"
               >
-                <Mail className="w-4 h-4 md:w-5 md:h-5 mr-2" />
+                <Mail className="w-4 h-4 md:w-5 md:h-5 mr-2" aria-hidden="true" />
                 Get In Touch
               </Button>
               <Button
@@ -82,20 +84,22 @@ const Hero = () => {
                 size="lg"
                 className="text-base md:text-lg px-6 md:px-8 py-5 md:py-6 border-2 hover:bg-primary hover:text-primary-foreground hover:border-primary w-full sm:w-auto"
                 onClick={() => scrollToSection("experience")}
+                aria-label="View my work"
               >
                 View My Work
               </Button>
             </div>
-          </div>
+          </nav>
 
           {/* Scroll Indicator */}
           <div className="fade-in-up animate-delay-300">
             <button
               onClick={() => scrollToSection("about")}
               className="inline-flex flex-col items-center space-y-1 md:space-y-2 text-muted-foreground hover:text-primary transition-colors duration-300 animate-float"
+              aria-label="Scroll to explore more content"
             >
               <span className="text-xs sm:text-sm font-medium">Scroll to explore</span>
-              <ArrowDown className="w-4 h-4 md:w-5 md:h-5" />
+              <ArrowDown className="w-4 h-4 md:w-5 md:h-5" aria-hidden="true" />
             </button>
           </div>
         </div>

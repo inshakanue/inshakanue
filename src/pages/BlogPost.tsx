@@ -3,6 +3,9 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SEO from "@/components/SEO";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import StructuredData, { createBlogPostSchema } from "@/components/StructuredData";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Calendar, Edit } from "lucide-react";
@@ -68,27 +71,30 @@ const BlogPost = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen">
-        <Header />
-        <main className="pt-24 pb-16">
-          <div className="container-custom">
-            <div className="max-w-4xl mx-auto">
-              <div className="animate-pulse">
-                <div className="h-8 bg-muted rounded w-1/4 mb-8"></div>
-                <div className="h-12 bg-muted rounded w-3/4 mb-4"></div>
-                <div className="h-6 bg-muted rounded w-1/2 mb-8"></div>
-                <div className="h-96 bg-muted rounded mb-8"></div>
-                <div className="space-y-4">
-                  <div className="h-4 bg-muted rounded"></div>
-                  <div className="h-4 bg-muted rounded"></div>
-                  <div className="h-4 bg-muted rounded w-2/3"></div>
+      <>
+        <SEO title="Loading..." description="Loading blog post..." />
+        <div className="min-h-screen">
+          <Header />
+          <main className="pt-24 pb-16">
+            <div className="container-custom">
+              <div className="max-w-4xl mx-auto">
+                <div className="animate-pulse">
+                  <div className="h-8 bg-muted rounded w-1/4 mb-8"></div>
+                  <div className="h-12 bg-muted rounded w-3/4 mb-4"></div>
+                  <div className="h-6 bg-muted rounded w-1/2 mb-8"></div>
+                  <div className="h-96 bg-muted rounded mb-8"></div>
+                  <div className="space-y-4">
+                    <div className="h-4 bg-muted rounded"></div>
+                    <div className="h-4 bg-muted rounded"></div>
+                    <div className="h-4 bg-muted rounded w-2/3"></div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </main>
-        <Footer />
-      </div>
+          </main>
+          <Footer />
+        </div>
+      </>
     );
   }
 
@@ -97,11 +103,35 @@ const BlogPost = () => {
   }
 
   return (
-    <div className="min-h-screen">
-      <Header />
-      <main className="pt-24 pb-16">
-        <article className="container-custom">
-          <div className="max-w-4xl mx-auto">
+    <>
+      <SEO 
+        title={`${post.title} - Insha Kanue`}
+        description={post.excerpt || post.content.substring(0, 160)}
+        image={post.cover_image || undefined}
+        type="article"
+        article={{
+          publishedTime: post.published_at || undefined,
+          modifiedTime: post.created_at,
+          author: post.author_name,
+        }}
+      />
+      <StructuredData 
+        data={createBlogPostSchema({
+          title: post.title,
+          description: post.excerpt || post.content.substring(0, 160),
+          publishedAt: post.published_at || post.created_at,
+          modifiedAt: post.created_at,
+          author: post.author_name,
+          image: post.cover_image || undefined,
+          url: window.location.href,
+        })} 
+      />
+      <div className="min-h-screen">
+        <Header />
+        <main className="pt-24 pb-16">
+          <article className="container-custom">
+            <div className="max-w-4xl mx-auto">
+              <Breadcrumbs />
             {/* Back Button */}
             <Button variant="ghost" size="sm" asChild className="mb-8">
               <Link to="/blog">
@@ -156,6 +186,7 @@ const BlogPost = () => {
       </main>
       <Footer />
     </div>
+  </>
   );
 };
 

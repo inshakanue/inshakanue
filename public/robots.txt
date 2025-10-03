@@ -12,3 +12,11 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /blog/admin
+Disallow: /auth
+
+# Sitemap location
+Sitemap: https://inshakanue.lovable.app/sitemap.xml
+
+# Crawl delay (optional, helps with server load)
+Crawl-delay: 1

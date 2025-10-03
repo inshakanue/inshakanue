@@ -45,12 +45,12 @@ const About = () => {
   ];
 
   return (
-    <section id="about" className="section-padding">
+    <section id="about" className="section-padding" aria-labelledby="about-heading">
       <div className="container-custom">
         <div className="max-w-6xl mx-auto">
           {/* Section Header */}
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
+          <header className="text-center mb-16">
+            <h2 id="about-heading" className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
               About <span className="gradient-text">Me</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
@@ -59,12 +59,12 @@ const About = () => {
               and recommendation engines—I've led cross-functional teams to deliver products that generated €15M+ in revenue growth 
               and transformed operational efficiency for global organizations.
             </p>
-          </div>
+          </header>
 
           {/* Main Content */}
           <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
             {/* Text Content */}
-            <div className="slide-in-left">
+            <article className="slide-in-left">
               <h3 className="text-2xl font-bold mb-6 text-foreground">
                 Building AI-Powered Products That Deliver Measurable Business Impact
               </h3>
@@ -88,7 +88,7 @@ const About = () => {
                   diverse industries—from travel tech to agriculture to knowledge management.
                 </p>
               </div>
-            </div>
+            </article>
 
             {/* Highlights Grid */}
             <div className="slide-in-right">
@@ -107,20 +107,21 @@ const About = () => {
           </div>
 
           {/* Expertise */}
-          <div className="fade-in-up">
-            <h3 className="text-2xl font-bold text-center mb-8">Core Expertise</h3>
-            <div className="flex flex-wrap justify-center gap-3">
+          <aside className="fade-in-up" aria-labelledby="expertise-heading">
+            <h3 id="expertise-heading" className="text-2xl font-bold text-center mb-8">Core Expertise</h3>
+            <div className="flex flex-wrap justify-center gap-3" role="list">
               {expertise.map((skill, index) => (
                 <Badge
                   key={index}
                   variant="secondary"
                   className="text-sm py-2 px-4 bg-secondary/50 text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors duration-300"
+                  role="listitem"
                 >
                   {skill}
                 </Badge>
               ))}
             </div>
-          </div>
+          </aside>
         </div>
       </div>
     </section>
