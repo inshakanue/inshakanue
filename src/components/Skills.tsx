@@ -26,6 +26,7 @@ const Skills = () => {
       if (word.toLowerCase() === 'mvp') return 'MVP';
       if (word.toLowerCase() === '(prd,') return '(PRD,';
       if (word.toLowerCase() === 'prfaq)') return 'PRFAQ)';
+      if (word.toLowerCase() === '(kpis)') return '(KPIs)';
       return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
     }).join(' ');
   };
