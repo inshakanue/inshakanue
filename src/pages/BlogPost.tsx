@@ -6,10 +6,12 @@ import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import StructuredData, { createBlogPostSchema } from "@/components/StructuredData";
+import RelatedPosts from "@/components/RelatedPosts";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Calendar, Edit } from "lucide-react";
+import { ArrowLeft, Calendar, Edit, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { addInternalLinks } from "@/utils/internalLinking";
 
 type BlogPost = {
   id: string;
@@ -21,6 +23,8 @@ type BlogPost = {
   author_name: string;
   published_at: string | null;
   created_at: string;
+  tags: string[];
+  reading_time_minutes: number;
 };
 
 const BlogPost = () => {
@@ -150,9 +154,29 @@ const BlogPost = () => {
                   <Calendar className="w-4 h-4" />
                   <span>{formatDate(post.published_at)}</span>
                 </div>
+                {post.reading_time_minutes && (
+                  <>
+                    <span>•</span>
+                    <div className="flex items-center gap-2">
+                      <Clock className="w-4 h-4" />
+                      <span>{post.reading_time_minutes} min read</span>
+                    </div>
+                  </>
+                )}
                 <span>•</span>
                 <span>By {post.author_name}</span>
               </div>
+              {post.tags && post.tags.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-4">
+                  {post.tags.map((tag) => (
+                    <Link key={tag} to={`/blog/tag/${tag.toLowerCase().replace(/\s+/g, '-')}`}>
+                      <Badge variant="secondary" className="hover:bg-primary hover:text-primary-foreground transition-colors">
+                        {tag}
+                      </Badge>
+                    </Link>
+                  ))}
+                </div>
+              )}
               <div className="mt-6">
                 <Button variant="outline" size="sm" asChild>
                   <Link to={`/blog/admin?edit=${post.id}`}>
@@ -178,9 +202,20 @@ const BlogPost = () => {
             <div className="prose prose-lg max-w-none">
               <div
                 className="text-foreground leading-relaxed whitespace-pre-wrap"
-                dangerouslySetInnerHTML={{ __html: post.content }}
+                dangerouslySetInnerHTML={{ 
+                  __html: addInternalLinks(post.content, window.location.pathname) 
+                }}
               />
             </div>
+
+            {/* Related Posts */}
+            {post.tags && post.tags.length > 0 && (
+              <RelatedPosts 
+                currentPostId={post.id} 
+                currentPostTags={post.tags}
+                limit={3}
+              />
+            )}
           </div>
         </article>
       </main>

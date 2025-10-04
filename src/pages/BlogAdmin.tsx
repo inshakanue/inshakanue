@@ -9,10 +9,12 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, Save, Trash2 } from "lucide-react";
+import { ArrowLeft, Save, Trash2, Plus, X } from "lucide-react";
 import { Link } from "react-router-dom";
+import { calculateReadingTime, suggestTags } from "@/utils/internalLinking";
 
 const BlogAdmin = () => {
   const navigate = useNavigate();
@@ -31,8 +33,11 @@ const BlogAdmin = () => {
     cover_image: "",
     author_name: "Insha Kanue",
     published: false,
+    tags: [] as string[],
+    reading_time_minutes: 5,
   });
   const [loading, setLoading] = useState(false);
+  const [tagInput, setTagInput] = useState("");
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -109,6 +114,8 @@ const BlogAdmin = () => {
         cover_image: data.cover_image || "",
         author_name: data.author_name,
         published: data.published,
+        tags: data.tags || [],
+        reading_time_minutes: data.reading_time_minutes || 5,
       });
     } catch (error) {
       console.error("Error fetching post:", error);
@@ -133,11 +140,18 @@ const BlogAdmin = () => {
 
     try {
       const slug = formData.slug || generateSlug(formData.title);
+      const reading_time = formData.content ? calculateReadingTime(formData.content) : formData.reading_time_minutes;
+      
+      const postData = { 
+        ...formData, 
+        slug,
+        reading_time_minutes: reading_time 
+      };
       
       if (editId) {
         const { error } = await supabase
           .from("blog_posts")
-          .update({ ...formData, slug })
+          .update(postData)
           .eq("id", editId);
 
         if (error) throw error;
@@ -148,7 +162,7 @@ const BlogAdmin = () => {
       } else {
         const { error } = await supabase
           .from("blog_posts")
-          .insert([{ ...formData, slug }]);
+          .insert([postData]);
 
         if (error) throw error;
         toast({
@@ -168,6 +182,27 @@ const BlogAdmin = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const addTag = () => {
+    const tag = tagInput.trim();
+    if (tag && !formData.tags.includes(tag)) {
+      setFormData({ ...formData, tags: [...formData.tags, tag] });
+      setTagInput("");
+    }
+  };
+
+  const removeTag = (tagToRemove: string) => {
+    setFormData({ 
+      ...formData, 
+      tags: formData.tags.filter(tag => tag !== tagToRemove) 
+    });
+  };
+
+  const handleSuggestTags = () => {
+    const suggested = suggestTags(formData.content, formData.title);
+    const newTags = suggested.filter(tag => !formData.tags.includes(tag));
+    setFormData({ ...formData, tags: [...formData.tags, ...newTags] });
   };
 
   const handleDelete = async () => {
@@ -323,6 +358,69 @@ const BlogAdmin = () => {
                         })
                       }
                     />
+                  </div>
+
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <Label htmlFor="tags">Tags</Label>
+                      <Button 
+                        type="button" 
+                        variant="ghost" 
+                        size="sm"
+                        onClick={handleSuggestTags}
+                      >
+                        Suggest Tags
+                      </Button>
+                    </div>
+                    <div className="flex gap-2">
+                      <Input
+                        id="tags"
+                        value={tagInput}
+                        onChange={(e) => setTagInput(e.target.value)}
+                        onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
+                        placeholder="Add a tag and press Enter"
+                      />
+                      <Button 
+                        type="button" 
+                        onClick={addTag}
+                        size="icon"
+                      >
+                        <Plus className="w-4 h-4" />
+                      </Button>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {formData.tags.map((tag) => (
+                        <Badge key={tag} variant="secondary" className="flex items-center gap-1">
+                          {tag}
+                          <button 
+                            type="button"
+                            onClick={() => removeTag(tag)}
+                            className="ml-1 hover:text-destructive"
+                          >
+                            <X className="w-3 h-3" />
+                          </button>
+                        </Badge>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="reading_time">Reading Time (minutes)</Label>
+                    <Input
+                      id="reading_time"
+                      type="number"
+                      min="1"
+                      value={formData.reading_time_minutes}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          reading_time_minutes: parseInt(e.target.value) || 1,
+                        })
+                      }
+                    />
+                    <p className="text-xs text-muted-foreground">
+                      Auto-calculated on save: {calculateReadingTime(formData.content)} min
+                    </p>
                   </div>
 
                   <div className="flex items-center space-x-2">

@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Calendar, Clock, ArrowRight, PlusCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAdminStatus } from "@/hooks/useAdminStatus";
+import TagCloud from "@/components/TagCloud";
 type BlogPost = {
   id: string;
   title: string;
@@ -20,6 +21,8 @@ type BlogPost = {
   author_name: string;
   published_at: string | null;
   created_at: string;
+  tags: string[];
+  reading_time_minutes: number;
 };
 const Blog = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -34,7 +37,7 @@ const Blog = () => {
       const {
         data,
         error
-      } = await supabase.from("blog_posts").select("id, title, slug, excerpt, cover_image, author_name, published_at, created_at").eq("published", true).order("published_at", {
+      } = await supabase.from("blog_posts").select("id, title, slug, excerpt, cover_image, author_name, published_at, created_at, tags, reading_time_minutes").eq("published", true).order("published_at", {
         ascending: false
       });
       if (error) throw error;
@@ -121,12 +124,30 @@ const Blog = () => {
                         <img src={post.cover_image} alt={post.title} className="w-full h-full object-cover" />
                       </div>}
                     <CardHeader>
+                      {post.tags && post.tags.length > 0 && (
+                        <div className="flex flex-wrap gap-2 mb-2">
+                          {post.tags.slice(0, 3).map((tag) => (
+                            <Badge key={tag} variant="secondary" className="text-xs">
+                              <Link to={`/blog/tag/${tag.toLowerCase().replace(/\s+/g, '-')}`}>
+                                {tag}
+                              </Link>
+                            </Badge>
+                          ))}
+                        </div>
+                      )}
                       <CardTitle className="line-clamp-2 hover:gradient-text transition-all duration-300">
                         <Link to={`/blog/${post.slug}`}>{post.title}</Link>
                       </CardTitle>
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Calendar className="w-4 h-4" />
                         <span>{formatDate(post.published_at)}</span>
+                        {post.reading_time_minutes && (
+                          <>
+                            <span>•</span>
+                            <Clock className="w-4 h-4" />
+                            <span>{post.reading_time_minutes} min read</span>
+                          </>
+                        )}
                       </div>
                     </CardHeader>
                     <CardContent>
@@ -142,6 +163,9 @@ const Blog = () => {
                     </CardContent>
                   </Card>)}
               </div>}
+
+              {/* Tag Cloud */}
+              <TagCloud />
           </div>
         </div>
         </main>

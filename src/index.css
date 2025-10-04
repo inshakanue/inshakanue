@@ -197,6 +197,16 @@ All colors MUST be HSL.
   .slide-in-right {
     animation: slideInRight 0.8s ease-out forwards;
   }
+
+  /* Internal links styling for SEO */
+  .internal-link {
+    @apply text-primary font-medium underline decoration-primary/30 hover:decoration-primary transition-colors duration-200;
+  }
+
+  /* Prose/blog content styling */
+  .prose a:not(.internal-link) {
+    @apply text-accent hover:text-accent-light transition-colors;
+  }
 }
 
 @layer utilities {
