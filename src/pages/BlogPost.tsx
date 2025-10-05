@@ -7,6 +7,7 @@ import SEO from "@/components/SEO";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import StructuredData, { createBlogPostSchema } from "@/components/StructuredData";
 import RelatedPosts from "@/components/RelatedPosts";
+import { SocialPreview } from "@/components/SocialPreview";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Calendar, Edit, Clock } from "lucide-react";
@@ -118,6 +119,15 @@ const BlogPost = () => {
           modifiedTime: post.created_at,
           author: post.author_name,
         }}
+      />
+      <SocialPreview
+        title={post.title}
+        description={post.excerpt || post.content.substring(0, 160)}
+        image={post.cover_image}
+        type="article"
+        author={post.author_name}
+        publishedTime={post.published_at || post.created_at}
+        modifiedTime={post.created_at}
       />
       <StructuredData 
         data={createBlogPostSchema({
