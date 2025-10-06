@@ -44,9 +44,7 @@ const About = () => {
           <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
             {/* Text Content */}
             <article className="slide-in-left">
-              <h3 className="text-2xl font-bold mb-6 text-foreground">
-                How I build AI products that make money
-              </h3>
+              <h3 className="text-2xl font-bold mb-6 text-foreground">Building AI-Powered Products That Deliver Measurable Business Impact</h3>
               <div className="space-y-4 text-muted-foreground">
                 <p className="text-lg leading-relaxed">
                   I've spent 7 years building AI products. I launched Datahub, a data ingestion platform that cut 
