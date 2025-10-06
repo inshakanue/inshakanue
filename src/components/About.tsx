@@ -32,12 +32,7 @@ const About = () => {
             <h2 id="about-heading" className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
               About <span className="gradient-text">Me</span>
             </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              I build AI products for a living. Over 7 years, I've shipped data platforms, fraud detection systems, 
-              and recommendation engines. The products I've led generated €15M+ in revenue for companies across travel, 
-              agriculture, and knowledge management. I work with data scientists, engineers, and business teams to turn 
-              ML models into products that scale.
-            </p>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">I build AI products for a living. Over 7 years, I've shipped data platforms, fraud detection systems, and recommendation engines. The products I've led generated €15M+ in revenue for companies across travel, logistics, agriculture, and knowledge management. I work with data scientists, engineers, and business teams to turn ML models into products that scale.</p>
           </header>
 
           {/* Main Content */}
