@@ -18,8 +18,8 @@ const About = () => {
     },
     {
       icon: Lightbulb,
-      title: "Innovation",
-      description: "Launched 10+ products from concept to market, including AI/ML solutions",
+      title: "Product launches",
+      description: "Shipped 10+ AI and ML products from concept to market",
       color: "text-accent"
     },
     {
@@ -39,7 +39,7 @@ const About = () => {
     "Product Analytics & Measurement",
     "Responsible AI & Ethics",
     "Market Research and Validation",
-    "Agile Methodologies",
+    "Cross-functional Team Leadership",
     "Revenue Optimization",
     "Stakeholder Management"
   ];
@@ -54,10 +54,10 @@ const About = () => {
               About <span className="gradient-text">Me</span>
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              An AI Product Manager with 7+ years of experience building intelligent systems that drive measurable business impact. 
-              From launching data platforms enabling AI use cases to deploying ML-powered solutions for fraud detection, sentiment analysis, 
-              and recommendation engines—I've led cross-functional teams to deliver products that generated €15M+ in revenue growth 
-              and transformed operational efficiency for global organizations.
+              I build AI products for a living. Over 7 years, I've shipped data platforms, fraud detection systems, 
+              and recommendation engines. The products I've led generated €15M+ in revenue for companies across travel, 
+              agriculture, and knowledge management. I work with data scientists, engineers, and business teams to turn 
+              ML models into products that scale.
             </p>
           </header>
 
@@ -66,26 +66,23 @@ const About = () => {
             {/* Text Content */}
             <article className="slide-in-left">
               <h3 className="text-2xl font-bold mb-6 text-foreground">
-                Building AI-Powered Products That Deliver Measurable Business Impact
+                How I build AI products that make money
               </h3>
               <div className="space-y-4 text-muted-foreground">
                 <p className="text-lg leading-relaxed">
-                  With 7+ years specializing in AI Product Management, I've built and deployed intelligent systems 
-                  that transform how global organizations operate. From launching Datahub—a scalable data ingestion 
-                  platform that reduced onboarding time by 40% and enabled AI use cases driving 15% revenue growth—to 
-                  deploying machine learning solutions for fraud detection, sentiment analysis, and recommendation engines.
+                  I've spent 7 years building AI products. I launched Datahub, a data ingestion platform that cut 
+                  onboarding time by 40%. It enabled AI features that grew revenue by 15%. I've also shipped ML 
+                  solutions for fraud detection, sentiment analysis, and recommendation systems.
                 </p>
                 <p className="text-lg leading-relaxed">
-                  My journey from front-end developer to founding an IoT startup with predictive analytics, to leading 
-                  AI product initiatives at HRS Group and Hypha.cc, has given me unique insight into the full AI product 
-                  lifecycle. I've consistently delivered ML-powered products that generated €15M+ in revenue while 
-                  achieving measurable improvements: 70% fraud reduction, 96.7% lead generation optimization, and 95% 
-                  enhancement in operational performance.
+                  I started as a front-end developer. Then I founded an IoT startup using predictive analytics. 
+                  Now I lead AI product work at HRS Group and Hypha.cc. My products have generated €15M+ in revenue. 
+                  The results: 70% less fraud, 96.7% better lead generation, 95% stronger operations.
                 </p>
                 <p className="text-lg leading-relaxed">
-                  I excel at translating complex AI capabilities into business value, collaborating with data scientists, 
-                  engineers, and stakeholders to bring intelligent products from prototype to production scale across 
-                  diverse industries—from travel tech to agriculture to knowledge management.
+                  I work with data scientists, engineers, and business leaders. Together we take AI from prototype 
+                  to production. I've done this across travel tech, agriculture, and knowledge management. The key 
+                  is turning technical capability into products people pay for.
                 </p>
               </div>
             </article>

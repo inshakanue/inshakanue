@@ -62,8 +62,8 @@ const Hero = () => {
           {/* Description */}
           <div className="fade-in-up animate-delay-200">
             <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-8 md:mb-12 leading-relaxed px-2">
-              7+ years of experience building AI-powered products and machine learning solutions, 
-              leading cross-functional teams to implement intelligent systems that drive millions in revenue growth.
+              I build AI products that make money. Over 7 years, I've shipped machine learning systems 
+              that generated €15M+ in revenue. I lead teams that turn data into products people use.
             </p>
           </div>
 
