@@ -12,9 +12,25 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 
+/**
+ * SECURITY: Authentication validation schema
+ * 
+ * Password requirements enforce strong security practices:
+ * - Minimum 8 characters to prevent brute force attacks
+ * - At least one uppercase letter for complexity
+ * - At least one number for additional entropy
+ * 
+ * These requirements help protect against:
+ * - Credential stuffing attacks
+ * - Dictionary attacks
+ * - Weak password exploitation
+ */
 const authSchema = z.object({
   email: z.string().email({ message: "Invalid email address" }),
-  password: z.string().min(6, { message: "Password must be at least 6 characters" }),
+  password: z.string()
+    .min(8, { message: "Password must be at least 8 characters" })
+    .regex(/[A-Z]/, { message: "Password must contain at least one uppercase letter" })
+    .regex(/[0-9]/, { message: "Password must contain at least one number" }),
   displayName: z.string().min(2, { message: "Display name must be at least 2 characters" }).optional(),
 });
 
