@@ -121,7 +121,7 @@ const Blog = () => {
               animationDelay: `${index * 0.1}s`
             }}>
                     {post.cover_image && <div className="h-48 overflow-hidden rounded-t-lg">
-                        <img src={post.cover_image} alt={post.title} className="w-full h-full object-cover" />
+                        <img src={post.cover_image} alt={`Cover image for ${post.title}`} className="w-full h-full object-cover" loading="lazy" />
                       </div>}
                     <CardHeader>
                       {post.tags && post.tags.length > 0 && (

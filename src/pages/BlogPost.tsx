@@ -202,7 +202,7 @@ const BlogPost = () => {
               <div className="mb-12 rounded-lg overflow-hidden">
                 <img
                   src={post.cover_image}
-                  alt={post.title}
+                  alt={`Cover image for ${post.title}`}
                   className="w-full h-auto"
                 />
               </div>

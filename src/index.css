@@ -30,7 +30,7 @@ All colors MUST be HSL.
 
     /* Muted tones */
     --muted: 215 20% 96%;
-    --muted-foreground: 215 15% 55%;
+    --muted-foreground: 215 20% 45%;
 
     /* Accent - Vibrant blue */
     --accent: 205 100% 55%;

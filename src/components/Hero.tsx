@@ -68,7 +68,7 @@ const Hero = () => {
           </div>
 
           {/* CTA Buttons */}
-          <nav className="fade-in-up animate-delay-300" aria-label="Primary navigation">
+          <div className="fade-in-up animate-delay-300">
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-stretch sm:items-center mb-12 md:mb-16">
               <Button
                 size="lg"
@@ -89,7 +89,7 @@ const Hero = () => {
                 View My Work
               </Button>
             </div>
-          </nav>
+          </div>
 
           {/* Scroll Indicator */}
           <div className="fade-in-up animate-delay-300">

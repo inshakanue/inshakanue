@@ -80,7 +80,7 @@ const RelatedPosts = ({ currentPostId, currentPostTags, limit = 3 }: RelatedPost
               <div className="h-40 overflow-hidden rounded-t-lg">
                 <img 
                   src={post.cover_image} 
-                  alt={post.title} 
+                  alt={`Cover image for ${post.title}`}
                   className="w-full h-full object-cover"
                   loading="lazy"
                 />

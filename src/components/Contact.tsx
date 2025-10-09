@@ -279,6 +279,7 @@ const Contact = () => {
                       style={{ display: 'none' }}
                       tabIndex={-1}
                       autoComplete="off"
+                      aria-hidden="true"
                     />
                     
                     <div className="grid sm:grid-cols-2 gap-4">
@@ -322,7 +323,11 @@ const Contact = () => {
                         value={formData.inquiryType}
                         onValueChange={(value) => setFormData(prev => ({ ...prev, inquiryType: value }))}
                       >
-                        <SelectTrigger className="w-full text-foreground data-[placeholder]:text-muted-foreground">
+                        <SelectTrigger 
+                          id="inquiryType"
+                          className="w-full text-foreground data-[placeholder]:text-muted-foreground"
+                          aria-label="Select inquiry type"
+                        >
                           <SelectValue placeholder="Select inquiry type" />
                         </SelectTrigger>
                         <SelectContent>

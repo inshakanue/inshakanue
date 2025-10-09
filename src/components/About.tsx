@@ -68,11 +68,15 @@ const About = () => {
           {/* Expertise */}
           <aside className="fade-in-up" aria-labelledby="expertise-heading">
             <h3 id="expertise-heading" className="text-2xl font-bold text-center mb-8">Core Expertise</h3>
-            <div className="flex flex-wrap justify-center gap-3" role="list">
-              {expertise.map((skill, index) => <Badge key={index} variant="secondary" className="text-sm py-2 px-4 bg-secondary/50 text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors duration-300" role="listitem">
-                  {skill}
-                </Badge>)}
-            </div>
+            <ul className="flex flex-wrap justify-center gap-3 list-none">
+              {expertise.map((skill, index) => (
+                <li key={index}>
+                  <Badge variant="secondary" className="text-sm py-2 px-4 bg-secondary/50 text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors duration-300">
+                    {skill}
+                  </Badge>
+                </li>
+              ))}
+            </ul>
           </aside>
         </div>
       </div>

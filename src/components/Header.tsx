@@ -89,12 +89,13 @@ const Header = () => {
           : "bg-transparent"
       }`}
     >
-      <nav className="container-custom">
+      <nav className="container-custom" aria-label="Main navigation">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <Link
             to="/"
             className="text-xl lg:text-2xl font-bold gradient-text hover:scale-105 transition-transform duration-300"
+            aria-label="Home"
           >
             IK
           </Link>
@@ -120,8 +121,8 @@ const Header = () => {
               className="text-muted-foreground hover:text-primary"
               asChild
             >
-              <a href="mailto:inshakanue@protonmail.com">
-                <Mail className="w-4 h-4" />
+              <a href="mailto:inshakanue@protonmail.com" aria-label="Send email">
+                <Mail className="w-4 h-4" aria-hidden="true" />
               </a>
             </Button>
             <Button
@@ -130,8 +131,8 @@ const Header = () => {
               className="text-muted-foreground hover:text-primary"
               asChild
             >
-              <a href="https://linkedin.com/in/inshakanue" target="_blank" rel="noopener noreferrer">
-                <Linkedin className="w-4 h-4" />
+              <a href="https://linkedin.com/in/inshakanue" target="_blank" rel="noopener noreferrer" aria-label="Connect on LinkedIn">
+                <Linkedin className="w-4 h-4" aria-hidden="true" />
               </a>
             </Button>
             <Button
@@ -140,8 +141,8 @@ const Header = () => {
               className="text-muted-foreground hover:text-primary"
               asChild
             >
-              <a href="https://github.com/inshakanue" target="_blank" rel="noopener noreferrer">
-                <Github className="w-4 h-4" />
+              <a href="https://github.com/inshakanue" target="_blank" rel="noopener noreferrer" aria-label="View GitHub profile">
+                <Github className="w-4 h-4" aria-hidden="true" />
               </a>
             </Button>
             <Button
@@ -150,8 +151,8 @@ const Header = () => {
               className="text-muted-foreground hover:text-primary"
               asChild
             >
-              <a href="https://x.com/inshakanue" target="_blank" rel="noopener noreferrer">
-                <Twitter className="w-4 h-4" />
+              <a href="https://x.com/inshakanue" target="_blank" rel="noopener noreferrer" aria-label="Follow on X">
+                <Twitter className="w-4 h-4" aria-hidden="true" />
               </a>
             </Button>
             {showAdminControls && (
@@ -175,8 +176,10 @@ const Header = () => {
             size="sm"
             className="md:hidden"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-expanded={isMobileMenuOpen}
+            aria-label="Toggle mobile menu"
           >
-            {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {isMobileMenuOpen ? <X className="w-5 h-5" aria-hidden="true" /> : <Menu className="w-5 h-5" aria-hidden="true" />}
           </Button>
         </div>
 
@@ -201,8 +204,8 @@ const Header = () => {
                     className="text-muted-foreground hover:text-primary"
                     asChild
                   >
-                    <a href="mailto:inshakanue@protonmail.com">
-                      <Mail className="w-4 h-4" />
+                    <a href="mailto:inshakanue@protonmail.com" aria-label="Send email">
+                      <Mail className="w-4 h-4" aria-hidden="true" />
                     </a>
                   </Button>
                   <Button
@@ -211,8 +214,8 @@ const Header = () => {
                     className="text-muted-foreground hover:text-primary"
                     asChild
                   >
-                    <a href="https://linkedin.com/in/inshakanue" target="_blank" rel="noopener noreferrer">
-                      <Linkedin className="w-4 h-4" />
+                    <a href="https://linkedin.com/in/inshakanue" target="_blank" rel="noopener noreferrer" aria-label="Connect on LinkedIn">
+                      <Linkedin className="w-4 h-4" aria-hidden="true" />
                     </a>
                   </Button>
                   <Button
@@ -221,8 +224,8 @@ const Header = () => {
                     className="text-muted-foreground hover:text-primary"
                     asChild
                   >
-                    <a href="https://github.com/inshakanue" target="_blank" rel="noopener noreferrer">
-                      <Github className="w-4 h-4" />
+                    <a href="https://github.com/inshakanue" target="_blank" rel="noopener noreferrer" aria-label="View GitHub profile">
+                      <Github className="w-4 h-4" aria-hidden="true" />
                     </a>
                   </Button>
                   <Button
@@ -231,8 +234,8 @@ const Header = () => {
                     className="text-muted-foreground hover:text-primary"
                     asChild
                   >
-                    <a href="https://x.com/inshakanue" target="_blank" rel="noopener noreferrer">
-                      <Twitter className="w-4 h-4" />
+                    <a href="https://x.com/inshakanue" target="_blank" rel="noopener noreferrer" aria-label="Follow on X">
+                      <Twitter className="w-4 h-4" aria-hidden="true" />
                     </a>
                   </Button>
                 </div>

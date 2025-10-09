@@ -53,16 +53,20 @@ const Skills = () => {
     for (let i = 1; i <= 5; i++) {
       if (i <= rating) {
         stars.push(
-          <Star key={i} className="w-4 h-4 text-primary transition-all duration-300" />
+          <Star key={i} className="w-4 h-4 text-primary transition-all duration-300" aria-hidden="true" />
         );
       } else {
         stars.push(
-          <Star key={i} className="w-4 h-4 text-muted-foreground transition-all duration-300" />
+          <Star key={i} className="w-4 h-4 text-muted-foreground transition-all duration-300" aria-hidden="true" />
         );
       }
     }
     
-    return <div className="flex gap-1">{stars}</div>;
+    return (
+      <div className="flex gap-1" role="img" aria-label={`${rating} out of 5 stars`}>
+        {stars}
+      </div>
+    );
   };
   const skillCategories = [
     {
