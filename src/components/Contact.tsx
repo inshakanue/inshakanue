@@ -332,7 +332,7 @@ const Contact = () => {
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="Job Opportunity">Job Opportunity</SelectItem>
-                          <SelectItem value="Freelance Work">Freelance Work</SelectItem>
+                          <SelectItem value="Contract / Freelance Work">Contract / Freelance Work</SelectItem>
                           <SelectItem value="Consulting Services">Consulting Services</SelectItem>
                           <SelectItem value="Partnership & Collaboration">Partnership & Collaboration</SelectItem>
                           <SelectItem value="General Inquiry">General Inquiry</SelectItem>
