@@ -28,7 +28,6 @@ const Experience = () => {
       location: "Germany (Remote)",
       period: "Aug 2021 – Aug 2022",
       type: "Full-time",
-      description: "Focused on customer-facing products and data-driven solutions.",
       achievements: [
         "Developed Hotel Reviews Sentiment Analysis resulting in 30% increase in customer satisfaction",
         "Enhanced SigMail Email Classification Service boosting user engagement by 25%",
