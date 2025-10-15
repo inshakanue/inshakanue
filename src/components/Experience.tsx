@@ -13,7 +13,7 @@ const Experience = () => {
       type: "Full-time",
       description: "Leading global business travel tech company and one of Europe's top three hotel booking platforms.",
       achievements: [
-        "Launched Datahub, reducing onboarding time by 40% and driving 15% revenue increase",
+        "Launched Datahub platform, reducing onboarding time by 40% and driving 15% revenue increase",
         "Built Mission Control Analytics Dashboard, enhancing operations performance by 95%",
         "Achieved 96.7% lead gen optimization and €28.5K annual savings via Marketing Lead Dashboard",
         "Developed Budget hotel Classifier service contributing €12M in revenue",
