@@ -141,14 +141,14 @@ const Experience = () => {
                           href={exp.companyUrl} 
                           target="_blank" 
                           rel="noopener noreferrer"
-                          className="text-lg lg:text-xl font-semibold text-primary mb-2 hover:underline inline-block"
+                          className={`text-lg lg:text-xl font-semibold text-primary hover:underline inline-block ${exp.description ? 'mb-2' : 'mb-4'}`}
                         >
                           {exp.company}
                         </a>
                       ) : (
-                        <h4 className="text-lg lg:text-xl font-semibold text-primary mb-2">{exp.company}</h4>
+                        <h4 className={`text-lg lg:text-xl font-semibold text-primary ${exp.description ? 'mb-2' : 'mb-4'}`}>{exp.company}</h4>
                       )}
-                      <p className="text-muted-foreground mb-4">{exp.description}</p>
+                      {exp.description && <p className="text-muted-foreground mb-4">{exp.description}</p>}
                     </div>
                     <div className="flex flex-col sm:flex-row lg:flex-col gap-2 text-sm text-muted-foreground">
                       <div className="flex items-center gap-1">
