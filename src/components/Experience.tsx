@@ -15,7 +15,7 @@ const Experience = () => {
       achievements: [
         "Launched Datahub, reducing onboarding time by 40% and driving 15% revenue increase",
         "Built Mission Control Analytics Dashboard, enhancing operations performance by 95%",
-        "Achieved 96.7% optimization in lead generation and €28500/year cost avoidance via Marketing Lead Dashboard",
+        "Achieved 96.7% lead gen optimization and €28.5K annual savings via Marketing Lead Dashboard",
         "Developed Budget hotel Classifier service contributing €12M in revenue",
         "Productionalized Star Category backfill service enhancing revenue by €3.5M"
       ],
