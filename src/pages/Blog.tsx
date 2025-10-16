@@ -8,6 +8,8 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 import { Calendar, Clock, ArrowRight, PlusCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAdminStatus } from "@/hooks/useAdminStatus";
@@ -23,23 +25,34 @@ type BlogPost = {
   created_at: string;
   tags: string[];
   reading_time_minutes: number;
+  published: boolean;
 };
 const Blog = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showUnpublished, setShowUnpublished] = useState(false);
   const { isAdmin } = useAdminStatus();
   const { toast } = useToast();
+  
   useEffect(() => {
     fetchPosts();
-  }, []);
+  }, [showUnpublished, isAdmin]);
   const fetchPosts = async () => {
     try {
-      const {
-        data,
-        error
-      } = await supabase.from("blog_posts").select("id, title, slug, excerpt, cover_image, author_name, published_at, created_at, tags, reading_time_minutes").eq("published", true).order("published_at", {
-        ascending: false
-      });
+      let query = supabase
+        .from("blog_posts")
+        .select("id, title, slug, excerpt, cover_image, author_name, published_at, created_at, tags, reading_time_minutes, published");
+      
+      // If not admin or admin not showing unpublished, filter to published only
+      if (!isAdmin || !showUnpublished) {
+        query = query.eq("published", true);
+      }
+      
+      // Order by published_at for published posts, created_at for all posts view
+      const orderBy = (!isAdmin || !showUnpublished) ? "published_at" : "created_at";
+      query = query.order(orderBy, { ascending: false });
+      
+      const { data, error } = await query;
       if (error) throw error;
       setPosts(data || []);
     } catch (error) {
@@ -82,12 +95,24 @@ const Blog = () => {
               </h1>
               <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">Insights on Data/AI product management and technology leadership</p>
               {isAdmin && (
-                <Button asChild>
-                  <Link to="/blog/admin">
-                    <PlusCircle className="w-4 h-4 mr-2" />
-                    Write New Post
-                  </Link>
-                </Button>
+                <div className="flex items-center justify-center gap-6 flex-wrap">
+                  <Button asChild>
+                    <Link to="/blog/admin">
+                      <PlusCircle className="w-4 h-4 mr-2" />
+                      Write New Post
+                    </Link>
+                  </Button>
+                  <div className="flex items-center gap-2">
+                    <Switch 
+                      id="show-unpublished" 
+                      checked={showUnpublished}
+                      onCheckedChange={setShowUnpublished}
+                    />
+                    <Label htmlFor="show-unpublished" className="cursor-pointer">
+                      Show Unpublished Posts
+                    </Label>
+                  </div>
+                </div>
               )}
             </div>
 
@@ -110,9 +135,9 @@ const Blog = () => {
               </div> : posts.length === 0 ? <Card className="card-elevated text-center py-12">
                 <CardContent>
                   <p className="text-xl text-muted-foreground mb-4">
-                    No blog posts yet. Check back soon!
+                    {showUnpublished ? "No draft posts yet." : "No blog posts yet. Check back soon!"}
                   </p>
-                  {isAdmin && (
+                  {isAdmin && !showUnpublished && (
                     <Button asChild>
                       <Link to="/blog/admin">Write your first post</Link>
                     </Button>
@@ -126,17 +151,20 @@ const Blog = () => {
                         <img src={post.cover_image} alt={`Cover image for ${post.title}`} className="w-full h-full object-cover" loading="lazy" />
                       </div>}
                     <CardHeader>
-                      {post.tags && post.tags.length > 0 && (
-                        <div className="flex flex-wrap gap-2 mb-2">
-                          {post.tags.slice(0, 3).map((tag) => (
-                            <Badge key={tag} variant="secondary" className="text-xs">
-                              <Link to={`/blog/tag/${tag.toLowerCase().replace(/\s+/g, '-')}`}>
-                                {tag}
-                              </Link>
-                            </Badge>
-                          ))}
-                        </div>
-                      )}
+                      <div className="flex flex-wrap gap-2 mb-2">
+                        {!post.published && (
+                          <Badge variant="outline" className="text-xs border-yellow-500 text-yellow-600 dark:text-yellow-400">
+                            Draft
+                          </Badge>
+                        )}
+                        {post.tags && post.tags.length > 0 && post.tags.slice(0, 3).map((tag) => (
+                          <Badge key={tag} variant="secondary" className="text-xs">
+                            <Link to={`/blog/tag/${tag.toLowerCase().replace(/\s+/g, '-')}`}>
+                              {tag}
+                            </Link>
+                          </Badge>
+                        ))}
+                      </div>
                       <CardTitle className="line-clamp-2 hover:gradient-text transition-all duration-300">
                         <Link to={`/blog/${post.slug}`}>{post.title}</Link>
                       </CardTitle>
