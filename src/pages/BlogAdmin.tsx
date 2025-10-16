@@ -63,7 +63,9 @@ const BlogAdmin = () => {
         .maybeSingle();
 
       if (roleError) {
-        console.error("Error checking admin role:", roleError);
+        if (import.meta.env.DEV) {
+          console.error("Error checking admin role:", roleError);
+        }
       }
 
       if (!roleData) {
@@ -118,7 +120,9 @@ const BlogAdmin = () => {
         reading_time_minutes: data.reading_time_minutes || 5,
       });
     } catch (error) {
-      console.error("Error fetching post:", error);
+      if (import.meta.env.DEV) {
+        console.error("Error fetching post:", error);
+      }
       toast({
         title: "Error",
         description: "Failed to load post",
@@ -173,7 +177,9 @@ const BlogAdmin = () => {
 
       navigate("/blog");
     } catch (error: any) {
-      console.error("Error saving post:", error);
+      if (import.meta.env.DEV) {
+        console.error("Error saving post:", error);
+      }
       toast({
         title: "Error",
         description: error.message || "Failed to save post",
@@ -223,7 +229,9 @@ const BlogAdmin = () => {
       });
       navigate("/blog");
     } catch (error) {
-      console.error("Error deleting post:", error);
+      if (import.meta.env.DEV) {
+        console.error("Error deleting post:", error);
+      }
       toast({
         title: "Error",
         description: "Failed to delete post",

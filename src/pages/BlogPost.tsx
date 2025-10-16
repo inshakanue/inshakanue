@@ -13,6 +13,8 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Calendar, Edit, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { addInternalLinks } from "@/utils/internalLinking";
+import { useAdminStatus } from "@/hooks/useAdminStatus";
+import DOMPurify from "dompurify";
 
 type BlogPost = {
   id: string;
@@ -34,6 +36,7 @@ const BlogPost = () => {
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
+  const { isAdmin } = useAdminStatus();
 
   useEffect(() => {
     if (slug) {
@@ -53,7 +56,9 @@ const BlogPost = () => {
       if (error) throw error;
       setPost(data);
     } catch (error) {
-      console.error("Error fetching post:", error);
+      if (import.meta.env.DEV) {
+        console.error("Error fetching post:", error);
+      }
       toast({
         title: "Error",
         description: "Failed to load blog post",
@@ -187,14 +192,16 @@ const BlogPost = () => {
                   ))}
                 </div>
               )}
-              <div className="mt-6">
-                <Button variant="outline" size="sm" asChild>
-                  <Link to={`/blog/admin?edit=${post.id}`}>
-                    <Edit className="w-4 h-4 mr-2" />
-                    Edit Post
-                  </Link>
-                </Button>
-              </div>
+              {isAdmin && (
+                <div className="mt-6">
+                  <Button variant="outline" size="sm" asChild>
+                    <Link to={`/blog/admin?edit=${post.id}`}>
+                      <Edit className="w-4 h-4 mr-2" />
+                      Edit Post
+                    </Link>
+                  </Button>
+                </div>
+              )}
             </header>
 
             {/* Cover Image */}
@@ -213,7 +220,10 @@ const BlogPost = () => {
               <div
                 className="text-foreground leading-relaxed whitespace-pre-wrap"
                 dangerouslySetInnerHTML={{ 
-                  __html: addInternalLinks(post.content, window.location.pathname) 
+                  __html: DOMPurify.sanitize(
+                    addInternalLinks(post.content, window.location.pathname),
+                    { ADD_ATTR: ['target'] }
+                  )
                 }}
               />
             </div>

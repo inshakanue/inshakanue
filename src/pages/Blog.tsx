@@ -43,7 +43,9 @@ const Blog = () => {
       if (error) throw error;
       setPosts(data || []);
     } catch (error) {
-      console.error("Error fetching posts:", error);
+      if (import.meta.env.DEV) {
+        console.error("Error fetching posts:", error);
+      }
       toast({
         title: "Error",
         description: "Failed to load blog posts",
