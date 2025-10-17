@@ -42,16 +42,21 @@ const BlogPost = () => {
     if (slug) {
       fetchPost();
     }
-  }, [slug]);
+  }, [slug, isAdmin]);
 
   const fetchPost = async () => {
     try {
-      const { data, error } = await supabase
+      let query = supabase
         .from("blog_posts")
         .select("*")
-        .eq("slug", slug)
-        .eq("published", true)
-        .single();
+        .eq("slug", slug);
+      
+      // If not admin, filter to published only
+      if (!isAdmin) {
+        query = query.eq("published", true);
+      }
+      
+      const { data, error } = await query.single();
 
       if (error) throw error;
       setPost(data);
