@@ -36,13 +36,13 @@ const BlogPost = () => {
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
-  const { isAdmin } = useAdminStatus();
+  const { isAdmin, loading: isAdminLoading } = useAdminStatus();
 
   useEffect(() => {
-    if (slug) {
+    if (slug && !isAdminLoading) {
       fetchPost();
     }
-  }, [slug, isAdmin]);
+  }, [slug, isAdmin, isAdminLoading]);
 
   const fetchPost = async () => {
     try {
@@ -56,9 +56,9 @@ const BlogPost = () => {
         query = query.eq("published", true);
       }
       
-      const { data, error } = await query.single();
+      const { data, error } = await query.maybeSingle();
 
-      if (error) throw error;
+      if (error || !data) throw error || new Error("Post not found");
       setPost(data);
     } catch (error) {
       if (import.meta.env.DEV) {
