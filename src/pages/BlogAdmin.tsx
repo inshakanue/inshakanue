@@ -12,7 +12,7 @@ import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { ArrowLeft, Save, Trash2, Plus, X } from "lucide-react";
+import { ArrowLeft, Save, Trash2, Plus, X, Upload, Image as ImageIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { calculateReadingTime, suggestTags } from "@/utils/internalLinking";
 
@@ -38,6 +38,8 @@ const BlogAdmin = () => {
   });
   const [loading, setLoading] = useState(false);
   const [tagInput, setTagInput] = useState("");
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const [imageFile, setImageFile] = useState<File | null>(null);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -211,6 +213,80 @@ const BlogAdmin = () => {
     setFormData({ ...formData, tags: [...formData.tags, ...newTags] });
   };
 
+  const handleImageUpload = async (file: File) => {
+    if (!file) return;
+
+    // Validate file type
+    const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+    if (!validTypes.includes(file.type)) {
+      toast({
+        title: "Invalid file type",
+        description: "Please upload a JPEG, PNG, or WebP image",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Validate file size (5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      toast({
+        title: "File too large",
+        description: "Image must be less than 5MB",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setUploadingImage(true);
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+      const filePath = fileName;
+
+      const { error: uploadError } = await supabase.storage
+        .from('blog-covers')
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('blog-covers')
+        .getPublicUrl(filePath);
+
+      setFormData({ ...formData, cover_image: publicUrl });
+      setImageFile(null);
+      
+      toast({
+        title: "Success",
+        description: "Image uploaded successfully",
+      });
+    } catch (error: any) {
+      if (import.meta.env.DEV) {
+        console.error("Error uploading image:", error);
+      }
+      toast({
+        title: "Error",
+        description: error.message || "Failed to upload image",
+        variant: "destructive",
+      });
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImageFile(file);
+      handleImageUpload(file);
+    }
+  };
+
+  const removeImage = () => {
+    setFormData({ ...formData, cover_image: "" });
+    setImageFile(null);
+  };
+
   const handleDelete = async () => {
     if (!editId) return;
     if (!confirm("Are you sure you want to delete this post?")) return;
@@ -339,19 +415,79 @@ const BlogAdmin = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="cover_image">Cover Image URL</Label>
-                    <Input
-                      id="cover_image"
-                      type="url"
-                      value={formData.cover_image}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          cover_image: e.target.value,
-                        })
-                      }
-                      placeholder="https://example.com/image.jpg"
-                    />
+                    <Label>Cover Image</Label>
+                    
+                    {/* Image Preview */}
+                    {formData.cover_image && (
+                      <div className="relative rounded-lg overflow-hidden border">
+                        <img 
+                          src={formData.cover_image} 
+                          alt="Cover preview" 
+                          className="w-full h-48 object-cover"
+                        />
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="sm"
+                          className="absolute top-2 right-2"
+                          onClick={removeImage}
+                        >
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    )}
+
+                    {/* Upload Button */}
+                    {!formData.cover_image && (
+                      <div className="border-2 border-dashed rounded-lg p-8 text-center">
+                        <input
+                          id="cover_image_upload"
+                          type="file"
+                          accept="image/jpeg,image/jpg,image/png,image/webp"
+                          onChange={handleImageChange}
+                          className="hidden"
+                          disabled={uploadingImage}
+                        />
+                        <label htmlFor="cover_image_upload" className="cursor-pointer">
+                          <div className="flex flex-col items-center gap-2">
+                            {uploadingImage ? (
+                              <>
+                                <Upload className="w-8 h-8 animate-bounce text-muted-foreground" />
+                                <p className="text-sm text-muted-foreground">Uploading...</p>
+                              </>
+                            ) : (
+                              <>
+                                <ImageIcon className="w-8 h-8 text-muted-foreground" />
+                                <p className="text-sm font-medium">Click to upload cover image</p>
+                                <p className="text-xs text-muted-foreground">
+                                  JPEG, PNG, or WebP (max 5MB)
+                                </p>
+                              </>
+                            )}
+                          </div>
+                        </label>
+                      </div>
+                    )}
+
+                    {/* Or URL Input */}
+                    <div className="space-y-2">
+                      <Label htmlFor="cover_image_url" className="text-xs text-muted-foreground">
+                        Or enter image URL
+                      </Label>
+                      <Input
+                        id="cover_image_url"
+                        type="url"
+                        value={formData.cover_image}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            cover_image: e.target.value,
+                          })
+                        }
+                        placeholder="https://example.com/image.jpg"
+                        disabled={uploadingImage}
+                      />
+                    </div>
                   </div>
 
                   <div className="space-y-2">
