@@ -15,6 +15,7 @@ import { useToast } from "@/hooks/use-toast";
 import { addInternalLinks } from "@/utils/internalLinking";
 import { useAdminStatus } from "@/hooks/useAdminStatus";
 import DOMPurify from "dompurify";
+import "react-quill/dist/quill.snow.css";
 
 type BlogPost = {
   id: string;
@@ -221,9 +222,9 @@ const BlogPost = () => {
             )}
 
             {/* Post Content */}
-            <div className="prose prose-lg max-w-none">
+            <div className="prose prose-lg max-w-none dark:prose-invert">
               <div
-                className="text-foreground leading-relaxed whitespace-pre-wrap"
+                className="ql-editor"
                 dangerouslySetInnerHTML={{ 
                   __html: DOMPurify.sanitize(
                     addInternalLinks(post.content, window.location.pathname),
