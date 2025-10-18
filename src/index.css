@@ -274,3 +274,62 @@ All colors MUST be HSL.
 .animate-float {
   animation: float 6s ease-in-out infinite;
 }
+
+/* Quill Editor Custom Styles */
+.ql-toolbar {
+  @apply bg-muted rounded-t-md border-border;
+}
+
+.ql-container {
+  @apply bg-background rounded-b-md border-border;
+}
+
+.ql-editor {
+  @apply text-foreground;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.ql-editor.ql-blank::before {
+  @apply text-muted-foreground;
+  font-style: normal;
+}
+
+.ql-stroke {
+  @apply stroke-foreground;
+}
+
+.ql-fill {
+  @apply fill-foreground;
+}
+
+.ql-picker-label {
+  @apply text-foreground;
+}
+
+.ql-picker-options {
+  @apply bg-popover border-border;
+}
+
+.ql-toolbar button:hover,
+.ql-toolbar button:focus {
+  @apply bg-accent/10;
+}
+
+.ql-toolbar button.ql-active {
+  @apply bg-accent/20;
+}
+
+.dark .ql-editor {
+  color: hsl(var(--foreground));
+}
+
+.dark .ql-toolbar {
+  background: hsl(var(--muted));
+  border-color: hsl(var(--border));
+}
+
+.dark .ql-container {
+  background: hsl(var(--background));
+  border-color: hsl(var(--border));
+}

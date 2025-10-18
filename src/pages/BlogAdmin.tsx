@@ -15,6 +15,8 @@ import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Save, Trash2, Plus, X, Upload, Image as ImageIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { calculateReadingTime, suggestTags } from "@/utils/internalLinking";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 const BlogAdmin = () => {
   const navigate = useNavigate();
@@ -40,6 +42,34 @@ const BlogAdmin = () => {
   const [tagInput, setTagInput] = useState("");
   const [uploadingImage, setUploadingImage] = useState(false);
   const [imageFile, setImageFile] = useState<File | null>(null);
+
+  const quillModules = {
+    toolbar: [
+      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+      [{ 'font': [] }],
+      [{ 'size': ['small', false, 'large', 'huge'] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ 'color': [] }, { 'background': [] }],
+      [{ 'script': 'sub'}, { 'script': 'super' }],
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      [{ 'indent': '-1'}, { 'indent': '+1' }],
+      [{ 'align': [] }],
+      ['blockquote', 'code-block'],
+      ['link', 'image', 'video'],
+      ['clean']
+    ],
+  };
+
+  const quillFormats = [
+    'header', 'font', 'size',
+    'bold', 'italic', 'underline', 'strike',
+    'color', 'background',
+    'script',
+    'list', 'bullet', 'indent',
+    'align',
+    'blockquote', 'code-block',
+    'link', 'image', 'video'
+  ];
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -401,16 +431,14 @@ const BlogAdmin = () => {
 
                   <div className="space-y-2">
                     <Label htmlFor="content">Content *</Label>
-                    <Textarea
-                      id="content"
+                    <ReactQuill
+                      theme="snow"
                       value={formData.content}
-                      onChange={(e) =>
-                        setFormData({ ...formData, content: e.target.value })
-                      }
-                      required
-                      placeholder="Write your post content here..."
-                      rows={15}
-                      className="font-mono text-sm"
+                      onChange={(value) => setFormData({ ...formData, content: value })}
+                      modules={quillModules}
+                      formats={quillFormats}
+                      className="bg-background [&_.ql-container]:min-h-[400px] [&_.ql-editor]:min-h-[400px]"
+                      placeholder="Write your blog post content with rich formatting..."
                     />
                   </div>
 
