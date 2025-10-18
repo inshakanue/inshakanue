@@ -43,13 +43,14 @@ const Blog = () => {
         .from("blog_posts")
         .select("id, title, slug, excerpt, cover_image, author_name, published_at, created_at, tags, reading_time_minutes, published");
       
-      // If not admin or admin not showing unpublished, filter to published only
-      if (!isAdmin || !showUnpublished) {
+      // Non-admins always see only published posts
+      // Admins see all posts when "Show Unpublished" is ON, otherwise only published
+      if (!showUnpublished) {
         query = query.eq("published", true);
       }
       
       // Order by published_at for published posts, created_at for all posts view
-      const orderBy = (!isAdmin || !showUnpublished) ? "published_at" : "created_at";
+      const orderBy = !showUnpublished ? "published_at" : "created_at";
       query = query.order(orderBy, { ascending: false });
       
       const { data, error } = await query;
