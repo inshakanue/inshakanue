@@ -176,37 +176,24 @@ const BlogAdmin = () => {
     setLoading(true);
 
     try {
-      const slug = formData.slug || generateSlug(formData.title);
-      const reading_time = formData.content ? calculateReadingTime(formData.content) : formData.reading_time_minutes;
-      
-      const postData = { 
-        ...formData, 
-        slug,
-        reading_time_minutes: reading_time 
-      };
-      
-      if (editId) {
-        const { error } = await supabase
-          .from("blog_posts")
-          .update(postData)
-          .eq("id", editId);
+      // Call edge function to sanitize and save blog post
+      const { data, error } = await supabase.functions.invoke("sanitize-blog-post", {
+        body: {
+          ...formData,
+          id: editId || undefined,
+        },
+      });
 
-        if (error) throw error;
-        toast({
-          title: "Success",
-          description: "Blog post updated successfully",
-        });
-      } else {
-        const { error } = await supabase
-          .from("blog_posts")
-          .insert([postData]);
+      if (error) throw error;
 
-        if (error) throw error;
-        toast({
-          title: "Success",
-          description: "Blog post created successfully",
-        });
+      if (!data.success) {
+        throw new Error(data.error || "Failed to save post");
       }
+
+      toast({
+        title: "Success",
+        description: `Blog post ${editId ? "updated" : "created"} successfully`,
+      });
 
       navigate("/blog");
     } catch (error: any) {
