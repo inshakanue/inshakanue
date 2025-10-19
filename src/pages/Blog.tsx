@@ -43,9 +43,10 @@ const Blog = () => {
         .from("blog_posts")
         .select("id, title, slug, excerpt, cover_image, author_name, published_at, created_at, tags, reading_time_minutes, published");
       
-      // Non-admins always see only published posts
-      // Admins see all posts when "Show Unpublished" is ON, otherwise only published
-      if (!showUnpublished) {
+      // Filter based on toggle: published posts by default, only unpublished when toggled
+      if (showUnpublished) {
+        query = query.eq("published", false);
+      } else {
         query = query.eq("published", true);
       }
       
