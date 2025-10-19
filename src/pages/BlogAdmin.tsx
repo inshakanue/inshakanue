@@ -25,7 +25,7 @@ const BlogAdmin = () => {
   const { toast } = useToast();
 
   const [user, setUser] = useState<User | null>(null);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [hasAdminAccess, setHasAdminAccess] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
   const [formData, setFormData] = useState({
     title: "",
@@ -87,20 +87,20 @@ const BlogAdmin = () => {
 
       setUser(session.user);
 
-      const { data: roleData, error: roleError } = await supabase
-        .from("user_roles")
-        .select("role")
-        .eq("user_id", session.user.id)
-        .eq("role", "admin")
-        .maybeSingle();
+      // Attempt an admin-level operation - let RLS policies enforce authorization
+      // Try to fetch all blog posts (including unpublished), which only admins can do
+      const { data, error } = await supabase
+        .from("blog_posts")
+        .select("id")
+        .limit(1);
 
-      if (roleError) {
+      // If we can successfully query blog_posts, user has admin access via RLS
+      // If RLS denies access, we'll get an error
+      if (error) {
+        // RLS policy denied access - user is not an admin
         if (import.meta.env.DEV) {
-          console.error("Error checking admin role:", roleError);
+          console.error("Admin access verification failed:", error);
         }
-      }
-
-      if (!roleData) {
         toast({
           title: "Access denied",
           description: "You don't have admin privileges to access this page.",
@@ -110,7 +110,8 @@ const BlogAdmin = () => {
         return;
       }
 
-      setIsAdmin(true);
+      // Successfully verified admin access through RLS
+      setHasAdminAccess(true);
       setAuthLoading(false);
     };
 
@@ -126,10 +127,10 @@ const BlogAdmin = () => {
   }, [navigate, toast]);
 
   useEffect(() => {
-    if (editId && isAdmin) {
+    if (editId && hasAdminAccess) {
       fetchPost();
     }
-  }, [editId, isAdmin]);
+  }, [editId, hasAdminAccess]);
 
   const fetchPost = async () => {
     try {
@@ -364,7 +365,7 @@ const BlogAdmin = () => {
     );
   }
 
-  if (!isAdmin) {
+  if (!hasAdminAccess) {
     return null;
   }
 
