@@ -8,6 +8,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import StructuredData, { createBlogPostSchema } from "@/components/StructuredData";
 import RelatedPosts from "@/components/RelatedPosts";
 import { SocialPreview } from "@/components/SocialPreview";
+import { SocialShare } from "@/components/SocialShare";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Calendar, Edit, Clock } from "lucide-react";
@@ -220,6 +221,13 @@ const BlogPost = () => {
                 />
               </div>
             )}
+
+            {/* Social Share */}
+            <SocialShare
+              url={window.location.href}
+              title={post.title}
+              description={post.excerpt || undefined}
+            />
 
             {/* Post Content */}
             <div className="prose prose-lg max-w-none dark:prose-invert">
