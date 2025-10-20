@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Linkedin, Twitter } from "lucide-react";
-import blueskyLogo from "@/assets/bluesky-logo.png";
+import blueskyIcon from "@/assets/bluesky-icon.png";
 
 interface SocialShareProps {
   url: string;
@@ -58,7 +58,7 @@ export const SocialShare = ({ url, title, description }: SocialShareProps) => {
           className="gap-2 hover:bg-[#0085ff] hover:text-white hover:border-[#0085ff] transition-colors"
           aria-label="Share on Bluesky"
         >
-          <img src={blueskyLogo} alt="Bluesky" className="w-5 h-5" />
+          <img src={blueskyIcon} alt="Bluesky" className="w-4 h-4 opacity-70" />
           Bluesky
         </Button>
       </div>
