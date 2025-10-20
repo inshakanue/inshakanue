@@ -58,7 +58,7 @@ export const SocialShare = ({ url, title, description }: SocialShareProps) => {
           className="gap-2 hover:bg-[#0085ff] hover:text-white hover:border-[#0085ff] transition-colors"
           aria-label="Share on Bluesky"
         >
-          <img src={blueskyIcon} alt="Bluesky" className="w-4 h-4" />
+          <img src={blueskyIcon} alt="Bluesky" className="w-5 h-5" />
           Bluesky
         </Button>
       </div>
