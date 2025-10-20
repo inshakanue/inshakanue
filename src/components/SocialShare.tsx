@@ -26,7 +26,7 @@ export const SocialShare = ({ url, title, description }: SocialShareProps) => {
 
   return (
     <div className="flex items-center gap-3 py-6 border-y border-border">
-      <span className="text-sm font-medium text-muted-foreground">Share:</span>
+      <span className="text-sm font-medium text-muted-foreground">Share on:</span>
       <div className="flex gap-2">
         <Button
           variant="outline"
