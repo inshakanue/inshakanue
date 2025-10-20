@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Linkedin, Twitter } from "lucide-react";
+import { Linkedin, Twitter, Cloud } from "lucide-react";
 
 interface SocialShareProps {
   url: string;
@@ -12,13 +12,15 @@ export const SocialShare = ({ url, title, description }: SocialShareProps) => {
   const encodedTitle = encodeURIComponent(title);
   const shareText = description ? encodeURIComponent(`${title} - ${description}`) : encodedTitle;
 
-  const handleShare = (platform: 'linkedin' | 'twitter') => {
+  const handleShare = (platform: 'linkedin' | 'twitter' | 'bluesky') => {
     let shareUrl = '';
     
     if (platform === 'linkedin') {
       shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
-    } else {
+    } else if (platform === 'twitter') {
       shareUrl = `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${shareText}`;
+    } else {
+      shareUrl = `https://bsky.app/intent/compose?text=${shareText}%20${encodedUrl}`;
     }
     
     window.open(shareUrl, '_blank', 'width=600,height=400,noopener,noreferrer');
@@ -47,6 +49,16 @@ export const SocialShare = ({ url, title, description }: SocialShareProps) => {
         >
           <Twitter className="w-4 h-4" />
           X
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => handleShare('bluesky')}
+          className="gap-2 hover:bg-[#0085ff] hover:text-white hover:border-[#0085ff] transition-colors"
+          aria-label="Share on Bluesky"
+        >
+          <Cloud className="w-4 h-4" />
+          Bluesky
         </Button>
       </div>
     </div>
