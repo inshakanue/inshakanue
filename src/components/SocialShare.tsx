@@ -45,9 +45,9 @@ export const SocialShare = ({ url, title, description }: SocialShareProps) => {
   };
 
   return (
-    <div className="flex items-center gap-3 py-6 border-y border-border">
+    <div className="flex flex-col sm:flex-row sm:items-center gap-3 py-6 border-y border-border">
       <span className="text-sm font-medium text-muted-foreground">Share</span>
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 flex-wrap">
         <Button
           variant="outline"
           size="sm"
@@ -56,9 +56,9 @@ export const SocialShare = ({ url, title, description }: SocialShareProps) => {
           aria-label="Copy link to clipboard"
         >
           <Link className="w-4 h-4" />
-          Copy link
+          <span className="hidden xs:inline">Copy link</span>
         </Button>
-        <div className="h-8 w-px bg-border" />
+        <div className="h-8 w-px bg-border hidden sm:block" />
         <Button
           variant="outline"
           size="sm"
@@ -67,7 +67,7 @@ export const SocialShare = ({ url, title, description }: SocialShareProps) => {
           aria-label="Share on LinkedIn"
         >
           <Linkedin className="w-4 h-4" />
-          LinkedIn
+          <span className="hidden xs:inline">LinkedIn</span>
         </Button>
         <Button
           variant="outline"
@@ -77,7 +77,7 @@ export const SocialShare = ({ url, title, description }: SocialShareProps) => {
           aria-label="Share on X (Twitter)"
         >
           <Twitter className="w-4 h-4" />
-          X
+          <span className="hidden xs:inline">X</span>
         </Button>
         <Button
           variant="outline"
@@ -87,7 +87,7 @@ export const SocialShare = ({ url, title, description }: SocialShareProps) => {
           aria-label="Share on Bluesky"
         >
           <img src={blueskyIcon} alt="Bluesky" className="w-5 h-5" />
-          Bluesky
+          <span className="hidden xs:inline">Bluesky</span>
         </Button>
       </div>
     </div>
