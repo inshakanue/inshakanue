@@ -46,8 +46,19 @@ export const SocialShare = ({ url, title, description }: SocialShareProps) => {
 
   return (
     <div className="flex items-center gap-3 py-6 border-y border-border">
-      <span className="text-sm font-medium text-muted-foreground">Share on:</span>
-      <div className="flex gap-2">
+      <span className="text-sm font-medium text-muted-foreground">Share</span>
+      <div className="flex items-center gap-2">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={handleCopyLink}
+          className="gap-2 hover:bg-accent hover:text-accent-foreground transition-colors"
+          aria-label="Copy link to clipboard"
+        >
+          <Link className="w-4 h-4" />
+          Copy link
+        </Button>
+        <div className="h-8 w-px bg-border" />
         <Button
           variant="outline"
           size="sm"
@@ -77,16 +88,6 @@ export const SocialShare = ({ url, title, description }: SocialShareProps) => {
         >
           <img src={blueskyIcon} alt="Bluesky" className="w-5 h-5" />
           Bluesky
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={handleCopyLink}
-          className="gap-2 hover:bg-accent hover:text-accent-foreground transition-colors"
-          aria-label="Copy link to clipboard"
-        >
-          <Link className="w-4 h-4" />
-          Copy link
         </Button>
       </div>
     </div>
