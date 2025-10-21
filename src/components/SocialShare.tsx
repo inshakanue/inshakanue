@@ -1,18 +1,123 @@
 import { Button } from "@/components/ui/button";
-import { Linkedin, Twitter, Link } from "lucide-react";
+import { Linkedin, Twitter, Link, Heart } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import blueskyIcon from "@/assets/bluesky-icon.png";
+import { supabase } from "@/integrations/supabase/client";
+import { useEffect, useState } from "react";
 
 interface SocialShareProps {
   url: string;
   title: string;
   description?: string;
+  postId: string;
 }
 
-export const SocialShare = ({ url, title, description }: SocialShareProps) => {
+export const SocialShare = ({ url, title, description, postId }: SocialShareProps) => {
   const encodedUrl = encodeURIComponent(url);
   const encodedTitle = encodeURIComponent(title);
   const shareText = description ? encodeURIComponent(`${title} - ${description}`) : encodedTitle;
+  
+  const [likeCount, setLikeCount] = useState(0);
+  const [isLiked, setIsLiked] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    fetchLikeData();
+  }, [postId]);
+
+  const fetchLikeData = async () => {
+    try {
+      // Fetch total like count
+      const { count, error: countError } = await supabase
+        .from('blog_post_likes')
+        .select('*', { count: 'exact', head: true })
+        .eq('post_id', postId);
+
+      if (countError) throw countError;
+      setLikeCount(count || 0);
+
+      // Check if current user has liked
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (user) {
+        const { data, error } = await supabase
+          .from('blog_post_likes')
+          .select('id')
+          .eq('post_id', postId)
+          .eq('user_id', user.id)
+          .maybeSingle();
+
+        if (error && error.code !== 'PGRST116') throw error;
+        setIsLiked(!!data);
+      } else {
+        // Check localStorage for anonymous likes
+        const likedPosts = JSON.parse(localStorage.getItem('likedPosts') || '[]');
+        setIsLiked(likedPosts.includes(postId));
+      }
+    } catch (error) {
+      console.error('Error fetching like data:', error);
+    }
+  };
+
+  const handleLike = async () => {
+    if (isLoading) return;
+    
+    setIsLoading(true);
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+
+      if (isLiked) {
+        // Unlike
+        if (user) {
+          const { error } = await supabase
+            .from('blog_post_likes')
+            .delete()
+            .eq('post_id', postId)
+            .eq('user_id', user.id);
+
+          if (error) throw error;
+        } else {
+          // For anonymous, just update localStorage
+          const likedPosts = JSON.parse(localStorage.getItem('likedPosts') || '[]');
+          const updated = likedPosts.filter((id: string) => id !== postId);
+          localStorage.setItem('likedPosts', JSON.stringify(updated));
+        }
+        
+        setIsLiked(false);
+        setLikeCount(prev => Math.max(0, prev - 1));
+      } else {
+        // Like
+        if (user) {
+          const { error } = await supabase
+            .from('blog_post_likes')
+            .insert({ post_id: postId, user_id: user.id });
+
+          if (error) throw error;
+        } else {
+          // For anonymous, store in localStorage
+          const likedPosts = JSON.parse(localStorage.getItem('likedPosts') || '[]');
+          likedPosts.push(postId);
+          localStorage.setItem('likedPosts', JSON.stringify(likedPosts));
+        }
+        
+        setIsLiked(true);
+        setLikeCount(prev => prev + 1);
+        toast({
+          title: "Thank you!",
+          description: "You liked this post.",
+        });
+      }
+    } catch (error: any) {
+      console.error('Error liking post:', error);
+      toast({
+        title: "Error",
+        description: "Failed to update like. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleShare = (platform: 'linkedin' | 'twitter' | 'bluesky') => {
     let shareUrl = '';
@@ -46,7 +151,24 @@ export const SocialShare = ({ url, title, description }: SocialShareProps) => {
 
   return (
     <div className="flex flex-col sm:flex-row sm:items-center gap-3 py-6 border-y border-border">
-      <span className="text-sm font-medium text-muted-foreground">Share</span>
+      <div className="flex items-center gap-3">
+        <span className="text-sm font-medium text-muted-foreground">Share</span>
+        <Button
+          variant={isLiked ? "default" : "outline"}
+          size="sm"
+          onClick={handleLike}
+          disabled={isLoading}
+          className={`gap-2 transition-all ${
+            isLiked 
+              ? "bg-red-500 hover:bg-red-600 text-white border-red-500" 
+              : "hover:bg-red-50 hover:text-red-500 hover:border-red-500"
+          }`}
+          aria-label={isLiked ? "Unlike this post" : "Like this post"}
+        >
+          <Heart className={`w-4 h-4 ${isLiked ? "fill-current" : ""}`} />
+          <span className="font-medium">{likeCount}</span>
+        </Button>
+      </div>
       <div className="flex items-center gap-2 flex-wrap">
         <Button
           variant="outline"
