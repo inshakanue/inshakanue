@@ -58,7 +58,7 @@ export const SocialShare = ({ url, title, description }: SocialShareProps) => {
           <Link className="w-4 h-4" />
           <span className="hidden xs:inline">Copy link</span>
         </Button>
-        <div className="h-8 w-px bg-border hidden sm:block" />
+        <div className="h-8 w-px bg-border" />
         <Button
           variant="outline"
           size="sm"
