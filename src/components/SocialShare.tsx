@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { Linkedin, Twitter } from "lucide-react";
+import { Linkedin, Twitter, Link } from "lucide-react";
+import { toast } from "@/hooks/use-toast";
 import blueskyIcon from "@/assets/bluesky-icon.png";
 
 interface SocialShareProps {
@@ -25,6 +26,22 @@ export const SocialShare = ({ url, title, description }: SocialShareProps) => {
     }
     
     window.open(shareUrl, '_blank', 'width=600,height=400,noopener,noreferrer');
+  };
+
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(url);
+      toast({
+        title: "Link copied!",
+        description: "The blog post link has been copied to your clipboard.",
+      });
+    } catch (err) {
+      toast({
+        title: "Failed to copy",
+        description: "Please try again or copy the URL manually.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
@@ -60,6 +77,16 @@ export const SocialShare = ({ url, title, description }: SocialShareProps) => {
         >
           <img src={blueskyIcon} alt="Bluesky" className="w-5 h-5" />
           Bluesky
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={handleCopyLink}
+          className="gap-2 hover:bg-accent hover:text-accent-foreground transition-colors"
+          aria-label="Copy link to clipboard"
+        >
+          <Link className="w-4 h-4" />
+          Copy link
         </Button>
       </div>
     </div>
