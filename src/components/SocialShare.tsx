@@ -150,67 +150,67 @@ export const SocialShare = ({ url, title, description, postId }: SocialShareProp
   };
 
   return (
-    <div className="flex flex-col sm:flex-row sm:items-center gap-3 py-6 border-y border-border">
+    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 py-6 border-y border-border">
+      <Button
+        variant={isLiked ? "default" : "outline"}
+        size="sm"
+        onClick={handleLike}
+        disabled={isLoading}
+        className={`gap-2 transition-all ${
+          isLiked 
+            ? "bg-red-500 hover:bg-red-600 text-white border-red-500" 
+            : "hover:bg-red-50 hover:text-red-500 hover:border-red-500"
+        }`}
+        aria-label={isLiked ? "Unlike this post" : "Like this post"}
+      >
+        <Heart className={`w-4 h-4 ${isLiked ? "fill-current" : ""}`} />
+        <span className="font-medium">{likeCount}</span>
+      </Button>
       <div className="flex items-center gap-3">
         <span className="text-sm font-medium text-muted-foreground">Share</span>
-        <Button
-          variant={isLiked ? "default" : "outline"}
-          size="sm"
-          onClick={handleLike}
-          disabled={isLoading}
-          className={`gap-2 transition-all ${
-            isLiked 
-              ? "bg-red-500 hover:bg-red-600 text-white border-red-500" 
-              : "hover:bg-red-50 hover:text-red-500 hover:border-red-500"
-          }`}
-          aria-label={isLiked ? "Unlike this post" : "Like this post"}
-        >
-          <Heart className={`w-4 h-4 ${isLiked ? "fill-current" : ""}`} />
-          <span className="font-medium">{likeCount}</span>
-        </Button>
-      </div>
-      <div className="flex items-center gap-2 flex-wrap">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={handleCopyLink}
-          className="gap-2 hover:bg-accent hover:text-accent-foreground transition-colors"
-          aria-label="Copy link to clipboard"
-        >
-          <Link className="w-4 h-4" />
-          <span className="hidden xs:inline">Copy link</span>
-        </Button>
-        <div className="h-8 w-px bg-border" />
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => handleShare('linkedin')}
-          className="gap-2 hover:bg-[#0A66C2] hover:text-white hover:border-[#0A66C2] transition-colors"
-          aria-label="Share on LinkedIn"
-        >
-          <Linkedin className="w-4 h-4" />
-          <span className="hidden xs:inline">LinkedIn</span>
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => handleShare('twitter')}
-          className="gap-2 hover:bg-[#1DA1F2] hover:text-white hover:border-[#1DA1F2] transition-colors"
-          aria-label="Share on X (Twitter)"
-        >
-          <Twitter className="w-4 h-4" />
-          <span className="hidden xs:inline">X</span>
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => handleShare('bluesky')}
-          className="gap-2 hover:bg-[#0085ff] hover:text-white hover:border-[#0085ff] transition-colors"
-          aria-label="Share on Bluesky"
-        >
-          <img src={blueskyIcon} alt="Bluesky" className="w-5 h-5" />
-          <span className="hidden xs:inline">Bluesky</span>
-        </Button>
+        <div className="flex items-center gap-2 flex-wrap">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleCopyLink}
+            className="gap-2 hover:bg-accent hover:text-accent-foreground transition-colors"
+            aria-label="Copy link to clipboard"
+          >
+            <Link className="w-4 h-4" />
+            <span className="hidden xs:inline">Copy link</span>
+          </Button>
+          <div className="h-8 w-px bg-border" />
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => handleShare('linkedin')}
+            className="gap-2 hover:bg-[#0A66C2] hover:text-white hover:border-[#0A66C2] transition-colors"
+            aria-label="Share on LinkedIn"
+          >
+            <Linkedin className="w-4 h-4" />
+            <span className="hidden xs:inline">LinkedIn</span>
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => handleShare('twitter')}
+            className="gap-2 hover:bg-[#1DA1F2] hover:text-white hover:border-[#1DA1F2] transition-colors"
+            aria-label="Share on X (Twitter)"
+          >
+            <Twitter className="w-4 h-4" />
+            <span className="hidden xs:inline">X</span>
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => handleShare('bluesky')}
+            className="gap-2 hover:bg-[#0085ff] hover:text-white hover:border-[#0085ff] transition-colors"
+            aria-label="Share on Bluesky"
+          >
+            <img src={blueskyIcon} alt="Bluesky" className="w-5 h-5" />
+            <span className="hidden xs:inline">Bluesky</span>
+          </Button>
+        </div>
       </div>
     </div>
   );
