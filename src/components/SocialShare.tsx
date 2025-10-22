@@ -20,6 +20,7 @@ export const SocialShare = ({ url, title, description, postId }: SocialShareProp
   const [likeCount, setLikeCount] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showLikeMessage, setShowLikeMessage] = useState(false);
 
   useEffect(() => {
     fetchLikeData();
@@ -102,10 +103,8 @@ export const SocialShare = ({ url, title, description, postId }: SocialShareProp
         
         setIsLiked(true);
         setLikeCount(prev => prev + 1);
-        toast({
-          title: "Thank you!",
-          description: "You liked this post.",
-        });
+        setShowLikeMessage(true);
+        setTimeout(() => setShowLikeMessage(false), 3000);
       }
     } catch (error: any) {
       console.error('Error liking post:', error);
@@ -151,7 +150,8 @@ export const SocialShare = ({ url, title, description, postId }: SocialShareProp
 
   return (
     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 py-6 border-y border-border">
-      <Button
+      <div className="relative">
+        <Button
         variant={isLiked ? "default" : "outline"}
         size="sm"
         onClick={handleLike}
@@ -166,6 +166,12 @@ export const SocialShare = ({ url, title, description, postId }: SocialShareProp
         <Heart className={`w-4 h-4 ${isLiked ? "fill-current" : ""}`} />
         <span className="font-medium">{likeCount}</span>
       </Button>
+        {showLikeMessage && (
+          <div className="absolute top-full left-0 mt-2 bg-green-500 text-white px-4 py-2 rounded-md shadow-lg whitespace-nowrap animate-in fade-in slide-in-from-top-2 z-50">
+            Thank you for liking this blog post.
+          </div>
+        )}
+      </div>
       <div className="flex items-center gap-3">
         <span className="text-sm font-medium text-muted-foreground">Share</span>
         <div className="flex items-center gap-2 flex-wrap">
