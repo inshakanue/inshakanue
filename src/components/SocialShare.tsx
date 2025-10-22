@@ -167,7 +167,7 @@ export const SocialShare = ({ url, title, description, postId }: SocialShareProp
         <span className="font-medium">{likeCount}</span>
       </Button>
         {showLikeMessage && (
-          <div className="absolute top-full left-0 mt-2 bg-green-500 text-white px-4 py-2 rounded-md shadow-lg whitespace-nowrap animate-in fade-in slide-in-from-top-2 z-50">
+          <div className="absolute top-full left-0 mt-2 bg-red-500 text-white px-4 py-2 rounded-md shadow-lg whitespace-nowrap animate-in fade-in slide-in-from-top-2 z-50">
             Thank you for liking this blog post.
           </div>
         )}
