@@ -198,7 +198,7 @@ const Experience = () => {
           </div>
 
           {/* Download Resume Button */}
-          <div className="text-center mt-12">
+          <div className="text-center mt-8">
             <Button asChild size="lg" className="gap-2">
               <a href="/Insha_Kanue_Resume.pdf" download="Insha_Kanue_Resume.pdf">
                 <Download className="w-5 h-5" />
