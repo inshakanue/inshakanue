@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Calendar, TrendingUp, Euro } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { MapPin, Calendar, TrendingUp, Euro, Download } from "lucide-react";
 
 const Experience = () => {
   const experiences = [
@@ -194,6 +195,16 @@ const Experience = () => {
                 </CardContent>
               </Card>
             ))}
+          </div>
+
+          {/* Download Resume Button */}
+          <div className="text-center mt-12">
+            <Button asChild size="lg" className="gap-2">
+              <a href="/Insha_Kanue_Resume.pdf" download="Insha_Kanue_Resume.pdf">
+                <Download className="w-5 h-5" />
+                Download Resume
+              </a>
+            </Button>
           </div>
         </div>
       </div>
