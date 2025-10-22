@@ -231,7 +231,7 @@ const BlogPost = () => {
             />
 
             {/* Post Content */}
-            <div className="prose prose-lg max-w-none dark:prose-invert">
+            <div className="prose prose-lg max-w-none dark:prose-invert mt-8">
               <div
                 className="ql-editor"
                 dangerouslySetInnerHTML={{ 
