@@ -50,6 +50,27 @@ const Contact = () => {
   const [cooldownRemaining, setCooldownRemaining] = useState(0);
   const { toast } = useToast();
 
+  const handleDownloadResume = async () => {
+    try {
+      const response = await fetch('/Insha_Kanue_Resume.pdf');
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'Insha_Kanue_Resume.pdf';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      toast({
+        title: "Download Failed",
+        description: "Unable to download resume. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
   // Check cooldown on mount and update countdown
   useEffect(() => {
     const checkCooldown = () => {
@@ -216,12 +237,10 @@ const Contact = () => {
                      <Button
                        variant="outline"
                        className="w-full text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
-                       asChild
+                       onClick={handleDownloadResume}
                      >
-                       <a href="/Insha_Kanue_Resume.pdf" download="Insha_Kanue_Resume.pdf">
-                         <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                         Download Resume
-                       </a>
+                       <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                       Download Resume
                      </Button>
                      
                      <Button
