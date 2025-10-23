@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowDown, Download, Mail } from "lucide-react";
+import { ArrowDown, Mail } from "lucide-react";
 import heroBackground from "@/assets/ai-hero-background.jpg";
 
 const Hero = () => {
