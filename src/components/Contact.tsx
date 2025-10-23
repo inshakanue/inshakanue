@@ -214,6 +214,17 @@ const Contact = () => {
                    {/* Contact Actions inside the card */}
                    <div className="mt-8 pt-6 border-t border-border space-y-4">
                      <Button
+                       variant="outline"
+                       className="w-full text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
+                       asChild
+                     >
+                       <a href="/Insha_Kanue_Resume.pdf" download="Insha_Kanue_Resume.pdf">
+                         <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                         Download Resume
+                       </a>
+                     </Button>
+                     
+                     <Button
                        className="btn-primary w-full text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6"
                        asChild
                      >
