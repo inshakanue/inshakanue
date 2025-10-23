@@ -140,7 +140,7 @@ const Skills = () => {
   const tools = [
     "Python", "SQL", "Power BI", "AWS", "Postman", "Jira", 
     "Confluence", "Miro", "Figma", "Google Analytics", "Mixpanel", "Replit",
-    "Lovable", "Git", "Cursor"
+    "Lovable", "Git", "Claude Code", "Cursor"
   ];
 
   const certifications = [
