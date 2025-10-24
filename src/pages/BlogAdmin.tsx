@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import type { User } from "@supabase/supabase-js";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -15,6 +14,7 @@ import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft, Save, Trash2, Plus, X, Upload, Image as ImageIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { calculateReadingTime, suggestTags } from "@/utils/internalLinking";
+import { useAdminStatus } from "@/hooks/useAdminStatus";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
@@ -24,9 +24,7 @@ const BlogAdmin = () => {
   const editId = searchParams.get("edit");
   const { toast } = useToast();
 
-  const [user, setUser] = useState<User | null>(null);
-  const [hasAdminAccess, setHasAdminAccess] = useState(false);
-  const [authLoading, setAuthLoading] = useState(true);
+  const { isAdmin, loading: authLoading, user } = useAdminStatus();
   const [formData, setFormData] = useState({
     title: "",
     slug: "",
@@ -72,65 +70,32 @@ const BlogAdmin = () => {
   ];
 
   useEffect(() => {
-    const checkAuth = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      if (!session) {
-        toast({
-          title: "Authentication required",
-          description: "Please log in to access the blog admin.",
-          variant: "destructive",
-        });
-        navigate("/auth");
-        return;
-      }
+    if (!authLoading && !user) {
+      toast({
+        title: "Authentication required",
+        description: "Please log in to access the blog admin.",
+        variant: "destructive",
+      });
+      navigate("/auth");
+      return;
+    }
 
-      setUser(session.user);
-
-      // Attempt an admin-level operation - let RLS policies enforce authorization
-      // Try to fetch all blog posts (including unpublished), which only admins can do
-      const { data, error } = await supabase
-        .from("blog_posts")
-        .select("id")
-        .limit(1);
-
-      // If we can successfully query blog_posts, user has admin access via RLS
-      // If RLS denies access, we'll get an error
-      if (error) {
-        // RLS policy denied access - user is not an admin
-        if (import.meta.env.DEV) {
-          console.error("Admin access verification failed:", error);
-        }
-        toast({
-          title: "Access denied",
-          description: "You don't have admin privileges to access this page.",
-          variant: "destructive",
-        });
-        navigate("/blog");
-        return;
-      }
-
-      // Successfully verified admin access through RLS
-      setHasAdminAccess(true);
-      setAuthLoading(false);
-    };
-
-    checkAuth();
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (!session) {
-        navigate("/auth");
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, [navigate, toast]);
+    if (!authLoading && !isAdmin) {
+      toast({
+        title: "Access denied",
+        description: "You don't have admin privileges to access this page.",
+        variant: "destructive",
+      });
+      navigate("/blog");
+      return;
+    }
+  }, [authLoading, isAdmin, user, navigate, toast]);
 
   useEffect(() => {
-    if (editId && hasAdminAccess) {
+    if (editId && isAdmin && !authLoading) {
       fetchPost();
     }
-  }, [editId, hasAdminAccess]);
+  }, [editId, isAdmin, authLoading]);
 
   const fetchPost = async () => {
     try {
@@ -267,11 +232,8 @@ const BlogAdmin = () => {
 
       if (uploadError) throw uploadError;
 
-      const { data: { publicUrl } } = supabase.storage
-        .from('blog-covers')
-        .getPublicUrl(filePath);
-
-      setFormData({ ...formData, cover_image: publicUrl });
+      // Store the file path instead of public URL for private bucket
+      setFormData({ ...formData, cover_image: filePath });
       setImageFile(null);
       
       toast({
@@ -352,7 +314,7 @@ const BlogAdmin = () => {
     );
   }
 
-  if (!hasAdminAccess) {
+  if (!isAdmin) {
     return null;
   }
 

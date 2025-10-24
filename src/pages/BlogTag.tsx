@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Calendar, ArrowRight, Tag } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { getBlogCoverUrl } from '@/utils/storageHelpers';
 
 type BlogPost = {
   id: string;
@@ -25,6 +26,7 @@ type BlogPost = {
 const BlogTag = () => {
   const { tag } = useParams<{ tag: string }>();
   const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [signedUrls, setSignedUrls] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
@@ -45,6 +47,20 @@ const BlogTag = () => {
 
       if (error) throw error;
       setPosts(data || []);
+      
+      // Generate signed URLs for cover images
+      if (data) {
+        const urls: Record<string, string> = {};
+        await Promise.all(
+          data.map(async (post) => {
+            if (post.cover_image) {
+              const url = await getBlogCoverUrl(post.cover_image);
+              if (url) urls[post.id] = url;
+            }
+          })
+        );
+        setSignedUrls(urls);
+      }
     } catch (error) {
       console.error('Error fetching posts:', error);
       toast({
@@ -134,10 +150,10 @@ const BlogTag = () => {
                       className="card-elevated fade-in-up hover:scale-105 transition-transform duration-300"
                       style={{ animationDelay: `${index * 0.1}s` }}
                     >
-                      {post.cover_image && (
+                      {signedUrls[post.id] && (
                         <div className="h-48 overflow-hidden rounded-t-lg">
                           <img
-                            src={post.cover_image}
+                            src={signedUrls[post.id]}
                             alt={post.title}
                             className="w-full h-full object-cover"
                             loading="lazy"

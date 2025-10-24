@@ -14,6 +14,7 @@ import { Calendar, Clock, ArrowRight, PlusCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAdminStatus } from "@/hooks/useAdminStatus";
 import TagCloud from "@/components/TagCloud";
+import { getBlogCoverUrl } from "@/utils/storageHelpers";
 type BlogPost = {
   id: string;
   title: string;
@@ -29,6 +30,7 @@ type BlogPost = {
 };
 const Blog = () => {
   const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [signedUrls, setSignedUrls] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
   const [showUnpublished, setShowUnpublished] = useState(false);
   const { isAdmin } = useAdminStatus();
@@ -57,6 +59,20 @@ const Blog = () => {
       const { data, error } = await query;
       if (error) throw error;
       setPosts(data || []);
+      
+      // Generate signed URLs for cover images
+      if (data) {
+        const urls: Record<string, string> = {};
+        await Promise.all(
+          data.map(async (post) => {
+            if (post.cover_image) {
+              const url = await getBlogCoverUrl(post.cover_image);
+              if (url) urls[post.id] = url;
+            }
+          })
+        );
+        setSignedUrls(urls);
+      }
     } catch (error) {
       if (import.meta.env.DEV) {
         console.error("Error fetching posts:", error);
@@ -149,8 +165,8 @@ const Blog = () => {
                 {posts.map((post, index) => <Card key={post.id} className="card-elevated fade-in-up hover:scale-105 transition-transform duration-300" style={{
               animationDelay: `${index * 0.1}s`
             }}>
-                    {post.cover_image && <div className="h-48 overflow-hidden rounded-t-lg">
-                        <img src={post.cover_image} alt={`Cover image for ${post.title}`} className="w-full h-full object-cover" loading="lazy" />
+                    {signedUrls[post.id] && <div className="h-48 overflow-hidden rounded-t-lg">
+                        <img src={signedUrls[post.id]} alt={`Cover image for ${post.title}`} className="w-full h-full object-cover" loading="lazy" />
                       </div>}
                     <CardHeader>
                       <div className="flex flex-wrap gap-2 mb-2">

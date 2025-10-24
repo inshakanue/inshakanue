@@ -15,6 +15,7 @@ import { ArrowLeft, Calendar, Edit, Clock } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { addInternalLinks } from "@/utils/internalLinking";
 import { useAdminStatus } from "@/hooks/useAdminStatus";
+import { getBlogCoverUrl } from "@/utils/storageHelpers";
 import DOMPurify from "dompurify";
 import "react-quill/dist/quill.snow.css";
 
@@ -36,6 +37,7 @@ const BlogPost = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const [post, setPost] = useState<BlogPost | null>(null);
+  const [coverImageUrl, setCoverImageUrl] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
   const { isAdmin, loading: isAdminLoading } = useAdminStatus();
@@ -62,6 +64,12 @@ const BlogPost = () => {
 
       if (error || !data) throw error || new Error("Post not found");
       setPost(data);
+      
+      // Generate signed URL for cover image
+      if (data.cover_image) {
+        const url = await getBlogCoverUrl(data.cover_image);
+        setCoverImageUrl(url);
+      }
     } catch (error) {
       if (import.meta.env.DEV) {
         console.error("Error fetching post:", error);
@@ -124,7 +132,7 @@ const BlogPost = () => {
       <SEO 
         title={`${post.title} - Insha Kanue`}
         description={post.excerpt || post.content.substring(0, 160)}
-        image={post.cover_image || undefined}
+        image={coverImageUrl || undefined}
         type="article"
         article={{
           publishedTime: post.published_at || undefined,
@@ -135,7 +143,7 @@ const BlogPost = () => {
       <SocialPreview
         title={post.title}
         description={post.excerpt || post.content.substring(0, 160)}
-        image={post.cover_image}
+        image={coverImageUrl}
         type="article"
         author={post.author_name}
         publishedTime={post.published_at || post.created_at}
@@ -148,7 +156,7 @@ const BlogPost = () => {
           publishedAt: post.published_at || post.created_at,
           modifiedAt: post.created_at,
           author: post.author_name,
-          image: post.cover_image || undefined,
+          image: coverImageUrl || undefined,
           url: window.location.href,
         })} 
       />
@@ -212,10 +220,10 @@ const BlogPost = () => {
             </header>
 
             {/* Cover Image */}
-            {post.cover_image && (
+            {coverImageUrl && (
               <div className="mb-12 rounded-lg overflow-hidden">
                 <img
-                  src={post.cover_image}
+                  src={coverImageUrl}
                   alt={`Cover image for ${post.title}`}
                   className="w-full h-auto"
                 />

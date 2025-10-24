@@ -4,6 +4,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Calendar } from 'lucide-react';
+import { getBlogCoverUrl } from '@/utils/storageHelpers';
 
 type RelatedPost = {
   id: string;
@@ -23,6 +24,7 @@ interface RelatedPostsProps {
 
 const RelatedPosts = ({ currentPostId, currentPostTags, limit = 3 }: RelatedPostsProps) => {
   const [posts, setPosts] = useState<RelatedPost[]>([]);
+  const [signedUrls, setSignedUrls] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -52,6 +54,18 @@ const RelatedPosts = ({ currentPostId, currentPostTags, limit = 3 }: RelatedPost
         .slice(0, limit);
 
       setPosts(scoredPosts);
+      
+      // Generate signed URLs for cover images
+      const urls: Record<string, string> = {};
+      await Promise.all(
+        scoredPosts.map(async (post) => {
+          if (post.cover_image) {
+            const url = await getBlogCoverUrl(post.cover_image);
+            if (url) urls[post.id] = url;
+          }
+        })
+      );
+      setSignedUrls(urls);
     } catch (error) {
       console.error('Error fetching related posts:', error);
     } finally {
@@ -76,10 +90,10 @@ const RelatedPosts = ({ currentPostId, currentPostTags, limit = 3 }: RelatedPost
       <div className="grid md:grid-cols-3 gap-6">
         {posts.map((post) => (
           <Card key={post.id} className="card-elevated hover:scale-105 transition-transform duration-300">
-            {post.cover_image && (
+            {signedUrls[post.id] && (
               <div className="h-40 overflow-hidden rounded-t-lg">
                 <img 
-                  src={post.cover_image} 
+                  src={signedUrls[post.id]} 
                   alt={`Cover image for ${post.title}`}
                   className="w-full h-full object-cover"
                   loading="lazy"

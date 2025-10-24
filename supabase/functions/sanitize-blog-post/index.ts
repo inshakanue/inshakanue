@@ -7,25 +7,39 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-// Allowlist of safe HTML tags and attributes
+// Allowlist of safe HTML tags and attributes for blog content
 const ALLOWED_TAGS = [
-  "p", "br", "strong", "em", "u", "s", "h1", "h2", "h3", "h4", "h5", "h6",
-  "ul", "ol", "li", "blockquote", "pre", "code", "a", "img", "span", "div"
+  "p", "br", "strong", "em", "u", "s", "del", "ins", "mark",
+  "h1", "h2", "h3", "h4", "h5", "h6",
+  "ul", "ol", "li", 
+  "blockquote", "pre", "code",
+  "a", "img", 
+  "span", "div",
+  "table", "thead", "tbody", "tr", "th", "td",
+  "hr", "sub", "sup"
 ];
 
 const ALLOWED_ATTRIBUTES: Record<string, string[]> = {
   "a": ["href", "title", "target", "rel"],
   "img": ["src", "alt", "title", "width", "height"],
-  "span": ["style"],
-  "div": ["style"],
-  "p": ["style"],
+  "span": ["style", "class"],
+  "div": ["style", "class"],
+  "p": ["style", "class"],
   "code": ["class"],
-  "pre": ["class"]
+  "pre": ["class"],
+  "table": ["class"],
+  "td": ["colspan", "rowspan"],
+  "th": ["colspan", "rowspan"]
 };
 
 const ALLOWED_STYLES = [
-  "color", "background-color", "font-size", "font-weight", "text-align",
-  "text-decoration", "font-style"
+  "color", "background-color", 
+  "font-size", "font-weight", "font-style", "font-family",
+  "text-align", "text-decoration", 
+  "margin", "margin-left", "margin-right", "margin-top", "margin-bottom",
+  "padding", "padding-left", "padding-right", "padding-top", "padding-bottom",
+  "border", "border-width", "border-style", "border-color",
+  "list-style-type"
 ];
 
 function sanitizeHTML(html: string): string {
@@ -68,14 +82,21 @@ function sanitizeNode(node: Element | any) {
           element.removeAttribute(attr.name);
         } else if (attrName === "href") {
           // Validate URLs - only allow http, https, and mailto
+          // Block javascript:, data:, vbscript:, and other dangerous protocols
           const href = attr.value;
-          if (!href.match(/^(https?:\/\/|mailto:)/i)) {
+          if (!href.match(/^(https?:\/\/|mailto:|#)/i) || 
+              href.match(/(javascript|data|vbscript):/i)) {
             element.removeAttribute("href");
           }
+          // Ensure external links have proper security attributes
+          if (href.match(/^https?:\/\//i) && !element.getAttribute("rel")) {
+            element.setAttribute("rel", "noopener noreferrer");
+          }
         } else if (attrName === "src") {
-          // Validate image sources - only allow http and https
+          // Validate image sources - only allow http and https, block data URIs and javascript
           const src = attr.value;
-          if (!src.match(/^https?:\/\//i)) {
+          if (!src.match(/^https?:\/\//i) || 
+              src.match(/(javascript|data|vbscript):/i)) {
             element.removeAttribute("src");
           }
         } else if (attrName === "style") {
@@ -107,8 +128,10 @@ function sanitizeStyle(styleString: string): string {
   for (const style of styles) {
     const [property, value] = style.split(":").map(s => s.trim());
     if (property && value && ALLOWED_STYLES.includes(property.toLowerCase())) {
-      // Basic validation - reject if contains javascript or suspicious patterns
-      if (!value.match(/(javascript|expression|import|@import)/i)) {
+      // Enhanced validation - reject if contains dangerous patterns
+      // Block: javascript:, expression(), url() with data/javascript, @import, etc.
+      if (!value.match(/(javascript|expression|import|@import|behavior|binding|eval|mocha|vbscript)/i) &&
+          !value.match(/url\s*\(\s*(javascript|data|vbscript):/i)) {
         sanitized.push(`${property}: ${value}`);
       }
     }

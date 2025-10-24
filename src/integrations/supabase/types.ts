@@ -174,14 +174,8 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      cleanup_old_contact_submissions: {
-        Args: Record<PropertyKey, never>
-        Returns: undefined
-      }
-      is_admin: {
-        Args: { user_id: string }
-        Returns: boolean
-      }
+      cleanup_old_contact_submissions: { Args: never; Returns: undefined }
+      is_admin: { Args: { user_id: string }; Returns: boolean }
     }
     Enums: {
       app_role: "admin" | "user"
