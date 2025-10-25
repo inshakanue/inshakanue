@@ -32,22 +32,24 @@ const About = () => {
             <h2 id="about-heading" className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
               About <span className="gradient-text">Me</span>
             </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">I build AI products for a living. Over 7 years, I've shipped data platforms, fraud detection systems, and recommendation engines. The products I've led generated €15M+ in revenue for companies across travel, logistics, agriculture, and knowledge management. I work with data scientists, engineers, and business teams to turn ML models into products that scale.</p>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">AI Product Manager with 7+ years building machine learning products. I have shipped data platforms, fraud detection systems, and recommendation engines that generated €15M+ in revenue. As an AI Product Manager, I bridge data science and business, turning ML models into products that scale across travel tech, logistics, agriculture, and knowledge management.</p>
           </header>
 
           {/* Main Content */}
           <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
             {/* Text Content */}
             <article className="slide-in-left">
-              <h3 className="text-2xl font-bold mb-6 text-foreground">Building AI-Powered Products That Deliver Measurable Business Impact</h3>
+              <h3 className="text-2xl font-bold mb-6 text-foreground">AI Product Manager Building Machine Learning Products That Scale</h3>
               <div className="space-y-4 text-muted-foreground">
                 <p className="text-lg leading-relaxed">
-                  I've spent 7 years building AI products. I launched Datahub, a data ingestion platform that cut 
-                  onboarding time by 40%. It enabled AI features that grew revenue by 15%. I've also shipped ML 
-                  solutions for fraud detection, sentiment analysis, and recommendation systems.
+                  As an AI Product Manager with 7 years of experience, I have built and launched machine learning 
+                  products from concept to production. My work includes AI-powered data platforms, fraud detection 
+                  systems using ML algorithms, sentiment analysis tools, and recommendation engines. At HRS Group, 
+                  I launched Datahub, an AI data ingestion platform that reduced onboarding time by 40% and enabled 
+                  AI features generating 15% revenue growth.
                 </p>
-                <p className="text-lg leading-relaxed">I started as a front-end developer. Then I founded an IoT startup using predictive analytics. Now I lead AI product work at HRS Group. My products have generated €15M+ in revenue. The results: 70% less fraud, 96.7% better lead generation, 95% stronger operations.</p>
-                <p className="text-lg leading-relaxed">I work with data scientists, engineers, and business leaders. Together we take AI from prototype to production. I've done this across travel tech, logistics, agriculture, and knowledge management. The key is turning technical capability into products people pay for.</p>
+                <p className="text-lg leading-relaxed">My journey as an AI Product Manager began as a developer, then founding an IoT startup using predictive analytics and machine learning. Now I lead AI/ML product strategy at HRS Group where my AI products have generated €15M+ in revenue with measurable impact: 70% fraud reduction, 96.7% optimization in lead generation, and 95% operational improvements through AI automation.</p>
+                <p className="text-lg leading-relaxed">As an AI Product Manager, I collaborate with data scientists, ML engineers, and business stakeholders to transform machine learning models into scalable products. My AI product management experience spans travel technology, logistics, agriculture, and knowledge management. The key to successful AI Product Management is converting technical ML capabilities into products that deliver business value and revenue growth.</p>
               </div>
             </article>
 

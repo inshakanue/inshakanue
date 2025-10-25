@@ -40,6 +40,8 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import Skills from "@/components/Skills";
+import AIProductManagerFAQ from "@/components/AIProductManagerFAQ";
+import AIProductManagerFAQSchema from "@/components/AIProductManagerFAQSchema";
 import SEO from "@/components/SEO";
 import StructuredData, { PersonSchema, WebsiteSchema, OrganizationSchema } from "@/components/StructuredData";
 import { SocialPreview } from "@/components/SocialPreview";
@@ -56,8 +58,8 @@ const Index = () => {
       
       {/* SOCIAL PREVIEW: Enhanced sharing for LinkedIn, Twitter, Facebook */}
       <SocialPreview
-        title="Insha Kanue - AI Product Manager"
-        description="Senior AI Product Manager specializing in machine learning, data science, and AI-driven product strategy. Building the future of intelligent products."
+        title="Insha Kanue - AI Product Manager | Machine Learning & AI Strategy Expert"
+        description="AI Product Manager with 7+ years building ML products. Expert in AI strategy, LLM integration, MLOps, and data-driven product development. Generated €15M+ revenue through AI products."
         type="website"
       />
       
@@ -65,6 +67,7 @@ const Index = () => {
       <StructuredData data={PersonSchema} />      {/* Individual profile */}
       <StructuredData data={WebsiteSchema} />     {/* Website information */}
       <StructuredData data={OrganizationSchema} />{/* Professional entity */}
+      <AIProductManagerFAQSchema />               {/* FAQ Schema for AI Product Manager */}
       
       <div className="min-h-screen">
         {/* HEADER: Fixed navigation with social links and auth controls */}
@@ -85,6 +88,9 @@ const Index = () => {
           <ErrorBoundary>
             <Skills />
           </ErrorBoundary>
+          
+          {/* AI PRODUCT MANAGER FAQ: SEO-optimized content answering common queries */}
+          <AIProductManagerFAQ />
           
           {/* CONTACT: Multi-channel reach (form, email, LinkedIn) with rate limiting */}
           <Contact />

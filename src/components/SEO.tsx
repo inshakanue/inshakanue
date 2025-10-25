@@ -15,8 +15,8 @@ interface SEOProps {
 }
 
 const SEO = ({
-  title = 'Insha Kanue - AI Product Manager',
-  description = 'Experienced AI Product Manager with 7+ years in AI/ML products, digital transformation and revenue growth. Specializing in data-driven product strategies and cross-functional leadership.',
+  title = 'Insha Kanue - AI Product Manager | Machine Learning & AI Strategy Expert',
+  description = 'AI Product Manager with 7+ years building machine learning products. Led AI/ML teams at HRS Group, generated €15M+ revenue. Expert in AI product strategy, LLM integration, MLOps, and data-driven product development.',
   image = 'https://lovable.dev/opengraph-image-p98pqg.png',
   article,
   type = 'website',
@@ -46,6 +46,7 @@ const SEO = ({
     // Basic meta tags
     updateMetaTag('description', description);
     updateMetaTag('author', 'Insha Kanue');
+    updateMetaTag('keywords', 'AI Product Manager, Machine Learning Product Manager, ML Product Management, AI Strategy, LLM Integration, MLOps, Data Science Product Manager, AI/ML Products, Product Management AI');
 
     // Open Graph tags
     updateMetaTag('og:title', title, true);

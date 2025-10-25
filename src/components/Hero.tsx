@@ -56,15 +56,16 @@ const Hero = () => {
           {/* Subtitle */}
           <div className="fade-in-up animate-delay-100">
             <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-muted-foreground font-medium mb-6 md:mb-8">
-              AI Product Manager
+              AI Product Manager | Machine Learning & AI Strategy Expert
             </h2>
           </div>
 
           {/* Description */}
           <div className="fade-in-up animate-delay-200">
             <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-8 md:mb-12 leading-relaxed px-2">
-              I build AI products that make money. Over 7 years, I've shipped machine learning systems 
-              that generated €15M+ in revenue. I lead teams that turn data into products people use.
+              AI Product Manager specializing in machine learning and artificial intelligence products. 
+              With 7+ years of experience, I have shipped ML systems generating €15M+ in revenue. 
+              I lead AI/ML product teams that transform data science into scalable products.
             </p>
           </div>
 
