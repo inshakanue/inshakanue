@@ -40,30 +40,35 @@ const Footer = () => {
                 <button
                   onClick={() => handleSectionClick("about")}
                   className="text-left text-primary-foreground/80 hover:text-primary-foreground transition-colors duration-300"
+                  aria-label="Navigate to About section"
                 >
                   About
                 </button>
                 <button
                   onClick={() => handleSectionClick("experience")}
                   className="text-left text-primary-foreground/80 hover:text-primary-foreground transition-colors duration-300"
+                  aria-label="Navigate to Experience section"
                 >
                   Experience
                 </button>
                 <button
                   onClick={() => handleSectionClick("skills")}
                   className="text-left text-primary-foreground/80 hover:text-primary-foreground transition-colors duration-300"
+                  aria-label="Navigate to Skills section"
                 >
                   Skills
                 </button>
                 <Link
                   to="/blog"
                   className="text-left text-primary-foreground/80 hover:text-primary-foreground transition-colors duration-300"
+                  aria-label="Navigate to Blog page"
                 >
                   Blog
                 </Link>
                 <button
                   onClick={() => handleSectionClick("contact")}
                   className="text-left text-primary-foreground/80 hover:text-primary-foreground transition-colors duration-300"
+                  aria-label="Navigate to Contact section"
                 >
                   Contact
                 </button>
@@ -80,8 +85,8 @@ const Footer = () => {
                   className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10"
                   asChild
                 >
-                  <a href="mailto:inshakanue@protonmail.com">
-                    <Mail className="w-4 h-4" />
+                  <a href="mailto:inshakanue@protonmail.com" aria-label="Send email to Insha Kanue">
+                    <Mail className="w-4 h-4" aria-hidden="true" />
                   </a>
                 </Button>
                 <Button
@@ -90,8 +95,8 @@ const Footer = () => {
                   className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10"
                   asChild
                 >
-                  <a href="https://linkedin.com/in/inshakanue" target="_blank" rel="noopener noreferrer">
-                    <Linkedin className="w-4 h-4" />
+                  <a href="https://linkedin.com/in/inshakanue" target="_blank" rel="noopener noreferrer" aria-label="Connect with Insha Kanue on LinkedIn">
+                    <Linkedin className="w-4 h-4" aria-hidden="true" />
                   </a>
                 </Button>
                 <Button
@@ -100,8 +105,8 @@ const Footer = () => {
                   className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10"
                   asChild
                 >
-                  <a href="https://github.com/inshakanue" target="_blank" rel="noopener noreferrer">
-                    <Github className="w-4 h-4" />
+                  <a href="https://github.com/inshakanue" target="_blank" rel="noopener noreferrer" aria-label="View Insha Kanue's GitHub profile">
+                    <Github className="w-4 h-4" aria-hidden="true" />
                   </a>
                 </Button>
                 <Button
@@ -110,8 +115,8 @@ const Footer = () => {
                   className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10"
                   asChild
                 >
-                  <a href="https://x.com/inshakanue" target="_blank" rel="noopener noreferrer">
-                    <Twitter className="w-4 h-4" />
+                  <a href="https://x.com/inshakanue" target="_blank" rel="noopener noreferrer" aria-label="Follow Insha Kanue on X">
+                    <Twitter className="w-4 h-4" aria-hidden="true" />
                   </a>
                 </Button>
                 <Button
@@ -119,8 +124,9 @@ const Footer = () => {
                   size="sm"
                   onClick={scrollToTop}
                   className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10 ml-auto"
+                  aria-label="Scroll back to top"
                 >
-                  <ArrowUp className="w-4 h-4" />
+                  <ArrowUp className="w-4 h-4" aria-hidden="true" />
                 </Button>
               </div>
             </div>

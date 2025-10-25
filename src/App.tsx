@@ -34,6 +34,19 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ErrorBoundary from "@/components/ErrorBoundary";
 
 /**
+ * ACCESSIBILITY: Skip to main content link
+ * Allows keyboard users to skip navigation and jump directly to main content
+ */
+const SkipToMain = () => (
+  <a
+    href="#main-content"
+    className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md"
+  >
+    Skip to main content
+  </a>
+);
+
+/**
  * ROUTE CODE-SPLITTING
  * Each route is lazy-loaded to improve initial page load performance.
  * Only the necessary code for the current route is downloaded.
@@ -95,6 +108,8 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          {/* ACCESSIBILITY: Skip to main content link */}
+          <SkipToMain />
           {/* LOADING FALLBACK: Displayed while lazy-loading route components */}
           <Suspense fallback={<div className="min-h-screen flex items-center justify-center">
             <div className="animate-pulse text-muted-foreground">Loading...</div>

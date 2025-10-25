@@ -70,7 +70,7 @@ const Index = () => {
         {/* HEADER: Fixed navigation with social links and auth controls */}
         <Header />
         
-        <main>
+        <main id="main-content">
           {/* HERO: Above-the-fold impact with value proposition and CTAs */}
           <Hero />
           

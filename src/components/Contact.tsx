@@ -234,35 +234,36 @@ const Contact = () => {
                    
                    {/* Contact Actions inside the card */}
                    <div className="mt-8 pt-6 border-t border-border space-y-4">
-                     <Button
-                       variant="outline"
-                       className="w-full text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
-                       onClick={handleDownloadResume}
-                     >
-                       <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                       Download Resume
-                     </Button>
+                      <Button
+                        variant="outline"
+                        className="w-full text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
+                        onClick={handleDownloadResume}
+                        aria-label="Download Insha Kanue's resume"
+                      >
+                        <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2" aria-hidden="true" />
+                        Download Resume
+                      </Button>
                      
-                     <Button
-                       className="btn-primary w-full text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6"
-                       asChild
-                     >
-                       <a href="mailto:inshakanue@protonmail.com">
-                         <Mail className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                         Send Direct Email
-                       </a>
-                     </Button>
+                      <Button
+                        className="btn-primary w-full text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6"
+                        asChild
+                      >
+                        <a href="mailto:inshakanue@protonmail.com" aria-label="Send direct email to Insha Kanue">
+                          <Mail className="w-4 h-4 sm:w-5 sm:h-5 mr-2" aria-hidden="true" />
+                          Send Direct Email
+                        </a>
+                      </Button>
                      
-                     <Button
-                       variant="outline"
-                       className="w-full text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
-                       asChild
-                     >
-                       <a href="https://linkedin.com/in/inshakanue" target="_blank" rel="noopener noreferrer">
-                         <Linkedin className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-                         Connect on LinkedIn
-                       </a>
-                     </Button>
+                      <Button
+                        variant="outline"
+                        className="w-full text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
+                        asChild
+                      >
+                        <a href="https://linkedin.com/in/inshakanue" target="_blank" rel="noopener noreferrer" aria-label="Connect with Insha Kanue on LinkedIn">
+                          <Linkedin className="w-4 h-4 sm:w-5 sm:h-5 mr-2" aria-hidden="true" />
+                          Connect on LinkedIn
+                        </a>
+                      </Button>
                      
                       <div className="grid grid-cols-2 gap-4">
                         <Button
@@ -270,8 +271,8 @@ const Contact = () => {
                           className="text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
                           asChild
                         >
-                          <a href="https://github.com/inshakanue" target="_blank" rel="noopener noreferrer">
-                            <Github className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                          <a href="https://github.com/inshakanue" target="_blank" rel="noopener noreferrer" aria-label="View Insha Kanue's GitHub profile">
+                            <Github className="w-4 h-4 sm:w-5 sm:h-5 mr-2" aria-hidden="true" />
                             View GitHub
                           </a>
                         </Button>
@@ -281,8 +282,8 @@ const Contact = () => {
                           className="text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
                           asChild
                         >
-                          <a href="https://x.com/inshakanue" target="_blank" rel="noopener noreferrer">
-                            <Twitter className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
+                          <a href="https://x.com/inshakanue" target="_blank" rel="noopener noreferrer" aria-label="Follow Insha Kanue on X">
+                            <Twitter className="w-4 h-4 sm:w-5 sm:h-5 mr-2" aria-hidden="true" />
                             Follow on X
                           </a>
                         </Button>
@@ -412,8 +413,9 @@ const Contact = () => {
                       type="submit"
                       className="btn-primary w-full text-lg py-6"
                       disabled={isLoading || cooldownRemaining > 0}
+                      aria-label={isLoading ? "Sending message" : cooldownRemaining > 0 ? `Wait ${cooldownRemaining} seconds to send message` : "Send message"}
                     >
-                      <Send className="w-5 h-5 mr-2" />
+                      <Send className="w-5 h-5 mr-2" aria-hidden="true" />
                       {isLoading ? "Sending..." : cooldownRemaining > 0 ? `Wait ${cooldownRemaining}s` : "Send Message"}
                     </Button>
                     

@@ -33,6 +33,7 @@ const Hero = () => {
                 top: `${Math.random() * 100}%`,
                 animationDelay: `${Math.random() * 3}s`,
               }}
+              aria-hidden="true"
             />
           ))}
         </div>

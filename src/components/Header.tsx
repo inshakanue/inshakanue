@@ -107,6 +107,7 @@ const Header = () => {
                 key={item.href}
                 onClick={() => handleNavigation(item.href)}
                 className="text-muted-foreground hover:text-primary transition-colors duration-300 font-medium"
+                aria-label={`Navigate to ${item.label}`}
               >
                 {item.label}
               </button>
@@ -192,6 +193,7 @@ const Header = () => {
                   key={item.href}
                   onClick={() => handleNavigation(item.href)}
                   className="block w-full text-left px-4 py-2 text-muted-foreground hover:text-primary transition-colors duration-300"
+                  aria-label={`Navigate to ${item.label}`}
                 >
                   {item.label}
                 </button>
