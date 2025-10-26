@@ -56,7 +56,7 @@ const Hero = () => {
           {/* Subtitle */}
           <div className="fade-in-up animate-delay-100">
             <h2 className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-muted-foreground font-medium mb-6 md:mb-8">
-              AI Product Manager | Machine Learning & AI Strategy Expert
+              AI Product Manager
             </h2>
           </div>
 
