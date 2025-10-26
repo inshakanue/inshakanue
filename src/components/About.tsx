@@ -1,28 +1,88 @@
+/**
+ * ABOUT SECTION COMPONENT
+ * 
+ * BUSINESS CONTEXT:
+ * This is the first major content section after the hero, establishing credibility
+ * and expertise. It answers the critical question: "Why should I work with this
+ * AI Product Manager?" through quantified achievements and comprehensive expertise.
+ * 
+ * KEY BUSINESS OBJECTIVES:
+ * 1. Build trust through concrete metrics (€15M+ revenue, 70% fraud reduction)
+ * 2. Demonstrate breadth of experience across industries (travel, logistics, agriculture)
+ * 3. Show both technical depth (ML/AI) and business acumen (revenue optimization)
+ * 4. Establish thought leadership in AI Product Management
+ * 
+ * CONVERSION GOALS:
+ * - Encourage visitors to explore Experience section for project details
+ * - Build confidence for eventual contact form submission
+ * - Support SEO with "AI Product Manager" keyword integration
+ * 
+ * CONTENT STRUCTURE:
+ * 1. Header: Clear positioning as AI Product Manager
+ * 2. Introduction: 3 paragraphs covering journey, achievements, and expertise
+ * 3. Highlights Grid: 4 visual cards showing key metrics
+ * 4. Expertise Badges: 11 core competencies for quick scanning
+ * 
+ * TECHNICAL IMPLEMENTATION:
+ * - Responsive grid layout (2 columns on large screens)
+ * - Icon-based visual hierarchy for quick comprehension
+ * - Semantic HTML with proper heading structure for SEO
+ * - ARIA labels for accessibility
+ * 
+ * SEO OPTIMIZATION:
+ * - H2/H3 tags with "AI Product Manager" keywords
+ * - Natural keyword density ~2% for target phrases
+ * - Structured content for potential featured snippets
+ */
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp, Users, Lightbulb, Target } from "lucide-react";
+
 const About = () => {
+  /**
+   * HIGHLIGHTS DATA
+   * Visual cards showing quantified achievements and impact.
+   * Each highlight uses an icon, title, description, and color coding.
+   * 
+   * BUSINESS PURPOSE: Build credibility through concrete metrics
+   * that resonate with hiring managers and business stakeholders.
+   */
   const highlights = [{
-    icon: TrendingUp,
+    icon: TrendingUp,                                                        // Revenue growth visualization
     title: "Revenue Impact",
     description: "Generated €15M+ in revenue through data-driven product strategies",
-    color: "text-success"
+    color: "text-success"                                                   // Green = positive financial impact
   }, {
-    icon: Users,
+    icon: Users,                                                             // Leadership visualization
     title: "Team Leadership",
     description: "Led cross-functional teams across multiple time zones and cultures",
-    color: "text-primary"
+    color: "text-primary"                                                   // Brand color for key strength
   }, {
-    icon: Lightbulb,
+    icon: Lightbulb,                                                        // Innovation visualization
     title: "Product launches",
     description: "Shipped 10+ AI and ML products from concept to market",
-    color: "text-accent"
+    color: "text-accent"                                                    // Accent for creative work
   }, {
-    icon: Target,
+    icon: Target,                                                           // Precision/optimization visualization
     title: "Optimization",
     description: "Achieved 96.7% optimization in lead generation and 70% fraud reduction",
-    color: "text-primary-light"
+    color: "text-primary-light"                                             // Lighter variant for variety
   }];
+
+  /**
+   * EXPERTISE ARRAY
+   * Core competencies that span the full AI Product Management skill set.
+   * 
+   * CATEGORIZATION:
+   * - AI/ML specific: AI Product Strategy, LLM Integration, MLOps, Responsible AI
+   * - Product management: Roadmapping, A/B Testing, Analytics, Market Research
+   * - Leadership: Team Leadership, Stakeholder Management
+   * - Business: Revenue Optimization, Market Validation
+   * 
+   * WHY: Demonstrates comprehensive capabilities beyond just technical AI knowledge,
+   * showing ability to drive business outcomes and lead teams.
+   */
   const expertise = ["AI Product Strategy & Roadmapping", "Data Strategy & Governance", "LLM Integration & Prompt Engineering", "ML Lifecycle & MLOps", "Experimentation & A/B Testing", "Product Analytics & Measurement", "Responsible AI & Ethics", "Market Research and Validation", "Cross-functional Team Leadership", "Revenue Optimization", "Stakeholder Management"];
   return <section id="about" className="section-padding" aria-labelledby="about-heading">
       <div className="container-custom">

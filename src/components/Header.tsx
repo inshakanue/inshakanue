@@ -1,3 +1,36 @@
+/**
+ * HEADER NAVIGATION COMPONENT
+ * 
+ * BUSINESS CONTEXT:
+ * Primary navigation for the portfolio site, providing access to all sections
+ * and social links. The header serves as the persistent navigation layer that
+ * helps visitors explore content and connect through multiple channels.
+ * 
+ * KEY BUSINESS OBJECTIVES:
+ * 1. Guide visitors through the portfolio journey (About → Experience → Skills → Contact)
+ * 2. Provide quick access to social profiles for professional networking
+ * 3. Enable admin authentication for blog management (hidden from regular visitors)
+ * 4. Maintain visibility through scroll with backdrop blur effect
+ * 
+ * TECHNICAL IMPLEMENTATION:
+ * - Sticky header with scroll-based transparency changes
+ * - Responsive mobile menu with hamburger toggle
+ * - Smart section scrolling for homepage, page navigation for other routes
+ * - Supabase authentication state management
+ * - Admin controls appear only when authenticated or on admin routes
+ * 
+ * USER EXPERIENCE:
+ * - Smooth transitions and animations for professional feel
+ * - Clear visual feedback for hover states
+ * - Mobile-first responsive design
+ * - Accessible ARIA labels for screen readers
+ * 
+ * PERFORMANCE:
+ * - Authentication state cached to avoid redundant API calls
+ * - Conditional rendering of admin controls reduces DOM complexity
+ * - Efficient scroll listener with proper cleanup
+ */
+
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -8,22 +41,39 @@ import { useToast } from "@/hooks/use-toast";
 import { useAdminStatus } from "@/hooks/useAdminStatus";
 
 const Header = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
-  const { isAdmin } = useAdminStatus();
-  const location = useLocation();
-  const navigate = useNavigate();
-  const { toast } = useToast();
-  const isHomePage = location.pathname === "/";
+  // STATE MANAGEMENT
+  // Track scroll position to apply backdrop blur effect for readability
+  const [isScrolled, setIsScrolled] = useState(false);           // Tracks if user scrolled past 50px
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false); // Mobile menu visibility
+  const [user, setUser] = useState<User | null>(null);             // Current authenticated user
+  const { isAdmin } = useAdminStatus();                             // Check if user has admin privileges
+  const location = useLocation();                                   // Current route
+  const navigate = useNavigate();                                   // Programmatic navigation
+  const { toast } = useToast();                                     // Toast notification system
+  const isHomePage = location.pathname === "/";                     // Check if on homepage
   
-  // Check if we should show admin controls
+  /**
+   * ADMIN CONTROLS VISIBILITY LOGIC
+   * Shows login/logout buttons when:
+   * 1. User is on admin routes (/admin)
+   * 2. User is on auth page (/auth)
+   * 3. URL has ?admin=true parameter (for easy access)
+   * 4. User is authenticated AND has admin role
+   * 
+   * BUSINESS REASON: Keep admin interface hidden from regular visitors
+   * while providing easy access for content management tasks.
+   */
   const urlParams = new URLSearchParams(window.location.search);
   const showAdminControls = location.pathname.includes('/admin') || 
                             location.pathname.includes('/auth') ||
                             urlParams.get('admin') === 'true' ||
                             (user && isAdmin);
 
+  /**
+   * SCROLL EFFECT
+   * Applies backdrop blur and shadow after 50px scroll for better
+   * text readability while maintaining visual hierarchy.
+   */
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
@@ -32,6 +82,16 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  /**
+   * AUTHENTICATION STATE MANAGEMENT
+   * 
+   * WHY: Maintains real-time auth state across the application
+   * - Fetches current session on mount
+   * - Subscribes to auth state changes (login, logout, token refresh)
+   * - Cleanup subscription to prevent memory leaks
+   * 
+   * BUSINESS VALUE: Enables admin blog management with proper security
+   */
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
@@ -44,6 +104,11 @@ const Header = () => {
     return () => subscription.unsubscribe();
   }, []);
 
+  /**
+   * LOGOUT HANDLER
+   * Clears authentication session and redirects to homepage
+   * with success notification.
+   */
   const handleLogout = async () => {
     await supabase.auth.signOut();
     toast({
@@ -52,6 +117,16 @@ const Header = () => {
     navigate("/");
   };
 
+  /**
+   * NAVIGATION HANDLER
+   * 
+   * SMART ROUTING LOGIC:
+   * - If href starts with "/": Navigate to different page (e.g., /blog)
+   * - If href is a section ID: Smooth scroll on homepage OR navigate to homepage first
+   * 
+   * WHY: Provides seamless navigation experience whether user is on homepage
+   * or blog pages, always getting to the right content smoothly.
+   */
   const handleNavigation = (href: string) => {
     setIsMobileMenuOpen(false);
     
