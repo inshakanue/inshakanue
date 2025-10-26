@@ -40,8 +40,6 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import Skills from "@/components/Skills";
-import AIProductManagerFAQ from "@/components/AIProductManagerFAQ";
-import AIProductManagerFAQSchema from "@/components/AIProductManagerFAQSchema";
 import SEO from "@/components/SEO";
 import StructuredData, { PersonSchema, WebsiteSchema, OrganizationSchema } from "@/components/StructuredData";
 import { SocialPreview } from "@/components/SocialPreview";
@@ -67,7 +65,6 @@ const Index = () => {
       <StructuredData data={PersonSchema} />      {/* Individual profile */}
       <StructuredData data={WebsiteSchema} />     {/* Website information */}
       <StructuredData data={OrganizationSchema} />{/* Professional entity */}
-      <AIProductManagerFAQSchema />               {/* FAQ Schema for AI Product Manager */}
       
       <div className="min-h-screen">
         {/* HEADER: Fixed navigation with social links and auth controls */}
@@ -88,9 +85,6 @@ const Index = () => {
           <ErrorBoundary>
             <Skills />
           </ErrorBoundary>
-          
-          {/* AI PRODUCT MANAGER FAQ: SEO-optimized content answering common queries */}
-          <AIProductManagerFAQ />
           
           {/* CONTACT: Multi-channel reach (form, email, LinkedIn) with rate limiting */}
           <Contact />
