@@ -275,6 +275,42 @@ All colors MUST be HSL.
   animation: float 6s ease-in-out infinite;
 }
 
+/* Floating animations for expertise pills */
+@keyframes float-gentle {
+  0%, 100% {
+    transform: translateY(0px) rotate(var(--rotation, 0deg));
+  }
+  50% {
+    transform: translateY(-12px) rotate(var(--rotation, 0deg));
+  }
+}
+
+@keyframes float-gentle-alt {
+  0%, 100% {
+    transform: translateY(-8px) rotate(var(--rotation, 0deg));
+  }
+  50% {
+    transform: translateY(8px) rotate(var(--rotation, 0deg));
+  }
+}
+
+.animate-float-gentle {
+  animation: float-gentle 5s ease-in-out infinite;
+}
+
+.animate-float-gentle-alt {
+  animation: float-gentle-alt 6s ease-in-out infinite;
+}
+
+/* Reduced motion support for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .animate-float-gentle,
+  .animate-float-gentle-alt,
+  .expertise-pill {
+    animation: none !important;
+  }
+}
+
 /* Quill Editor Custom Styles */
 .ql-toolbar {
   @apply bg-muted rounded-t-md border-border;

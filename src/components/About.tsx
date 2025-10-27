@@ -36,7 +36,6 @@
  */
 
 import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { TrendingUp, Users, Lightbulb, Target } from "lucide-react";
 
 const About = () => {
@@ -71,19 +70,38 @@ const About = () => {
   }];
 
   /**
-   * EXPERTISE ARRAY
-   * Core competencies that span the full AI Product Management skill set.
+   * EXPERTISE PILLS DATA
+   * Core competencies displayed as animated floating pills for visual engagement.
    * 
-   * CATEGORIZATION:
-   * - AI/ML specific: AI Product Strategy, LLM Integration, MLOps, Responsible AI
-   * - Product management: Roadmapping, A/B Testing, Analytics, Market Research
-   * - Leadership: Team Leadership, Stakeholder Management
-   * - Business: Revenue Optimization, Market Validation
+   * ANIMATION STRATEGY:
+   * - Each pill has a rotation value (-12 to +12 degrees) for diagonal stacking
+   * - Alternating colors (primary purple and dark charcoal) create visual rhythm
+   * - Staggered animation delays create wave effect
+   * - Pills positioned strategically for left-to-right, top-to-bottom flow
    * 
-   * WHY: Demonstrates comprehensive capabilities beyond just technical AI knowledge,
-   * showing ability to drive business outcomes and lead teams.
+   * ACCESSIBILITY:
+   * - prefers-reduced-motion media query disables animations for users who need it
+   * - Semantic HTML with proper list structure maintained
+   * - High contrast text on both background colors (WCAG AA compliant)
+   * 
+   * PERFORMANCE:
+   * - CSS animations (GPU-accelerated) instead of JavaScript
+   * - Transform and opacity only (no layout reflows)
+   * - will-change hints for smooth rendering
    */
-  const expertise = ["AI Product Strategy & Roadmapping", "Data Strategy & Governance", "LLM Integration & Prompt Engineering", "ML Lifecycle & MLOps", "Experimentation & A/B Testing", "Product Analytics & Measurement", "Responsible AI & Ethics", "Market Research and Validation", "Cross-functional Team Leadership", "Revenue Optimization", "Stakeholder Management"];
+  const expertisePills = [
+    { text: "AI Product Strategy & Roadmapping", rotation: -8, top: "5%", left: "8%" },
+    { text: "Data Strategy & Governance", rotation: 6, top: "15%", left: "45%" },
+    { text: "LLM Integration & Prompt Engineering", rotation: -4, top: "25%", left: "15%" },
+    { text: "ML Lifecycle & MLOps", rotation: 10, top: "35%", left: "55%" },
+    { text: "Experimentation & A/B Testing", rotation: -6, top: "45%", left: "10%" },
+    { text: "Product Analytics & Measurement", rotation: 7, top: "55%", left: "50%" },
+    { text: "Responsible AI & Ethics", rotation: -10, top: "65%", left: "20%" },
+    { text: "Market Research and Validation", rotation: 5, top: "75%", left: "48%" },
+    { text: "Cross-functional Team Leadership", rotation: -7, top: "85%", left: "12%" },
+    { text: "Revenue Optimization", rotation: 9, top: "95%", left: "55%" },
+    { text: "Stakeholder Management", rotation: -5, top: "105%", left: "25%" },
+  ];
   return <section id="about" className="section-padding" aria-labelledby="about-heading">
       <div className="container-custom">
         <div className="max-w-6xl mx-auto">
@@ -127,15 +145,59 @@ const About = () => {
             </div>
           </div>
 
-          {/* Expertise */}
-          <aside className="fade-in-up" aria-labelledby="expertise-heading">
-            <h3 id="expertise-heading" className="text-2xl font-bold text-center mb-8">Core Expertise</h3>
-            <ul className="flex flex-wrap justify-center gap-3 list-none">
-              {expertise.map((skill, index) => (
-                <li key={index}>
-                  <Badge variant="secondary" className="text-sm py-2 px-4 bg-secondary/50 text-secondary-foreground hover:bg-primary hover:text-primary-foreground transition-colors duration-300">
-                    {skill}
-                  </Badge>
+          {/* Animated Expertise Pills Section */}
+          <aside className="fade-in-up mt-20" aria-labelledby="expertise-heading" aria-label="Animated core expertise showcase">
+            <h3 id="expertise-heading" className="text-2xl font-bold text-center mb-16">Core Expertise</h3>
+            
+            {/* Desktop: Stacked floating pills layout */}
+            <div className="hidden md:block relative mx-auto" style={{ height: '700px', maxWidth: '900px' }}>
+              {expertisePills.map((pill, index) => (
+                <div
+                  key={index}
+                  className={`
+                    absolute expertise-pill
+                    ${index % 2 === 0 ? 'bg-primary' : 'bg-[#2C3E50]'}
+                    text-white font-bold text-sm md:text-base lg:text-lg
+                    px-6 py-4 rounded-full
+                    shadow-[0_10px_30px_-10px_rgba(0,0,0,0.3),0_0_40px_rgba(139,92,246,0.2)]
+                    ${index % 2 === 0 ? 'animate-float-gentle' : 'animate-float-gentle-alt'}
+                    hover:scale-105 transition-transform duration-300
+                    will-change-transform
+                  `}
+                  style={{
+                    top: pill.top,
+                    left: pill.left,
+                    transform: `rotate(${pill.rotation}deg)`,
+                    animationDelay: `${index * 0.2}s`,
+                    zIndex: index + 1,
+                    maxWidth: '380px',
+                    '--rotation': `${pill.rotation}deg`,
+                  } as React.CSSProperties & { '--rotation': string }}
+                >
+                  {pill.text}
+                </div>
+              ))}
+            </div>
+
+            {/* Mobile: Simple vertical list with minimal rotation */}
+            <ul className="md:hidden flex flex-col items-center gap-4 list-none px-4">
+              {expertisePills.map((pill, index) => (
+                <li
+                  key={index}
+                  className={`
+                    ${index % 2 === 0 ? 'bg-primary' : 'bg-[#2C3E50]'}
+                    text-white font-bold text-sm
+                    px-6 py-3 rounded-full
+                    shadow-lg
+                    animate-float-gentle
+                    w-full max-w-sm text-center
+                  `}
+                  style={{
+                    transform: `rotate(${pill.rotation * 0.3}deg)`,
+                    animationDelay: `${index * 0.15}s`,
+                  }}
+                >
+                  {pill.text}
                 </li>
               ))}
             </ul>
