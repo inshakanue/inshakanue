@@ -90,17 +90,17 @@ const About = () => {
    * - will-change hints for smooth rendering
    */
   const expertisePills = [
-    { text: "AI Product Strategy & Roadmapping", rotation: -8, top: "5%", left: "8%" },
-    { text: "Data Strategy & Governance", rotation: 6, top: "15%", left: "45%" },
-    { text: "LLM Integration & Prompt Engineering", rotation: -4, top: "25%", left: "15%" },
-    { text: "ML Lifecycle & MLOps", rotation: 10, top: "35%", left: "55%" },
-    { text: "Experimentation & A/B Testing", rotation: -6, top: "45%", left: "10%" },
-    { text: "Product Analytics & Measurement", rotation: 7, top: "55%", left: "50%" },
-    { text: "Responsible AI & Ethics", rotation: -10, top: "65%", left: "20%" },
-    { text: "Market Research and Validation", rotation: 5, top: "75%", left: "48%" },
-    { text: "Cross-functional Team Leadership", rotation: -7, top: "85%", left: "12%" },
-    { text: "Revenue Optimization", rotation: 9, top: "95%", left: "55%" },
-    { text: "Stakeholder Management", rotation: -5, top: "105%", left: "25%" },
+    { text: "AI Product Strategy & Roadmapping", rotation: -8, top: "5%", left: "2%" },
+    { text: "Data Strategy & Governance", rotation: 6, top: "5%", left: "52%" },
+    { text: "LLM Integration & Prompt Engineering", rotation: -4, top: "20%", left: "8%" },
+    { text: "ML Lifecycle & MLOps", rotation: 10, top: "20%", left: "60%" },
+    { text: "Experimentation & A/B Testing", rotation: -6, top: "35%", left: "0%" },
+    { text: "Product Analytics & Measurement", rotation: 7, top: "35%", left: "55%" },
+    { text: "Responsible AI & Ethics", rotation: -10, top: "50%", left: "10%" },
+    { text: "Market Research and Validation", rotation: 5, top: "50%", left: "58%" },
+    { text: "Cross-functional Team Leadership", rotation: -7, top: "65%", left: "5%" },
+    { text: "Revenue Optimization", rotation: 9, top: "65%", left: "62%" },
+    { text: "Stakeholder Management", rotation: -5, top: "80%", left: "28%" },
   ];
   return <section id="about" className="section-padding" aria-labelledby="about-heading">
       <div className="container-custom">
@@ -150,7 +150,7 @@ const About = () => {
             <h3 id="expertise-heading" className="text-2xl font-bold text-center mb-16">Core Expertise</h3>
             
             {/* Desktop: Stacked floating pills layout */}
-            <div className="hidden md:block relative mx-auto" style={{ height: '700px', maxWidth: '900px' }}>
+            <div className="hidden md:block relative mx-auto" style={{ height: '550px', maxWidth: '100%' }}>
               {expertisePills.map((pill, index) => (
                 <div
                   key={index}
