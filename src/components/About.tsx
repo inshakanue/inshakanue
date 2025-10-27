@@ -92,15 +92,15 @@ const About = () => {
   const expertisePills = [
     { text: "AI Product Strategy & Roadmapping", rotation: -8, top: "0%", left: "2%" },
     { text: "Data Strategy & Governance", rotation: 6, top: "0%", left: "52%" },
-    { text: "LLM Integration & Prompt Engineering", rotation: -4, top: "20%", left: "8%" },
-    { text: "ML Lifecycle & MLOps", rotation: 10, top: "20%", left: "60%" },
-    { text: "Experimentation & A/B Testing", rotation: -6, top: "40%", left: "0%" },
-    { text: "Product Analytics & Measurement", rotation: 7, top: "40%", left: "55%" },
-    { text: "Responsible AI & Ethics", rotation: -10, top: "60%", left: "10%" },
-    { text: "Market Research and Validation", rotation: 5, top: "60%", left: "58%" },
-    { text: "Cross-functional Team Leadership", rotation: -7, top: "80%", left: "5%" },
-    { text: "Revenue Optimization", rotation: 9, top: "80%", left: "62%" },
-    { text: "Stakeholder Management", rotation: -5, top: "100%", left: "28%" },
+    { text: "LLM Integration & Prompt Engineering", rotation: -4, top: "18%", left: "8%" },
+    { text: "ML Lifecycle & MLOps", rotation: 10, top: "18%", left: "60%" },
+    { text: "Experimentation & A/B Testing", rotation: -6, top: "36%", left: "0%" },
+    { text: "Product Analytics & Measurement", rotation: 7, top: "36%", left: "28%" },
+    { text: "Responsible AI & Ethics", rotation: -10, top: "36%", left: "55%" },
+    { text: "Market Research and Validation", rotation: 5, top: "54%", left: "10%" },
+    { text: "Cross-functional Team Leadership", rotation: -7, top: "54%", left: "58%" },
+    { text: "Revenue Optimization", rotation: 9, top: "72%", left: "5%" },
+    { text: "Stakeholder Management", rotation: -5, top: "72%", left: "62%" },
   ];
   return <section id="about" className="section-padding" aria-labelledby="about-heading">
       <div className="container-custom">
@@ -150,16 +150,18 @@ const About = () => {
             <h3 id="expertise-heading" className="text-2xl font-bold text-center mb-16">Core Expertise</h3>
             
             {/* Desktop: Stacked floating pills layout */}
-            <div className="hidden md:block relative mx-auto" style={{ height: '450px', maxWidth: '100%' }}>
+            <div className="hidden md:block relative mx-auto" style={{ height: 'min(380px, 60vh)', maxWidth: '100%' }}>
               {expertisePills.map((pill, index) => (
                 <div
                   key={index}
                   className={`
                     absolute expertise-pill
-                    ${index % 2 === 0 ? 'bg-primary' : 'bg-[#2C3E50]'}
-                    text-white font-bold text-sm md:text-base lg:text-lg
-                    px-6 py-4 rounded-full
-                    shadow-[0_10px_30px_-10px_rgba(0,0,0,0.3),0_0_40px_rgba(139,92,246,0.2)]
+                    ${index % 2 === 0 
+                      ? 'bg-primary text-[hsl(var(--primary-foreground))]'
+                      : 'bg-[hsl(var(--pill-dark))] text-[hsl(var(--pill-dark-foreground))]'}
+                    font-bold text-[0.8rem] md:text-sm lg:text-base
+                    px-5 py-3.5 rounded-full
+                    shadow-[0_10px_30px_-10px_rgba(0,0,0,0.25),0_0_30px_rgba(0,0,0,0.15)]
                     ${index % 2 === 0 ? 'animate-float-gentle' : 'animate-float-gentle-alt'}
                     hover:scale-105 transition-transform duration-300
                     will-change-transform
@@ -168,9 +170,9 @@ const About = () => {
                     top: pill.top,
                     left: pill.left,
                     transform: `rotate(${pill.rotation}deg)`,
-                    animationDelay: `${index * 0.2}s`,
+                    animationDelay: `${index * 0.18}s`,
                     zIndex: index + 1,
-                    maxWidth: '380px',
+                    maxWidth: '320px',
                     '--rotation': `${pill.rotation}deg`,
                   } as React.CSSProperties & { '--rotation': string }}
                 >
@@ -185,8 +187,10 @@ const About = () => {
                 <li
                   key={index}
                   className={`
-                    ${index % 2 === 0 ? 'bg-primary' : 'bg-[#2C3E50]'}
-                    text-white font-bold text-sm
+                    ${index % 2 === 0 
+                      ? 'bg-primary text-[hsl(var(--primary-foreground))]'
+                      : 'bg-[hsl(var(--pill-dark))] text-[hsl(var(--pill-dark-foreground))]'}
+                    font-bold text-sm
                     px-6 py-3 rounded-full
                     shadow-lg
                     animate-float-gentle
