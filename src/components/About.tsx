@@ -37,7 +37,7 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { TrendingUp, Users, Lightbulb, Target } from "lucide-react";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 
 const About = () => {
   /**
@@ -109,39 +109,159 @@ const About = () => {
     id: index,
     x: 0,
     y: 0,
+    vx: 0,
+    vy: 0,
   })));
 
   const [draggingPill, setDraggingPill] = useState<number | null>(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const containerRef = useRef<HTMLDivElement>(null);
+  const lastMousePos = useRef({ x: 0, y: 0, time: 0 });
+  const animationFrame = useRef<number>();
+
+  // Physics animation loop
+  useEffect(() => {
+    const animate = () => {
+      setPills(prevPills => {
+        return prevPills.map(pill => {
+          if (pill.id === draggingPill) return pill;
+          
+          // Apply friction
+          const friction = 0.95;
+          let newVx = pill.vx * friction;
+          let newVy = pill.vy * friction;
+          
+          // Stop if velocity is very small
+          if (Math.abs(newVx) < 0.1) newVx = 0;
+          if (Math.abs(newVy) < 0.1) newVy = 0;
+          
+          // Apply velocity
+          let newX = pill.x + newVx;
+          let newY = pill.y + newVy;
+          
+          // Boundary constraints with bounce
+          if (containerRef.current) {
+            const maxX = containerRef.current.clientWidth - 320;
+            const maxY = containerRef.current.clientHeight - 50;
+            
+            if (newX < 0) {
+              newX = 0;
+              newVx = -newVx * 0.5;
+            } else if (newX > maxX) {
+              newX = maxX;
+              newVx = -newVx * 0.5;
+            }
+            
+            if (newY < 0) {
+              newY = 0;
+              newVy = -newVy * 0.5;
+            } else if (newY > maxY) {
+              newY = maxY;
+              newVy = -newVy * 0.5;
+            }
+          }
+          
+          return { ...pill, x: newX, y: newY, vx: newVx, vy: newVy };
+        });
+      });
+      
+      animationFrame.current = requestAnimationFrame(animate);
+    };
+    
+    animationFrame.current = requestAnimationFrame(animate);
+    
+    return () => {
+      if (animationFrame.current) {
+        cancelAnimationFrame(animationFrame.current);
+      }
+    };
+  }, [draggingPill]);
 
   const handleMouseDown = (e: React.MouseEvent, pillId: number) => {
+    e.preventDefault();
     const rect = (e.target as HTMLElement).getBoundingClientRect();
+    const container = containerRef.current?.getBoundingClientRect();
+    if (!container) return;
+    
+    const pill = pills.find(p => p.id === pillId);
+    if (!pill) return;
+    
     setDragOffset({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top,
+      x: e.clientX - (pill.x || 0) - container.left,
+      y: e.clientY - (pill.y || 0) - container.top,
     });
     setDraggingPill(pillId);
+    lastMousePos.current = { x: e.clientX, y: e.clientY, time: Date.now() };
   };
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (draggingPill === null) return;
 
-    const container = e.currentTarget.getBoundingClientRect();
-    const pill = pills.find(p => p.id === draggingPill);
-    if (!pill) return;
+    const container = containerRef.current?.getBoundingClientRect();
+    if (!container) return;
 
     const newX = e.clientX - container.left - dragOffset.x;
     const newY = e.clientY - container.top - dragOffset.y;
 
+    // Track velocity for momentum
+    const now = Date.now();
+    const dt = (now - lastMousePos.current.time) || 1;
+    const vx = (e.clientX - lastMousePos.current.x) / dt * 16;
+    const vy = (e.clientY - lastMousePos.current.y) / dt * 16;
+    
+    lastMousePos.current = { x: e.clientX, y: e.clientY, time: now };
+
     setPills(pills.map(p =>
       p.id === draggingPill
-        ? { ...p, x: newX, y: newY }
+        ? { ...p, x: newX, y: newY, vx, vy }
         : p
     ));
   };
 
   const handleMouseUp = () => {
     setDraggingPill(null);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent, pillId: number) => {
+    const touch = e.touches[0];
+    const rect = (e.target as HTMLElement).getBoundingClientRect();
+    const container = containerRef.current?.getBoundingClientRect();
+    if (!container) return;
+    
+    const pill = pills.find(p => p.id === pillId);
+    if (!pill) return;
+    
+    setDragOffset({
+      x: touch.clientX - (pill.x || 0) - container.left,
+      y: touch.clientY - (pill.y || 0) - container.top,
+    });
+    setDraggingPill(pillId);
+    lastMousePos.current = { x: touch.clientX, y: touch.clientY, time: Date.now() };
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (draggingPill === null) return;
+    e.preventDefault();
+
+    const touch = e.touches[0];
+    const container = containerRef.current?.getBoundingClientRect();
+    if (!container) return;
+
+    const newX = touch.clientX - container.left - dragOffset.x;
+    const newY = touch.clientY - container.top - dragOffset.y;
+
+    const now = Date.now();
+    const dt = (now - lastMousePos.current.time) || 1;
+    const vx = (touch.clientX - lastMousePos.current.x) / dt * 16;
+    const vy = (touch.clientY - lastMousePos.current.y) / dt * 16;
+    
+    lastMousePos.current = { x: touch.clientX, y: touch.clientY, time: now };
+
+    setPills(pills.map(p =>
+      p.id === draggingPill
+        ? { ...p, x: newX, y: newY, vx, vy }
+        : p
+    ));
   };
   return <section id="about" className="section-padding" aria-labelledby="about-heading">
       <div className="container-custom">
@@ -192,11 +312,14 @@ const About = () => {
             
             {/* Desktop: Stacked floating pills layout */}
             <div 
+              ref={containerRef}
               className="hidden md:block relative mx-auto" 
               style={{ height: 'min(380px, 60vh)', maxWidth: '100%' }}
               onMouseMove={handleMouseMove}
               onMouseUp={handleMouseUp}
               onMouseLeave={handleMouseUp}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleMouseUp}
             >
               {pills.map((pill, index) => (
                 <div
@@ -210,20 +333,23 @@ const About = () => {
                     px-5 py-3.5 rounded-full
                     shadow-[0_10px_30px_-10px_rgba(0,0,0,0.25),0_0_30px_rgba(0,0,0,0.15)]
                     ${draggingPill !== pill.id ? (index % 2 === 0 ? 'animate-float-gentle' : 'animate-float-gentle-alt') : ''}
-                    hover:scale-105 transition-transform duration-300
-                    will-change-transform select-none
+                    hover:scale-105 transition-all duration-200
+                    will-change-transform select-none touch-none
+                    ${draggingPill === pill.id ? 'shadow-[0_20px_50px_-10px_rgba(0,0,0,0.4),0_0_50px_rgba(0,0,0,0.25)]' : ''}
                   `}
                   style={{
-                    top: pill.y ? `${pill.y}px` : pill.top,
-                    left: pill.x ? `${pill.x}px` : pill.left,
-                    transform: `rotate(${pill.rotation}deg) ${draggingPill === pill.id ? 'scale(1.1)' : ''}`,
+                    top: pill.x || pill.y ? `${pill.y}px` : pill.top,
+                    left: pill.x || pill.y ? `${pill.x}px` : pill.left,
+                    transform: `rotate(${pill.rotation}deg) ${draggingPill === pill.id ? 'scale(1.08)' : ''}`,
                     animationDelay: `${index * 0.18}s`,
                     zIndex: draggingPill === pill.id ? 1000 : index + 1,
                     maxWidth: '320px',
                     '--rotation': `${pill.rotation}deg`,
                     position: 'absolute',
+                    transition: draggingPill === pill.id ? 'none' : 'all 0.2s ease-out',
                   } as React.CSSProperties & { '--rotation': string }}
                   onMouseDown={(e) => handleMouseDown(e, pill.id)}
+                  onTouchStart={(e) => handleTouchStart(e, pill.id)}
                 >
                   {pill.text}
                 </div>
