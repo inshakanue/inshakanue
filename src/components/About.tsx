@@ -200,8 +200,14 @@ const About = () => {
     const container = containerRef.current?.getBoundingClientRect();
     if (!container) return;
 
-    const newX = e.clientX - container.left - dragOffset.x;
-    const newY = e.clientY - container.top - dragOffset.y;
+    let newX = e.clientX - container.left - dragOffset.x;
+    let newY = e.clientY - container.top - dragOffset.y;
+
+    // Constrain to container boundaries
+    const maxX = containerRef.current.clientWidth - 320;
+    const maxY = containerRef.current.clientHeight - 50;
+    newX = Math.max(0, Math.min(newX, maxX));
+    newY = Math.max(0, Math.min(newY, maxY));
 
     // Track velocity for momentum
     const now = Date.now();
@@ -247,8 +253,14 @@ const About = () => {
     const container = containerRef.current?.getBoundingClientRect();
     if (!container) return;
 
-    const newX = touch.clientX - container.left - dragOffset.x;
-    const newY = touch.clientY - container.top - dragOffset.y;
+    let newX = touch.clientX - container.left - dragOffset.x;
+    let newY = touch.clientY - container.top - dragOffset.y;
+
+    // Constrain to container boundaries
+    const maxX = containerRef.current.clientWidth - 320;
+    const maxY = containerRef.current.clientHeight - 50;
+    newX = Math.max(0, Math.min(newX, maxX));
+    newY = Math.max(0, Math.min(newY, maxY));
 
     const now = Date.now();
     const dt = (now - lastMousePos.current.time) || 1;
