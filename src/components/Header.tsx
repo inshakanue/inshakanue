@@ -169,14 +169,14 @@ const Header = () => {
           {/* Logo */}
           <Link
             to="/"
-            className="text-xl lg:text-2xl font-bold gradient-text hover:scale-105 transition-transform duration-300"
+            className="text-lg md:text-xl lg:text-2xl font-bold gradient-text hover:scale-105 transition-transform duration-300"
             aria-label="Home"
           >
             Insha Kanue
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden lg:flex items-center space-x-6 xl:space-x-8">
             {navItems.map((item) => (
               <button
                 key={item.href}
@@ -190,7 +190,7 @@ const Header = () => {
           </div>
 
           {/* Desktop CTA */}
-          <div className="hidden md:flex items-center space-x-4">
+          <div className="hidden lg:flex items-center space-x-3 xl:space-x-4">
             <Button
               variant="ghost"
               size="sm"
@@ -246,35 +246,35 @@ const Header = () => {
             )}
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile/Tablet Menu Button */}
           <Button
             variant="ghost"
             size="sm"
-            className="md:hidden"
+            className="lg:hidden"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-expanded={isMobileMenuOpen}
             aria-label="Toggle mobile menu"
           >
-            {isMobileMenuOpen ? <X className="w-5 h-5" aria-hidden="true" /> : <Menu className="w-5 h-5" aria-hidden="true" />}
+            {isMobileMenuOpen ? <X className="w-5 h-5 md:w-6 md:h-6" aria-hidden="true" /> : <Menu className="w-5 h-5 md:w-6 md:h-6" aria-hidden="true" />}
           </Button>
         </div>
 
-        {/* Mobile Menu */}
+        {/* Mobile/Tablet Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden bg-background/95 backdrop-blur-md border-t border-border">
-            <div className="py-4 space-y-4">
+          <div className="lg:hidden bg-background/95 backdrop-blur-md border-t border-border">
+            <div className="py-4 md:py-6 space-y-3 md:space-y-4">
               {navItems.map((item) => (
                 <button
                   key={item.href}
                   onClick={() => handleNavigation(item.href)}
-                  className="block w-full text-left px-4 py-2 text-muted-foreground hover:text-primary transition-colors duration-300"
+                  className="block w-full text-left px-4 md:px-6 py-2 md:py-3 text-base md:text-lg text-muted-foreground hover:text-primary transition-colors duration-300"
                   aria-label={`Navigate to ${item.label}`}
                 >
                   {item.label}
                 </button>
               ))}
-              <div className="flex flex-col items-stretch pt-4 border-t border-border space-y-2">
-                <div className="flex items-center justify-center space-x-4">
+              <div className="flex flex-col items-stretch pt-4 md:pt-6 border-t border-border space-y-2">
+                <div className="flex items-center justify-center space-x-4 md:space-x-6">
                   <Button
                     variant="ghost"
                     size="sm"
