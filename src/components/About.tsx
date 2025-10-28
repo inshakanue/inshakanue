@@ -37,6 +37,7 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { TrendingUp, Users, Lightbulb, Target } from "lucide-react";
+import { useState } from "react";
 
 const About = () => {
   /**
@@ -89,7 +90,7 @@ const About = () => {
    * - Transform and opacity only (no layout reflows)
    * - will-change hints for smooth rendering
    */
-  const expertisePills = [
+  const initialPills = [
     { text: "AI Product Strategy & Roadmapping", rotation: -8, top: "0%", left: "2%" },
     { text: "Data Strategy & Governance", rotation: 6, top: "0%", left: "52%" },
     { text: "LLM Integration & Prompt Engineering", rotation: -4, top: "18%", left: "8%" },
@@ -102,6 +103,46 @@ const About = () => {
     { text: "Revenue Optimization", rotation: 9, top: "72%", left: "5%" },
     { text: "Stakeholder Management", rotation: -5, top: "72%", left: "62%" },
   ];
+
+  const [pills, setPills] = useState(initialPills.map((pill, index) => ({
+    ...pill,
+    id: index,
+    x: 0,
+    y: 0,
+  })));
+
+  const [draggingPill, setDraggingPill] = useState<number | null>(null);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+
+  const handleMouseDown = (e: React.MouseEvent, pillId: number) => {
+    const rect = (e.target as HTMLElement).getBoundingClientRect();
+    setDragOffset({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
+    });
+    setDraggingPill(pillId);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (draggingPill === null) return;
+
+    const container = e.currentTarget.getBoundingClientRect();
+    const pill = pills.find(p => p.id === draggingPill);
+    if (!pill) return;
+
+    const newX = e.clientX - container.left - dragOffset.x;
+    const newY = e.clientY - container.top - dragOffset.y;
+
+    setPills(pills.map(p =>
+      p.id === draggingPill
+        ? { ...p, x: newX, y: newY }
+        : p
+    ));
+  };
+
+  const handleMouseUp = () => {
+    setDraggingPill(null);
+  };
   return <section id="about" className="section-padding" aria-labelledby="about-heading">
       <div className="container-custom">
         <div className="max-w-6xl mx-auto">
@@ -150,31 +191,39 @@ const About = () => {
             <h3 id="expertise-heading" className="text-2xl font-bold text-center mb-16">Core Expertise</h3>
             
             {/* Desktop: Stacked floating pills layout */}
-            <div className="hidden md:block relative mx-auto" style={{ height: 'min(380px, 60vh)', maxWidth: '100%' }}>
-              {expertisePills.map((pill, index) => (
+            <div 
+              className="hidden md:block relative mx-auto" 
+              style={{ height: 'min(380px, 60vh)', maxWidth: '100%' }}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseUp}
+            >
+              {pills.map((pill, index) => (
                 <div
-                  key={index}
+                  key={pill.id}
                   className={`
-                    absolute expertise-pill
+                    absolute expertise-pill cursor-grab active:cursor-grabbing
                     ${index % 2 === 0 
                       ? 'bg-primary text-[hsl(var(--primary-foreground))]'
                       : 'bg-[hsl(var(--pill-dark))] text-[hsl(var(--pill-dark-foreground))]'}
                     font-bold text-[0.8rem] md:text-sm lg:text-base
                     px-5 py-3.5 rounded-full
                     shadow-[0_10px_30px_-10px_rgba(0,0,0,0.25),0_0_30px_rgba(0,0,0,0.15)]
-                    ${index % 2 === 0 ? 'animate-float-gentle' : 'animate-float-gentle-alt'}
+                    ${draggingPill !== pill.id ? (index % 2 === 0 ? 'animate-float-gentle' : 'animate-float-gentle-alt') : ''}
                     hover:scale-105 transition-transform duration-300
-                    will-change-transform
+                    will-change-transform select-none
                   `}
                   style={{
-                    top: pill.top,
-                    left: pill.left,
-                    transform: `rotate(${pill.rotation}deg)`,
+                    top: pill.y ? `${pill.y}px` : pill.top,
+                    left: pill.x ? `${pill.x}px` : pill.left,
+                    transform: `rotate(${pill.rotation}deg) ${draggingPill === pill.id ? 'scale(1.1)' : ''}`,
                     animationDelay: `${index * 0.18}s`,
-                    zIndex: index + 1,
+                    zIndex: draggingPill === pill.id ? 1000 : index + 1,
                     maxWidth: '320px',
                     '--rotation': `${pill.rotation}deg`,
+                    position: 'absolute',
                   } as React.CSSProperties & { '--rotation': string }}
+                  onMouseDown={(e) => handleMouseDown(e, pill.id)}
                 >
                   {pill.text}
                 </div>
@@ -183,7 +232,7 @@ const About = () => {
 
             {/* Mobile: Simple vertical list with minimal rotation */}
             <ul className="md:hidden flex flex-col items-center gap-4 list-none px-4">
-              {expertisePills.map((pill, index) => (
+              {pills.map((pill, index) => (
                 <li
                   key={index}
                   className={`
