@@ -172,7 +172,7 @@ const Header = () => {
             className="text-xl lg:text-2xl font-bold gradient-text hover:scale-105 transition-transform duration-300"
             aria-label="Home"
           >
-            IK
+            Insha Kanue
           </Link>
 
           {/* Desktop Navigation */}
