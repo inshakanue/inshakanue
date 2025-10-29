@@ -436,7 +436,7 @@ const About = () => {
           </div>
 
           {/* Animated Expertise Pills Section */}
-          <aside className="fade-in-up mt-20" aria-labelledby="expertise-heading" aria-label="Animated core expertise showcase">
+          <aside ref={sectionRef} className="fade-in-up mt-20" aria-labelledby="expertise-heading" aria-label="Animated core expertise showcase">
             <h3 id="expertise-heading" className="text-2xl font-bold text-center mb-16">Core Expertise</h3>
             
             {/* Desktop: Stacked floating pills layout */}
