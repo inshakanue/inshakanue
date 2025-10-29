@@ -108,32 +108,35 @@ const About = () => {
     ...pill,
     id: index,
     x: 0,
-    y: 0,
-    vx: 0,
+    y: -800 - (index * 80), // Start above viewport
+    vx: (Math.random() - 0.5) * 4, // Random horizontal velocity
     vy: 0,
   })));
 
   const [draggingPill, setDraggingPill] = useState<number | null>(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [isSettled, setIsSettled] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const lastMousePos = useRef({ x: 0, y: 0, time: 0 });
   const animationFrame = useRef<number>();
 
-  // Physics animation loop
+  // Physics animation loop with gravity
   useEffect(() => {
     const animate = () => {
       setPills(prevPills => {
-        return prevPills.map(pill => {
+        let allSettled = true;
+        
+        const updatedPills = prevPills.map(pill => {
           if (pill.id === draggingPill) return pill;
           
-          // Apply friction
-          const friction = 0.95;
-          let newVx = pill.vx * friction;
-          let newVy = pill.vy * friction;
+          // Apply gravity when falling
+          const gravity = 0.5;
+          let newVy = pill.vy + gravity;
           
-          // Stop if velocity is very small
-          if (Math.abs(newVx) < 0.1) newVx = 0;
-          if (Math.abs(newVy) < 0.1) newVy = 0;
+          // Apply friction (air resistance and surface friction)
+          const airFriction = 0.99;
+          const surfaceFriction = 0.85;
+          let newVx = pill.vx * airFriction;
           
           // Apply velocity
           let newX = pill.x + newVx;
@@ -144,25 +147,43 @@ const About = () => {
             const maxX = containerRef.current.clientWidth - 320;
             const maxY = containerRef.current.clientHeight - 50;
             
+            // Horizontal boundaries
             if (newX < 0) {
               newX = 0;
-              newVx = -newVx * 0.5;
+              newVx = -newVx * 0.6;
             } else if (newX > maxX) {
               newX = maxX;
-              newVx = -newVx * 0.5;
+              newVx = -newVx * 0.6;
             }
             
+            // Vertical boundaries (floor bounce)
             if (newY < 0) {
               newY = 0;
               newVy = -newVy * 0.5;
             } else if (newY > maxY) {
               newY = maxY;
-              newVy = -newVy * 0.5;
+              newVy = -newVy * 0.7; // Bouncy floor
+              newVx = newVx * surfaceFriction; // Surface friction
             }
+          }
+          
+          // Check if pill is still moving
+          if (Math.abs(newVx) > 0.1 || Math.abs(newVy) > 0.1 || newY < (containerRef.current?.clientHeight || 0) - 60) {
+            allSettled = false;
+          } else {
+            // Pill has settled
+            newVx = 0;
+            newVy = 0;
           }
           
           return { ...pill, x: newX, y: newY, vx: newVx, vy: newVy };
         });
+        
+        if (allSettled && !isSettled) {
+          setIsSettled(true);
+        }
+        
+        return updatedPills;
       });
       
       animationFrame.current = requestAnimationFrame(animate);
@@ -175,7 +196,7 @@ const About = () => {
         cancelAnimationFrame(animationFrame.current);
       }
     };
-  }, [draggingPill]);
+  }, [draggingPill, isSettled]);
 
   const handleMouseDown = (e: React.MouseEvent, pillId: number) => {
     e.preventDefault();
@@ -344,21 +365,20 @@ const About = () => {
                     font-bold text-[0.8rem] md:text-sm lg:text-base
                     px-5 py-3.5 rounded-full
                     shadow-[0_10px_30px_-10px_rgba(0,0,0,0.25),0_0_30px_rgba(0,0,0,0.15)]
-                    ${draggingPill !== pill.id ? (index % 2 === 0 ? 'animate-float-gentle' : 'animate-float-gentle-alt') : ''}
+                    ${draggingPill !== pill.id && isSettled ? (index % 2 === 0 ? 'animate-float-gentle' : 'animate-float-gentle-alt') : ''}
                     hover:scale-105 transition-all duration-200
                     will-change-transform select-none touch-none
                     ${draggingPill === pill.id ? 'shadow-[0_20px_50px_-10px_rgba(0,0,0,0.4),0_0_50px_rgba(0,0,0,0.25)]' : ''}
                   `}
                   style={{
-                    top: pill.x || pill.y ? `${pill.y}px` : pill.top,
-                    left: pill.x || pill.y ? `${pill.x}px` : pill.left,
+                    top: `${pill.y}px`,
+                    left: `${pill.x}px`,
                     transform: `rotate(${pill.rotation}deg) ${draggingPill === pill.id ? 'scale(1.08)' : ''}`,
-                    animationDelay: `${index * 0.18}s`,
                     zIndex: draggingPill === pill.id ? 1000 : index + 1,
                     maxWidth: '320px',
                     '--rotation': `${pill.rotation}deg`,
                     position: 'absolute',
-                    transition: draggingPill === pill.id ? 'none' : 'all 0.2s ease-out',
+                    transition: draggingPill === pill.id ? 'none' : 'none',
                   } as React.CSSProperties & { '--rotation': string }}
                   onMouseDown={(e) => handleMouseDown(e, pill.id)}
                   onTouchStart={(e) => handleTouchStart(e, pill.id)}
