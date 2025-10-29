@@ -109,7 +109,7 @@ const About = () => {
       ...pill,
       id: index,
       x: Math.random() * 200, // Random initial x position
-      y: -800 - (index * 100), // Start above viewport
+      y: -100 - (index * 60), // Start just above container
       vx: (Math.random() - 0.5) * 2,
       vy: 0,
     };
@@ -203,6 +203,12 @@ const About = () => {
               newY = maxY;
               newVy = -newVy * 0.4; // Small bounce
               newVx *= 0.8; // Friction
+            }
+            
+            // Top boundary - prevent going above container
+            if (newY < 0) {
+              newY = 0;
+              newVy = Math.abs(newVy) * 0.3;
             }
             
             // Wall collisions
@@ -436,7 +442,7 @@ const About = () => {
             {/* Desktop: Stacked floating pills layout */}
             <div 
               ref={containerRef}
-              className="hidden md:block relative mx-auto" 
+              className="hidden md:block relative mx-auto overflow-hidden" 
               style={{ height: 'min(380px, 60vh)', maxWidth: '100%' }}
               onMouseMove={handleMouseMove}
               onMouseUp={handleMouseUp}
