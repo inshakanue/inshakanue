@@ -118,10 +118,37 @@ const About = () => {
   const [draggingPill, setDraggingPill] = useState<number | null>(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
   const [animationPhase, setAnimationPhase] = useState<'falling' | 'floating'>('falling');
+  const [hasStarted, setHasStarted] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const lastMousePos = useRef({ x: 0, y: 0, time: 0 });
   const animationFrame = useRef<number>();
-  const startTime = useRef<number>(Date.now());
+  const startTime = useRef<number>(0);
+
+  // Intersection Observer to detect when section is visible
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasStarted) {
+            setHasStarted(true);
+            startTime.current = Date.now();
+          }
+        });
+      },
+      { threshold: 0.3 } // Trigger when 30% of section is visible
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, [hasStarted]);
 
   // Check for collision between two pills
   const checkCollision = (pill1: any, pill2: any) => {
@@ -134,6 +161,8 @@ const About = () => {
 
   // Physics animation loop with falling and floating phases
   useEffect(() => {
+    if (!hasStarted) return; // Don't animate until section is visible
+
     const animate = () => {
       const elapsed = Date.now() - startTime.current;
       
@@ -257,7 +286,7 @@ const About = () => {
         cancelAnimationFrame(animationFrame.current);
       }
     };
-  }, [draggingPill, animationPhase]);
+  }, [draggingPill, animationPhase, hasStarted]);
 
   const handleMouseDown = (e: React.MouseEvent, pillId: number) => {
     e.preventDefault();
@@ -357,7 +386,7 @@ const About = () => {
         : p
     ));
   };
-  return <section id="about" className="section-padding" aria-labelledby="about-heading">
+  return <section id="about" ref={sectionRef} className="section-padding" aria-labelledby="about-heading">
       <div className="container-custom">
         <div className="max-w-6xl mx-auto">
           {/* Section Header */}
