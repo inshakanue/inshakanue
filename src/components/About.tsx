@@ -104,14 +104,22 @@ const About = () => {
     { text: "Stakeholder Management", rotation: -5, top: "72%", left: "62%" },
   ];
 
-  const [pills, setPills] = useState(initialPills.map((pill, index) => ({
-    ...pill,
-    id: index,
-    x: 0,
-    y: -800 - (index * 80), // Start above viewport
-    vx: (Math.random() - 0.5) * 4, // Random horizontal velocity
-    vy: 0,
-  })));
+  const [pills, setPills] = useState(initialPills.map((pill, index) => {
+    // Parse initial position percentages to pixel values
+    const targetX = parseFloat(pill.left) / 100;
+    const targetY = parseFloat(pill.top) / 100;
+    
+    return {
+      ...pill,
+      id: index,
+      x: 0,
+      y: -800 - (index * 80), // Start above viewport
+      vx: (Math.random() - 0.5) * 3,
+      vy: 0,
+      targetX, // Store as percentage for responsive
+      targetY,
+    };
+  }));
 
   const [draggingPill, setDraggingPill] = useState<number | null>(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
@@ -120,7 +128,7 @@ const About = () => {
   const lastMousePos = useRef({ x: 0, y: 0, time: 0 });
   const animationFrame = useRef<number>();
 
-  // Physics animation loop with gravity
+  // Physics animation loop with gravity and target attraction
   useEffect(() => {
     const animate = () => {
       setPills(prevPills => {
@@ -129,49 +137,71 @@ const About = () => {
         const updatedPills = prevPills.map(pill => {
           if (pill.id === draggingPill) return pill;
           
-          // Apply gravity when falling
-          const gravity = 0.5;
-          let newVy = pill.vy + gravity;
+          if (!containerRef.current) return pill;
           
-          // Apply friction (air resistance and surface friction)
-          const airFriction = 0.99;
-          const surfaceFriction = 0.85;
-          let newVx = pill.vx * airFriction;
+          // Calculate target position in pixels
+          const targetXPx = pill.targetX * containerRef.current.clientWidth;
+          const targetYPx = pill.targetY * containerRef.current.clientHeight;
+          
+          // Distance to target
+          const dx = targetXPx - pill.x;
+          const dy = targetYPx - pill.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          
+          // Apply forces
+          let newVx = pill.vx;
+          let newVy = pill.vy;
+          
+          if (distance > 5) {
+            // Still falling/moving toward target
+            allSettled = false;
+            
+            // Gravity
+            const gravity = 0.6;
+            newVy += gravity;
+            
+            // Attraction force to target position (stronger as it gets closer)
+            const attractionStrength = Math.min(distance / 100, 1) * 0.3;
+            newVx += (dx / distance) * attractionStrength;
+            newVy += (dy / distance) * attractionStrength;
+            
+            // Air resistance
+            newVx *= 0.98;
+            newVy *= 0.98;
+          } else {
+            // Settled at target
+            newVx = 0;
+            newVy = 0;
+          }
           
           // Apply velocity
           let newX = pill.x + newVx;
           let newY = pill.y + newVy;
           
-          // Boundary constraints with bounce
-          if (containerRef.current) {
-            const maxX = containerRef.current.clientWidth - 320;
-            const maxY = containerRef.current.clientHeight - 50;
-            
-            // Horizontal boundaries
-            if (newX < 0) {
-              newX = 0;
-              newVx = -newVx * 0.6;
-            } else if (newX > maxX) {
-              newX = maxX;
-              newVx = -newVx * 0.6;
-            }
-            
-            // Vertical boundaries (floor bounce)
-            if (newY < 0) {
-              newY = 0;
-              newVy = -newVy * 0.5;
-            } else if (newY > maxY) {
-              newY = maxY;
-              newVy = -newVy * 0.7; // Bouncy floor
-              newVx = newVx * surfaceFriction; // Surface friction
-            }
+          // Boundary constraints
+          const maxX = containerRef.current.clientWidth - 320;
+          const maxY = containerRef.current.clientHeight - 50;
+          
+          if (newX < 0) {
+            newX = 0;
+            newVx = -newVx * 0.5;
+          } else if (newX > maxX) {
+            newX = maxX;
+            newVx = -newVx * 0.5;
           }
           
-          // Check if pill is still moving
-          if (Math.abs(newVx) > 0.1 || Math.abs(newVy) > 0.1 || newY < (containerRef.current?.clientHeight || 0) - 60) {
-            allSettled = false;
-          } else {
-            // Pill has settled
+          if (newY < 0) {
+            newY = 0;
+            newVy = -newVy * 0.3;
+          } else if (newY > maxY) {
+            newY = maxY;
+            newVy = -newVy * 0.5;
+          }
+          
+          // Snap to target if very close and slow
+          if (distance < 5 && Math.abs(newVx) < 0.5 && Math.abs(newVy) < 0.5) {
+            newX = targetXPx;
+            newY = targetYPx;
             newVx = 0;
             newVy = 0;
           }
