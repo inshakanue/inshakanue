@@ -105,115 +105,146 @@ const About = () => {
   ];
 
   const [pills, setPills] = useState(initialPills.map((pill, index) => {
-    // Parse initial position percentages to pixel values
-    const targetX = parseFloat(pill.left) / 100;
-    const targetY = parseFloat(pill.top) / 100;
-    
     return {
       ...pill,
       id: index,
-      x: 0,
-      y: -800 - (index * 80), // Start above viewport
-      vx: (Math.random() - 0.5) * 3,
+      x: Math.random() * 200, // Random initial x position
+      y: -800 - (index * 100), // Start above viewport
+      vx: (Math.random() - 0.5) * 2,
       vy: 0,
-      targetX, // Store as percentage for responsive
-      targetY,
     };
   }));
 
   const [draggingPill, setDraggingPill] = useState<number | null>(null);
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-  const [isSettled, setIsSettled] = useState(false);
+  const [animationPhase, setAnimationPhase] = useState<'falling' | 'floating'>('falling');
   const containerRef = useRef<HTMLDivElement>(null);
   const lastMousePos = useRef({ x: 0, y: 0, time: 0 });
   const animationFrame = useRef<number>();
+  const startTime = useRef<number>(Date.now());
 
-  // Physics animation loop with gravity and target attraction
+  // Check for collision between two pills
+  const checkCollision = (pill1: any, pill2: any) => {
+    const dx = pill1.x - pill2.x;
+    const dy = pill1.y - pill2.y;
+    const distance = Math.sqrt(dx * dx + dy * dy);
+    const minDistance = 180; // Minimum distance between pill centers
+    return distance < minDistance;
+  };
+
+  // Physics animation loop with falling and floating phases
   useEffect(() => {
     const animate = () => {
+      const elapsed = Date.now() - startTime.current;
+      
+      // Switch to floating phase after 400ms
+      if (elapsed > 400 && animationPhase === 'falling') {
+        setAnimationPhase('floating');
+      }
+
       setPills(prevPills => {
-        let allSettled = true;
-        
-        const updatedPills = prevPills.map(pill => {
+        return prevPills.map((pill, index) => {
           if (pill.id === draggingPill) return pill;
           
           if (!containerRef.current) return pill;
           
-          // Calculate target position in pixels
-          const targetXPx = pill.targetX * containerRef.current.clientWidth;
-          const targetYPx = pill.targetY * containerRef.current.clientHeight;
+          const maxX = containerRef.current.clientWidth - 320;
+          const maxY = containerRef.current.clientHeight - 50;
           
-          // Distance to target
-          const dx = targetXPx - pill.x;
-          const dy = targetYPx - pill.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-          
-          // Apply forces
           let newVx = pill.vx;
           let newVy = pill.vy;
+          let newX = pill.x;
+          let newY = pill.y;
           
-          if (distance > 5) {
-            // Still falling/moving toward target
-            allSettled = false;
-            
-            // Gravity
-            const gravity = 0.6;
+          if (animationPhase === 'falling') {
+            // Falling phase: gravity and landing
+            const gravity = 0.8;
             newVy += gravity;
-            
-            // Attraction force to target position (stronger as it gets closer)
-            const attractionStrength = Math.min(distance / 100, 1) * 0.3;
-            newVx += (dx / distance) * attractionStrength;
-            newVy += (dy / distance) * attractionStrength;
             
             // Air resistance
             newVx *= 0.98;
             newVy *= 0.98;
+            
+            // Apply velocity
+            newX = pill.x + newVx;
+            newY = pill.y + newVy;
+            
+            // Floor collision with bounce
+            if (newY >= maxY) {
+              newY = maxY;
+              newVy = -newVy * 0.4; // Small bounce
+              newVx *= 0.8; // Friction
+            }
+            
+            // Wall collisions
+            if (newX <= 0) {
+              newX = 0;
+              newVx = -newVx * 0.5;
+            } else if (newX >= maxX) {
+              newX = maxX;
+              newVx = -newVx * 0.5;
+            }
           } else {
-            // Settled at target
-            newVx = 0;
-            newVy = 0;
-          }
-          
-          // Apply velocity
-          let newX = pill.x + newVx;
-          let newY = pill.y + newVy;
-          
-          // Boundary constraints
-          const maxX = containerRef.current.clientWidth - 320;
-          const maxY = containerRef.current.clientHeight - 50;
-          
-          if (newX < 0) {
-            newX = 0;
-            newVx = -newVx * 0.5;
-          } else if (newX > maxX) {
-            newX = maxX;
-            newVx = -newVx * 0.5;
-          }
-          
-          if (newY < 0) {
-            newY = 0;
-            newVy = -newVy * 0.3;
-          } else if (newY > maxY) {
-            newY = maxY;
-            newVy = -newVy * 0.5;
-          }
-          
-          // Snap to target if very close and slow
-          if (distance < 5 && Math.abs(newVx) < 0.5 && Math.abs(newVy) < 0.5) {
-            newX = targetXPx;
-            newY = targetYPx;
-            newVx = 0;
-            newVy = 0;
+            // Floating phase: gentle floating motion with collision avoidance
+            const floatStrength = 0.15;
+            const separationForce = 0.8;
+            
+            // Add gentle upward force to lift pills from bottom
+            if (pill.y > maxY * 0.7) {
+              newVy -= 0.3;
+            }
+            
+            // Floating force - gentle sine wave motion
+            const time = Date.now() / 1000;
+            const floatX = Math.sin(time * 0.5 + index * 0.5) * floatStrength;
+            const floatY = Math.cos(time * 0.3 + index * 0.3) * floatStrength;
+            
+            newVx += floatX;
+            newVy += floatY;
+            
+            // Collision detection and separation
+            prevPills.forEach((otherPill) => {
+              if (otherPill.id !== pill.id && otherPill.id !== draggingPill) {
+                if (checkCollision(pill, otherPill)) {
+                  const dx = pill.x - otherPill.x;
+                  const dy = pill.y - otherPill.y;
+                  const distance = Math.sqrt(dx * dx + dy * dy) || 1;
+                  
+                  // Push away from each other
+                  newVx += (dx / distance) * separationForce;
+                  newVy += (dy / distance) * separationForce;
+                }
+              }
+            });
+            
+            // Gentle damping
+            newVx *= 0.95;
+            newVy *= 0.95;
+            
+            // Apply velocity
+            newX = pill.x + newVx;
+            newY = pill.y + newVy;
+            
+            // Boundary constraints with gentle bounce
+            if (newX <= 0) {
+              newX = 0;
+              newVx = Math.abs(newVx) * 0.5;
+            } else if (newX >= maxX) {
+              newX = maxX;
+              newVx = -Math.abs(newVx) * 0.5;
+            }
+            
+            if (newY <= 0) {
+              newY = 0;
+              newVy = Math.abs(newVy) * 0.5;
+            } else if (newY >= maxY) {
+              newY = maxY;
+              newVy = -Math.abs(newVy) * 0.5;
+            }
           }
           
           return { ...pill, x: newX, y: newY, vx: newVx, vy: newVy };
         });
-        
-        if (allSettled && !isSettled) {
-          setIsSettled(true);
-        }
-        
-        return updatedPills;
       });
       
       animationFrame.current = requestAnimationFrame(animate);
@@ -226,7 +257,7 @@ const About = () => {
         cancelAnimationFrame(animationFrame.current);
       }
     };
-  }, [draggingPill, isSettled]);
+  }, [draggingPill, animationPhase]);
 
   const handleMouseDown = (e: React.MouseEvent, pillId: number) => {
     e.preventDefault();
@@ -395,7 +426,6 @@ const About = () => {
                     font-bold text-[0.8rem] md:text-sm lg:text-base
                     px-5 py-3.5 rounded-full
                     shadow-[0_10px_30px_-10px_rgba(0,0,0,0.25),0_0_30px_rgba(0,0,0,0.15)]
-                    ${draggingPill !== pill.id && isSettled ? (index % 2 === 0 ? 'animate-float-gentle' : 'animate-float-gentle-alt') : ''}
                     hover:scale-105 transition-all duration-200
                     will-change-transform select-none touch-none
                     ${draggingPill === pill.id ? 'shadow-[0_20px_50px_-10px_rgba(0,0,0,0.4),0_0_50px_rgba(0,0,0,0.25)]' : ''}
