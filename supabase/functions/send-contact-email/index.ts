@@ -18,11 +18,11 @@ interface ContactEmailRequest {
   honeypot?: string;
 }
 
-// Rate limit configuration
+// Rate limit configuration - tightened for security
 const RATE_LIMITS = {
-  PER_EMAIL: { count: 3, window: 60 * 60 * 1000 }, // 3 per hour
-  PER_IP: { count: 5, window: 60 * 60 * 1000 }, // 5 per hour
-  GLOBAL: { count: 100, window: 60 * 60 * 1000 }, // 100 per hour
+  PER_EMAIL: { count: 2, window: 60 * 60 * 1000 }, // 2 per hour
+  PER_IP: { count: 3, window: 60 * 60 * 1000 }, // 3 per hour
+  GLOBAL: { count: 50, window: 60 * 60 * 1000 }, // 50 per hour
 };
 
 const escapeHtml = (text: string): string => {
@@ -97,7 +97,7 @@ const handler = async (req: Request): Promise<Response> => {
       console.log("Rate limit exceeded for email:", email);
       return new Response(
         JSON.stringify({ 
-          error: "Rate limit exceeded. You can submit up to 3 messages per hour. Please try again later or contact me directly at inshakanue@protonmail.com" 
+          error: "Rate limit exceeded. You can submit up to 2 messages per hour. Please try again later or contact me directly at inshakanue@protonmail.com" 
         }),
         {
           status: 429,
