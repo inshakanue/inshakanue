@@ -227,12 +227,9 @@ const About = () => {
               newVy = Math.abs(newVy) * 0.3;
             }
             
-            // Wall collisions
-            if (newX <= 0) {
-              newX = 0;
-              newVx = -newVx * 0.5;
-            } else if (newX >= maxX) {
-              newX = maxX;
+            // Wall collisions - clamp position
+            newX = Math.max(0, Math.min(newX, maxX));
+            if (newX <= 0 || newX >= maxX) {
               newVx = -newVx * 0.5;
             }
           } else {
@@ -276,21 +273,16 @@ const About = () => {
             newX = pill.x + newVx;
             newY = pill.y + newVy;
             
-            // Boundary constraints with gentle bounce
-            if (newX <= 0) {
-              newX = 0;
-              newVx = Math.abs(newVx) * 0.5;
-            } else if (newX >= maxX) {
-              newX = maxX;
-              newVx = -Math.abs(newVx) * 0.5;
-            }
+            // Boundary constraints - clamp position strictly
+            newX = Math.max(0, Math.min(newX, maxX));
+            newY = Math.max(0, Math.min(newY, maxY));
             
-            if (newY <= 0) {
-              newY = 0;
-              newVy = Math.abs(newVy) * 0.5;
-            } else if (newY >= maxY) {
-              newY = maxY;
-              newVy = -Math.abs(newVy) * 0.5;
+            // Gentle bounce at boundaries
+            if (newX <= 0 || newX >= maxX) {
+              newVx = -newVx * 0.5;
+            }
+            if (newY <= 0 || newY >= maxY) {
+              newVy = -newVy * 0.5;
             }
           }
           
@@ -458,7 +450,7 @@ const About = () => {
             {/* Desktop: Stacked floating pills layout */}
             <div 
               ref={containerRef}
-              className="hidden md:block relative mx-auto overflow-hidden" 
+              className="hidden md:block relative mx-auto overflow-hidden border-2 border-transparent" 
               style={{ height: 'min(450px, 65vh)', maxWidth: '1400px', width: '100%' }}
               onMouseMove={handleMouseMove}
               onMouseUp={handleMouseUp}
