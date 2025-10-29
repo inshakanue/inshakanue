@@ -108,9 +108,9 @@ const About = () => {
     return {
       ...pill,
       id: index,
-      x: Math.random() * 200, // Random initial x position
-      y: -100 - (index * 60), // Start just above container
-      vx: (Math.random() - 0.5) * 2,
+      x: Math.random() * 400, // Random initial x position (wider spread)
+      y: -50 - (index * 15), // Start just above visible area, staggered
+      vx: (Math.random() - 0.5) * 3,
       vy: 0,
     };
   }));
@@ -136,7 +136,7 @@ const About = () => {
           }
         });
       },
-      { threshold: 0.3 } // Trigger when 30% of section is visible
+      { threshold: 0.1 } // Trigger when 10% of section is visible (earlier trigger)
     );
 
     if (sectionRef.current) {
@@ -166,8 +166,8 @@ const About = () => {
     const animate = () => {
       const elapsed = Date.now() - startTime.current;
       
-      // Switch to floating phase after 400ms
-      if (elapsed > 400 && animationPhase === 'falling') {
+      // Switch to floating phase after 2 seconds (longer falling phase)
+      if (elapsed > 2000 && animationPhase === 'falling') {
         setAnimationPhase('floating');
       }
 
@@ -186,7 +186,7 @@ const About = () => {
           let newY = pill.y;
           
           if (animationPhase === 'falling') {
-            // Falling phase: gravity and landing
+            // Falling phase: gravity and landing with collision detection
             const gravity = 0.8;
             newVy += gravity;
             
@@ -197,6 +197,22 @@ const About = () => {
             // Apply velocity
             newX = pill.x + newVx;
             newY = pill.y + newVy;
+            
+            // Collision detection with other pills during falling
+            const separationForce = 1.5;
+            prevPills.forEach((otherPill) => {
+              if (otherPill.id !== pill.id && otherPill.id !== draggingPill) {
+                if (checkCollision(pill, otherPill)) {
+                  const dx = pill.x - otherPill.x;
+                  const dy = pill.y - otherPill.y;
+                  const distance = Math.sqrt(dx * dx + dy * dy) || 1;
+                  
+                  // Push away from each other
+                  newVx += (dx / distance) * separationForce;
+                  newVy += (dy / distance) * separationForce * 0.5; // Less vertical separation
+                }
+              }
+            });
             
             // Floor collision with bounce
             if (newY >= maxY) {
@@ -443,7 +459,7 @@ const About = () => {
             <div 
               ref={containerRef}
               className="hidden md:block relative mx-auto overflow-hidden" 
-              style={{ height: 'min(380px, 60vh)', maxWidth: '100%' }}
+              style={{ height: 'min(450px, 65vh)', maxWidth: '1400px', width: '100%' }}
               onMouseMove={handleMouseMove}
               onMouseUp={handleMouseUp}
               onMouseLeave={handleMouseUp}
