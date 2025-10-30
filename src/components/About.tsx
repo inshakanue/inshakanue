@@ -124,6 +124,26 @@ const About = () => {
   const lastMousePos = useRef({ x: 0, y: 0, time: 0 });
   const animationFrame = useRef<number>();
   const startTime = useRef<number>(0);
+  const containerDimensions = useRef({ width: 0, height: 0 });
+
+  // Update container dimensions cache
+  useEffect(() => {
+    const updateDimensions = () => {
+      if (containerRef.current) {
+        containerDimensions.current = {
+          width: containerRef.current.clientWidth,
+          height: containerRef.current.clientHeight
+        };
+      }
+    };
+
+    updateDimensions();
+    window.addEventListener('resize', updateDimensions);
+    
+    return () => {
+      window.removeEventListener('resize', updateDimensions);
+    };
+  }, []);
 
   // Intersection Observer to detect when section is visible
   useEffect(() => {
@@ -175,10 +195,9 @@ const About = () => {
         return prevPills.map((pill, index) => {
           if (pill.id === draggingPill) return pill;
           
-          if (!containerRef.current) return pill;
-          
-          const maxX = containerRef.current.clientWidth - 320;
-          const maxY = containerRef.current.clientHeight - 50;
+          // Use cached dimensions instead of reading from DOM
+          const maxX = containerDimensions.current.width - 320;
+          const maxY = containerDimensions.current.height - 50;
           
           let newVx = pill.vx;
           let newVy = pill.vy;
@@ -328,9 +347,9 @@ const About = () => {
     let newX = e.clientX - container.left - dragOffset.x;
     let newY = e.clientY - container.top - dragOffset.y;
 
-    // Constrain to container boundaries
-    const maxX = containerRef.current.clientWidth - 320;
-    const maxY = containerRef.current.clientHeight - 50;
+    // Constrain to container boundaries using cached dimensions
+    const maxX = containerDimensions.current.width - 320;
+    const maxY = containerDimensions.current.height - 50;
     newX = Math.max(0, Math.min(newX, maxX));
     newY = Math.max(0, Math.min(newY, maxY));
 
@@ -381,9 +400,9 @@ const About = () => {
     let newX = touch.clientX - container.left - dragOffset.x;
     let newY = touch.clientY - container.top - dragOffset.y;
 
-    // Constrain to container boundaries
-    const maxX = containerRef.current.clientWidth - 320;
-    const maxY = containerRef.current.clientHeight - 50;
+    // Constrain to container boundaries using cached dimensions
+    const maxX = containerDimensions.current.width - 320;
+    const maxY = containerDimensions.current.height - 50;
     newX = Math.max(0, Math.min(newX, maxX));
     newY = Math.max(0, Math.min(newY, maxY));
 
