@@ -39,7 +39,7 @@ const Experience = () => {
     {
       title: "Product Manager",
       company: "Hypha.cc",
-      location: "UK (Contract)",
+      location: "UK (Remote)",
       period: "Apr 2021 – Jun 2021",
       type: "Contract",
       description: "AI-powered platform enabling strategic ideation and innovation across teams and businesses.",
