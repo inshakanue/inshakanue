@@ -185,6 +185,12 @@ const Skills = () => {
                       <div key={idx} className="space-y-2 group">
                         <div className="flex justify-between items-start gap-3">
                           <span className="text-sm font-medium text-foreground flex-1">{toTitleCase(skill.name)}</span>
+                          <Badge
+                            variant="outline" 
+                            className={`${skillLevel.colorClass} border text-xs font-medium transition-all duration-300 group-hover:scale-105`}
+                          >
+                            {skillLevel.text}
+                          </Badge>
                         </div>
                         <div className="flex items-center gap-2">
                           {renderStars(skill.level)}
