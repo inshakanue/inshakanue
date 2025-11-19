@@ -22,7 +22,8 @@ import {
   Calendar,
   Twitter,
   Github,
-  Clock
+  Clock,
+  BookOpen
 } from "lucide-react";
 
 const contactSchema = z.object({
@@ -265,7 +266,7 @@ const Contact = () => {
                         </a>
                       </Button>
                      
-                      <div className="grid grid-cols-2 gap-4">
+                      <div className="grid grid-cols-3 gap-4">
                         <Button
                           variant="outline"
                           className="text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
@@ -285,6 +286,17 @@ const Contact = () => {
                           <a href="https://x.com/inshakanue" target="_blank" rel="noopener noreferrer" aria-label="Follow Insha Kanue on X">
                             <Twitter className="w-4 h-4 sm:w-5 sm:h-5 mr-2" aria-hidden="true" />
                             Follow on X
+                          </a>
+                        </Button>
+                        
+                        <Button
+                          variant="outline"
+                          className="text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
+                          asChild
+                        >
+                          <a href="https://medium.com/@inshakanue" target="_blank" rel="noopener noreferrer" aria-label="Read Insha Kanue on Medium">
+                            <BookOpen className="w-4 h-4 sm:w-5 sm:h-5 mr-2" aria-hidden="true" />
+                            Read on Medium
                           </a>
                         </Button>
                       </div>
