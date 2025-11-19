@@ -266,10 +266,10 @@ const Contact = () => {
                         </a>
                       </Button>
                      
-                      <div className="grid grid-cols-3 gap-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                         <Button
                           variant="outline"
-                          className="text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
+                          className="w-full text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
                           asChild
                         >
                           <a href="https://github.com/inshakanue" target="_blank" rel="noopener noreferrer" aria-label="View Insha Kanue's GitHub profile">
@@ -280,7 +280,7 @@ const Contact = () => {
                         
                         <Button
                           variant="outline"
-                          className="text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
+                          className="w-full text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
                           asChild
                         >
                           <a href="https://x.com/inshakanue" target="_blank" rel="noopener noreferrer" aria-label="Follow Insha Kanue on X">
@@ -291,7 +291,7 @@ const Contact = () => {
                         
                         <Button
                           variant="outline"
-                          className="text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
+                          className="w-full text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent sm:col-span-2 lg:col-span-1"
                           asChild
                         >
                           <a href="https://medium.com/@inshakanue" target="_blank" rel="noopener noreferrer" aria-label="Read Insha Kanue on Medium">
