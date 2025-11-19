@@ -1,4 +1,4 @@
-import { Mail, Linkedin, ArrowUp, Twitter, Github } from "lucide-react";
+import { Mail, Linkedin, ArrowUp, Twitter, Github, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
 
@@ -117,6 +117,16 @@ const Footer = () => {
                 >
                   <a href="https://x.com/inshakanue" target="_blank" rel="noopener noreferrer" aria-label="Follow Insha Kanue on X">
                     <Twitter className="w-4 h-4" aria-hidden="true" />
+                  </a>
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10"
+                  asChild
+                >
+                  <a href="https://medium.com/@inshakanue" target="_blank" rel="noopener noreferrer" aria-label="Read Insha Kanue on Medium">
+                    <BookOpen className="w-4 h-4" aria-hidden="true" />
                   </a>
                 </Button>
                 <Button

@@ -34,7 +34,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Download, Mail, Linkedin, Twitter, Github } from "lucide-react";
+import { Menu, X, Download, Mail, Linkedin, Twitter, Github, BookOpen } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import type { User } from "@supabase/supabase-js";
 import { useToast } from "@/hooks/use-toast";
@@ -231,6 +231,16 @@ const Header = () => {
                 <Twitter className="w-4 h-4" aria-hidden="true" />
               </a>
             </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-muted-foreground hover:text-primary"
+              asChild
+            >
+              <a href="https://medium.com/@inshakanue" target="_blank" rel="noopener noreferrer" aria-label="Read on Medium">
+                <BookOpen className="w-4 h-4" aria-hidden="true" />
+              </a>
+            </Button>
             {showAdminControls && (
               <>
                 {user ? (
@@ -313,6 +323,16 @@ const Header = () => {
                   >
                     <a href="https://x.com/inshakanue" target="_blank" rel="noopener noreferrer" aria-label="Follow on X">
                       <Twitter className="w-4 h-4" aria-hidden="true" />
+                    </a>
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-muted-foreground hover:text-primary"
+                    asChild
+                  >
+                    <a href="https://medium.com/@inshakanue" target="_blank" rel="noopener noreferrer" aria-label="Read on Medium">
+                      <BookOpen className="w-4 h-4" aria-hidden="true" />
                     </a>
                   </Button>
                 </div>
