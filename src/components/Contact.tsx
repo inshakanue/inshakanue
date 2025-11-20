@@ -254,7 +254,17 @@ const Contact = () => {
                           Send Direct Email
                         </a>
                       </Button>
-                     
+                      
+                      {/* Visual Separator */}
+                      <div className="relative py-2">
+                        <div className="absolute inset-0 flex items-center">
+                          <div className="w-full border-t border-border"></div>
+                        </div>
+                        <div className="relative flex justify-center text-xs uppercase">
+                          <span className="bg-card px-2 text-muted-foreground">Social Media</span>
+                        </div>
+                      </div>
+                      
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {/* Column 1: LinkedIn and GitHub */}
                         <div className="space-y-4">
