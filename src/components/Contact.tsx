@@ -19,7 +19,6 @@ import {
   MapPin, 
   Send, 
   Download,
-  Calendar,
   Twitter,
   Github,
   Clock,

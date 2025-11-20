@@ -10,9 +10,7 @@ src/
 │   ├── setup.ts                 # Vitest setup and global mocks
 │   └── test-utils.tsx           # Custom render utilities
 ├── utils/
-│   ├── internalLinking.test.ts  # Unit tests for linking utils
-│   ├── metaOptimization.test.ts # Unit tests for SEO utils
-│   └── imageOptimization.test.ts # Unit tests for image utils
+│   └── internalLinking.test.ts  # Unit tests for linking utils
 ├── components/
 │   └── SEO.test.tsx             # Component integration tests
 └── hooks/
@@ -71,17 +69,6 @@ npm run test:e2e tests/e2e/auth.spec.ts
   - ✅ First occurrence only linking
   - ✅ Reading time calculation
   - ✅ Tag suggestion from content
-
-- **Meta Optimization** (`metaOptimization.ts`)
-  - ✅ Title optimization with brand
-  - ✅ Description truncation
-  - ✅ Keyword generation
-  - ✅ Canonical URL formatting
-
-- **Image Optimization** (`imageOptimization.ts`)
-  - ✅ Alt text validation
-  - ✅ Srcset generation
-  - ✅ Sizes attribute generation
 
 ### Components (Integration Tests)
 
