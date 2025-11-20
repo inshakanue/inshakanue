@@ -255,50 +255,56 @@ const Contact = () => {
                         </a>
                       </Button>
                      
-                      <Button
-                        variant="outline"
-                        className="w-full text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
-                        asChild
-                      >
-                        <a href="https://linkedin.com/in/inshakanue" target="_blank" rel="noopener noreferrer" aria-label="Connect with Insha Kanue on LinkedIn">
-                          <Linkedin className="w-4 h-4 sm:w-5 sm:h-5 mr-2" aria-hidden="true" />
-                          Connect on LinkedIn
-                        </a>
-                      </Button>
-                     
-                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                        <Button
-                          variant="outline"
-                          className="w-full text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
-                          asChild
-                        >
-                          <a href="https://github.com/inshakanue" target="_blank" rel="noopener noreferrer" aria-label="View Insha Kanue's GitHub profile">
-                            <Github className="w-4 h-4 sm:w-5 sm:h-5 mr-2" aria-hidden="true" />
-                            View GitHub
-                          </a>
-                        </Button>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {/* Column 1: LinkedIn and GitHub */}
+                        <div className="space-y-4">
+                          <Button
+                            variant="outline"
+                            className="w-full text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
+                            asChild
+                          >
+                            <a href="https://linkedin.com/in/inshakanue" target="_blank" rel="noopener noreferrer" aria-label="Connect with Insha Kanue on LinkedIn">
+                              <Linkedin className="w-4 h-4 sm:w-5 sm:h-5 mr-2" aria-hidden="true" />
+                              Connect on LinkedIn
+                            </a>
+                          </Button>
+                          
+                          <Button
+                            variant="outline"
+                            className="w-full text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
+                            asChild
+                          >
+                            <a href="https://github.com/inshakanue" target="_blank" rel="noopener noreferrer" aria-label="View Insha Kanue's GitHub profile">
+                              <Github className="w-4 h-4 sm:w-5 sm:h-5 mr-2" aria-hidden="true" />
+                              View GitHub
+                            </a>
+                          </Button>
+                        </div>
                         
-                        <Button
-                          variant="outline"
-                          className="w-full text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
-                          asChild
-                        >
-                          <a href="https://x.com/inshakanue" target="_blank" rel="noopener noreferrer" aria-label="Follow Insha Kanue on X">
-                            <Twitter className="w-4 h-4 sm:w-5 sm:h-5 mr-2" aria-hidden="true" />
-                            Follow on X
-                          </a>
-                        </Button>
-                        
-                        <Button
-                          variant="outline"
-                          className="w-full text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent sm:col-span-2 lg:col-span-1"
-                          asChild
-                        >
-                          <a href="https://medium.com/@inshakanue" target="_blank" rel="noopener noreferrer" aria-label="Read Insha Kanue on Medium">
-                            <BookOpen className="w-4 h-4 sm:w-5 sm:h-5 mr-2" aria-hidden="true" />
-                            Read on Medium
-                          </a>
-                        </Button>
+                        {/* Column 2: X and Medium */}
+                        <div className="space-y-4">
+                          <Button
+                            variant="outline"
+                            className="w-full text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
+                            asChild
+                          >
+                            <a href="https://x.com/inshakanue" target="_blank" rel="noopener noreferrer" aria-label="Follow Insha Kanue on X">
+                              <Twitter className="w-4 h-4 sm:w-5 sm:h-5 mr-2" aria-hidden="true" />
+                              Follow on X
+                            </a>
+                          </Button>
+                          
+                          <Button
+                            variant="outline"
+                            className="w-full text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
+                            asChild
+                          >
+                            <a href="https://medium.com/@inshakanue" target="_blank" rel="noopener noreferrer" aria-label="Read Insha Kanue on Medium">
+                              <BookOpen className="w-4 h-4 sm:w-5 sm:h-5 mr-2" aria-hidden="true" />
+                              Read on Medium
+                            </a>
+                          </Button>
+                        </div>
                       </div>
                    </div>
                  </CardContent>
