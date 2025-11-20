@@ -58,7 +58,7 @@ const Contact = () => {
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = 'Insha_Kanue_Resume.pdf';
+      link.download = 'InshaKanue_ProductManager_Resume.pdf';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
