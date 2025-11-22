@@ -170,7 +170,7 @@ This project is private and proprietary.
 
 **Insha Kanue**
 - Product Manager
-- Email: [Contact through website](/)
+- [Contact through website](/)
 
 ---
 
