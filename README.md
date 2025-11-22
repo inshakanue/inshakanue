@@ -170,7 +170,6 @@ This project is private and proprietary.
 
 **Insha Kanue**
 - Product Manager
-- [Contact through website](/)
 
 ---
 
