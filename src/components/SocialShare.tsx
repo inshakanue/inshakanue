@@ -238,7 +238,7 @@ export const SocialShare = ({
             variant="outline"
             size="sm"
             onClick={() => handleShare("whatsapp")}
-            className="gap-2 hover:bg-[#25D366] hover:text-white hover:border-[#25D366] transition-colors"
+            className="gap-2 border-transparent hover:bg-[#25D366] hover:text-white hover:border-transparent transition-colors"
             aria-label="Share on WhatsApp"
           >
             <WhatsAppIcon className="w-4 h-4" />
