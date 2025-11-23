@@ -447,25 +447,27 @@ const BlogAdmin = () => {
                       </div>
                     )}
 
-                    {/* Or URL Input */}
-                    <div className="space-y-2">
-                      <Label htmlFor="cover_image_url" className="text-xs text-muted-foreground">
-                        Or enter image URL
-                      </Label>
-                      <Input
-                        id="cover_image_url"
-                        type="url"
-                        value={formData.cover_image}
-                        onChange={(e) =>
-                          setFormData({
-                            ...formData,
-                            cover_image: e.target.value,
-                          })
-                        }
-                        placeholder="https://example.com/image.jpg"
-                        disabled={uploadingImage}
-                      />
-                    </div>
+                    {/* Or URL Input - only show when no image */}
+                    {!formData.cover_image && (
+                      <div className="space-y-2 mt-4">
+                        <Label htmlFor="cover_image_url" className="text-xs text-muted-foreground">
+                          Or enter image URL
+                        </Label>
+                        <Input
+                          id="cover_image_url"
+                          type="url"
+                          value={formData.cover_image}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              cover_image: e.target.value,
+                            })
+                          }
+                          placeholder="https://example.com/image.jpg"
+                          disabled={uploadingImage}
+                        />
+                      </div>
+                    )}
                   </div>
 
                   <div className="space-y-2">
