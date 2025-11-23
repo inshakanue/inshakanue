@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
-import { Linkedin, Twitter, Link, Heart, Phone, MessageCircle } from "lucide-react";
+import { Linkedin, Twitter, Link, Heart } from "lucide-react";
+import WhatsAppIcon from "@/components/ui/WhatsAppIcon";
 import { toast } from "@/hooks/use-toast";
 import blueskyIcon from "@/assets/bluesky-icon.png";
 import { supabase } from "@/integrations/supabase/client";
@@ -240,10 +241,7 @@ export const SocialShare = ({
             className="gap-2 hover:bg-[#25D366] hover:text-white hover:border-[#25D366] transition-colors"
             aria-label="Share on WhatsApp"
           >
-            <span className="relative w-4 h-4 inline-block">
-              <MessageCircle className="absolute inset-0 w-4 h-4" />
-              <Phone className="absolute left-0.5 top-0.5 w-3 h-3" />
-            </span>
+            <WhatsAppIcon className="w-4 h-4" />
             <span className="hidden xs:inline">WhatsApp</span>
           </Button>
           <Button
