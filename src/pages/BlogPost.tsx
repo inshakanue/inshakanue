@@ -65,10 +65,18 @@ const BlogPost = () => {
       if (error || !data) throw error || new Error("Post not found");
       setPost(data);
       
-      // Generate signed URL for cover image
+      // Generate URL for cover image
       if (data.cover_image) {
-        const url = await getBlogCoverUrl(data.cover_image);
-        setCoverImageUrl(url);
+        // If it's a URL, use it directly
+        if (data.cover_image.startsWith('http')) {
+          setCoverImageUrl(data.cover_image);
+        } else {
+          // If it's a storage path, use public URL for social media previews
+          const { data: { publicUrl } } = supabase.storage
+            .from('blog_covers')
+            .getPublicUrl(data.cover_image);
+          setCoverImageUrl(publicUrl);
+        }
       }
     } catch (error) {
       if (import.meta.env.DEV) {
