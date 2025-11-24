@@ -44,6 +44,7 @@ import SEO from "@/components/SEO";
 import StructuredData, { PersonSchema, WebsiteSchema, OrganizationSchema } from "@/components/StructuredData";
 import { SocialPreview } from "@/components/SocialPreview";
 import { usePerformanceMonitoring } from "@/hooks/usePerformanceMonitoring";
+import { LatestBlogs } from "@/components/LatestBlogs";
 
 const Index = () => {
   // Monitor Core Web Vitals for SEO and UX optimization
@@ -88,6 +89,9 @@ const Index = () => {
           
           {/* CONTACT: Multi-channel reach (form, email, LinkedIn) with rate limiting */}
           <Contact />
+          
+          {/* LATEST BLOGS: Showcase 3 most recent blog posts for engagement */}
+          <LatestBlogs />
         </main>
         
         {/* FOOTER: Secondary navigation and social links */}
