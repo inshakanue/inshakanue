@@ -241,7 +241,7 @@ export const SocialShare = ({
             className="gap-2 hover:bg-[#25D366] hover:text-white hover:border-[#25D366] transition-colors"
             aria-label="Share on WhatsApp"
           >
-            <img src={whatsappIcon} alt="WhatsApp" className="w-5 h-5" />
+            <img src={whatsappIcon} alt="WhatsApp" className="w-4 h-4" />
             <span className="hidden xs:inline">WhatsApp</span>
           </Button>
           <Button
