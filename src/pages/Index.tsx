@@ -45,6 +45,7 @@ import StructuredData, { PersonSchema, WebsiteSchema, OrganizationSchema } from 
 import { SocialPreview } from "@/components/SocialPreview";
 import { usePerformanceMonitoring } from "@/hooks/usePerformanceMonitoring";
 import { LatestBlogs } from "@/components/LatestBlogs";
+import { Separator } from "@/components/ui/separator";
 
 const Index = () => {
   // Monitor Core Web Vitals for SEO and UX optimization
@@ -89,6 +90,11 @@ const Index = () => {
           
           {/* CONTACT: Multi-channel reach (form, email, LinkedIn) with rate limiting */}
           <Contact />
+          
+          {/* SEPARATOR: Visual divider between sections */}
+          <div className="container-custom py-8">
+            <Separator className="bg-border/50" />
+          </div>
           
           {/* LATEST BLOGS: Showcase 3 most recent blog posts for engagement */}
           <LatestBlogs />
