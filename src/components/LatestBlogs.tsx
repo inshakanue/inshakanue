@@ -78,26 +78,26 @@ export const LatestBlogs = () => {
 
   if (loading) {
     return (
-      <section className="py-20 bg-muted/30">
+      <section className="py-12 bg-muted/30">
         <div className="container-custom">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Latest Blog Posts</h2>
-            <p className="text-muted-foreground text-lg">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl md:text-3xl font-bold mb-2">Latest Blog Posts</h2>
+            <p className="text-muted-foreground">
               Insights, thoughts, and learnings from my journey
             </p>
           </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3].map((i) => (
               <Card key={i} className="animate-pulse">
-                <div className="h-48 bg-muted rounded-t-lg" />
-                <CardHeader>
-                  <div className="h-6 bg-muted rounded w-3/4 mb-2" />
-                  <div className="h-4 bg-muted rounded w-1/2" />
+                <div className="h-40 bg-muted rounded-t-lg" />
+                <CardHeader className="pb-3">
+                  <div className="h-5 bg-muted rounded w-3/4 mb-2" />
+                  <div className="h-3 bg-muted rounded w-1/2" />
                 </CardHeader>
-                <CardContent>
+                <CardContent className="pb-4">
                   <div className="space-y-2">
-                    <div className="h-4 bg-muted rounded" />
-                    <div className="h-4 bg-muted rounded w-5/6" />
+                    <div className="h-3 bg-muted rounded" />
+                    <div className="h-3 bg-muted rounded w-5/6" />
                   </div>
                 </CardContent>
               </Card>
@@ -113,15 +113,15 @@ export const LatestBlogs = () => {
   }
 
   return (
-    <section className="py-20 bg-muted/30">
+    <section className="py-12 bg-muted/30">
       <div className="container-custom">
-        <div className="text-center mb-12 animate-fade-in">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Latest Blog Posts</h2>
-          <p className="text-muted-foreground text-lg">
+        <div className="text-center mb-8 animate-fade-in">
+          <h2 className="text-2xl md:text-3xl font-bold mb-2">Latest Blog Posts</h2>
+          <p className="text-muted-foreground">
             Insights, thoughts, and learnings from my journey
           </p>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           {posts.map((post, index) => (
             <Link
               key={post.id}
@@ -131,7 +131,7 @@ export const LatestBlogs = () => {
             >
               <Card className="h-full overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
                 {coverImages[post.id] && (
-                  <div className="overflow-hidden h-48">
+                  <div className="overflow-hidden h-40">
                     <img
                       src={coverImages[post.id]}
                       alt={post.title}
@@ -139,31 +139,31 @@ export const LatestBlogs = () => {
                     />
                   </div>
                 )}
-                <CardHeader>
-                  <h3 className="text-xl font-semibold mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                <CardHeader className="pb-3">
+                  <h3 className="text-lg font-semibold mb-2 group-hover:text-primary transition-colors line-clamp-2">
                     {post.title}
                   </h3>
-                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                  <div className="flex items-center gap-3 text-xs text-muted-foreground">
                     <div className="flex items-center gap-1">
-                      <Calendar className="w-4 h-4" />
+                      <Calendar className="w-3 h-3" />
                       <span>{formatDate(post.published_at)}</span>
                     </div>
                     {post.reading_time_minutes && (
                       <div className="flex items-center gap-1">
-                        <Clock className="w-4 h-4" />
+                        <Clock className="w-3 h-3" />
                         <span>{post.reading_time_minutes} min</span>
                       </div>
                     )}
                   </div>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="pb-4">
                   {post.excerpt && (
-                    <p className="text-muted-foreground mb-4 line-clamp-3">
+                    <p className="text-sm text-muted-foreground mb-3 line-clamp-2">
                       {post.excerpt}
                     </p>
                   )}
                   {post.tags && post.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-1.5">
                       {post.tags.slice(0, 3).map((tag) => (
                         <Badge key={tag} variant="secondary" className="text-xs">
                           {tag}
@@ -177,7 +177,7 @@ export const LatestBlogs = () => {
           ))}
         </div>
         <div className="text-center animate-fade-in">
-          <Button asChild size="lg" className="gap-2">
+          <Button asChild className="gap-2">
             <Link to="/blog">
               View All Posts
               <ArrowRight className="w-4 h-4" />
