@@ -144,6 +144,7 @@ const Skills = () => {
   ];
 
   const certifications = [
+    { name: "Product Experimentation Micro-Certification (PEC)™️ - Product School", link: null },
     { name: "Product Discovery Micro-Certification (PDC)™️ - Product School", link: null },
     { name: "Product Prioritization Micro-Certification (PPC)™️ - Product School", link: null },
     { name: "Intermediate SQL - DataCamp", link: "https://www.datacamp.com/completed/statement-of-accomplishment/course/1e38f134d1f454e60b98f4d43f457fb495a74442?utm_medium=organic_social&utm_campaign=sharewidget&utm_content=soa&utm_source=copylink" }
