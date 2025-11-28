@@ -7,24 +7,24 @@
         xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <!-- Homepage -->
   <url>
-    <loc>https://inshakanue.lovable.app/</loc>
-    <lastmod>2025-10-03</lastmod>
+    <loc>https://inshakanue.space/</loc>
+    <lastmod>2025-11-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   
   <!-- Blog Listing -->
   <url>
-    <loc>https://inshakanue.lovable.app/blog</loc>
-    <lastmod>2025-10-03</lastmod>
+    <loc>https://inshakanue.space/blog</loc>
+    <lastmod>2025-11-28</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.8</priority>
   </url>
   
   <!-- Auth Page -->
   <url>
-    <loc>https://inshakanue.lovable.app/auth</loc>
-    <lastmod>2025-10-03</lastmod>
+    <loc>https://inshakanue.space/auth</loc>
+    <lastmod>2025-11-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.3</priority>
   </url>
