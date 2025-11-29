@@ -16,17 +16,33 @@ const Contact = () => {
   const { toast } = useToast();
 
   useEffect(() => {
+    // Check if script already exists
+    const existingScript = document.querySelector('script[src*="embed.typeform.com"]');
+    
+    if (existingScript) {
+      // Script already loaded, just reinitialize
+      if ((window as any).tf?.load) {
+        (window as any).tf.load();
+      }
+      return;
+    }
+
     // Load Typeform embed script
     const script = document.createElement('script');
     script.src = '//embed.typeform.com/next/embed.js';
     script.async = true;
+    
+    // When script loads, trigger Typeform to scan for embeds
+    script.onload = () => {
+      if ((window as any).tf?.load) {
+        (window as any).tf.load();
+      }
+    };
+    
     document.body.appendChild(script);
 
     return () => {
-      // Cleanup script on unmount
-      if (document.body.contains(script)) {
-        document.body.removeChild(script);
-      }
+      // Cleanup - don't remove script as it might be needed elsewhere
     };
   }, []);
 
