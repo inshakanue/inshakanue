@@ -219,7 +219,9 @@ const Contact = () => {
                 </CardHeader>
                 <CardContent className="p-0">
                   <div 
-                    data-tf-live="01KB8CWMZ3CHN9SQ87DX3GTVHR"
+                    data-tf-widget="01KB8CWMZ3CHN9SQ87DX3GTVHR"
+                    data-tf-inline-on-mobile
+                    data-tf-medium="snippet"
                     style={{ width: '100%', height: '600px' }}
                     className="rounded-lg"
                   />
