@@ -1,7 +1,7 @@
+import { useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import { Widget } from '@typeform/embed-react';
 import { 
   Mail, 
   Linkedin, 
@@ -14,6 +14,21 @@ import {
 
 const Contact = () => {
   const { toast } = useToast();
+
+  useEffect(() => {
+    // Load Typeform embed script
+    const script = document.createElement('script');
+    script.src = '//embed.typeform.com/next/embed.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    return () => {
+      // Cleanup script on unmount
+      if (document.body.contains(script)) {
+        document.body.removeChild(script);
+      }
+    };
+  }, []);
 
   const handleDownloadResume = async () => {
     try {
@@ -187,8 +202,8 @@ const Contact = () => {
                   <CardTitle className="text-2xl">Send a Message</CardTitle>
                 </CardHeader>
                 <CardContent className="p-0">
-                  <Widget 
-                    id="m85vZpg0"
+                  <div 
+                    data-tf-live="01KB8CWMZ3CHN9SQ87DX3GTVHR"
                     style={{ width: '100%', height: '600px' }}
                     className="rounded-lg"
                   />
