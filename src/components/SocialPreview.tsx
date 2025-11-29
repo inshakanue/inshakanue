@@ -16,7 +16,7 @@ interface SocialPreviewProps {
 export const SocialPreview = ({
   title,
   description,
-  image = 'https://vqazbygfeagufizgfdcl.supabase.co/storage/v1/object/public/assets/og-image.jpg',
+  image = 'https://inshakanue.space/og-default-blog.jpg',
   type = 'website',
   author,
   publishedTime,
@@ -31,6 +31,7 @@ export const SocialPreview = ({
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:type', content: type },
+      { property: 'og:url', content: window.location.href },
     ];
 
     // Twitter Card

@@ -152,8 +152,8 @@ const BlogPost = () => {
       />
       <SocialPreview
         title={post.title}
-        description={post.excerpt || post.content.substring(0, 160)}
-        image={coverImageUrl}
+        description={post.excerpt || post.content.replace(/<[^>]*>/g, '').substring(0, 160)}
+        image={coverImageUrl || undefined}
         type="article"
         author={post.author_name}
         publishedTime={post.published_at || post.created_at}
