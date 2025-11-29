@@ -1,53 +1,18 @@
-import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
-import { z } from "zod";
-import { 
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Widget } from '@typeform/embed-react';
 import { 
   Mail, 
   Linkedin, 
   MapPin, 
-  Send, 
   Download,
   Twitter,
   Github,
-  Clock,
   BookOpen
 } from "lucide-react";
 
-const contactSchema = z.object({
-  name: z.string().trim().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
-  email: z.string().trim().email("Invalid email address").max(255, "Email must be less than 255 characters"),
-  inquiryType: z.string().min(1, "Please select an inquiry type"),
-  subject: z.string().trim().min(1, "Subject is required").max(200, "Subject must be less than 200 characters"),
-  message: z.string().trim().min(1, "Message is required").max(2000, "Message must be less than 2000 characters"),
-  honeypot: z.string().max(0, "Invalid submission") // Bot detection
-});
-
-const RATE_LIMIT_COOLDOWN = 60 * 1000; // 1 minute client-side cooldown
-const RATE_LIMIT_KEY = "contact_form_last_submission";
-
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    inquiryType: "",
-    subject: "",
-    message: "",
-    honeypot: "" // Hidden field for bot detection
-  });
-  const [isLoading, setIsLoading] = useState(false);
-  const [cooldownRemaining, setCooldownRemaining] = useState(0);
   const { toast } = useToast();
 
   const handleDownloadResume = async () => {
@@ -69,111 +34,6 @@ const Contact = () => {
         variant: "destructive",
       });
     }
-  };
-
-  // Check cooldown on mount and update countdown
-  useEffect(() => {
-    const checkCooldown = () => {
-      const lastSubmission = localStorage.getItem(RATE_LIMIT_KEY);
-      if (lastSubmission) {
-        const timeSince = Date.now() - parseInt(lastSubmission);
-        const remaining = RATE_LIMIT_COOLDOWN - timeSince;
-        if (remaining > 0) {
-          setCooldownRemaining(Math.ceil(remaining / 1000));
-        } else {
-          setCooldownRemaining(0);
-        }
-      }
-    };
-
-    checkCooldown();
-    const interval = setInterval(checkCooldown, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    // Check client-side cooldown
-    const lastSubmission = localStorage.getItem(RATE_LIMIT_KEY);
-    if (lastSubmission) {
-      const timeSince = Date.now() - parseInt(lastSubmission);
-      if (timeSince < RATE_LIMIT_COOLDOWN) {
-        const remainingSeconds = Math.ceil((RATE_LIMIT_COOLDOWN - timeSince) / 1000);
-        toast({
-          title: "Please Wait",
-          description: `You can submit another message in ${remainingSeconds} seconds.`,
-          variant: "destructive",
-        });
-        return;
-      }
-    }
-    
-    // Validate form data
-    try {
-      contactSchema.parse(formData);
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        toast({
-          title: "Validation Error",
-          description: error.errors[0].message,
-          variant: "destructive",
-        });
-        return;
-      }
-    }
-
-    setIsLoading(true);
-
-    try {
-      const { data, error } = await supabase.functions.invoke('send-contact-email', {
-        body: formData
-      });
-
-      if (error) {
-        // Handle rate limit errors specifically
-        if (error.message?.includes("rate limit") || error.message?.includes("429")) {
-          toast({
-            title: "Rate Limit Exceeded",
-            description: error.message || "Too many requests. Please try again later or contact me directly via email.",
-            variant: "destructive",
-          });
-          return;
-        }
-        throw error;
-      }
-
-      // Store submission timestamp
-      localStorage.setItem(RATE_LIMIT_KEY, Date.now().toString());
-      setCooldownRemaining(RATE_LIMIT_COOLDOWN / 1000);
-
-      toast({
-        title: "Message Sent!",
-        description: "Thank you for reaching out. I'll get back to you soon!",
-      });
-
-      // Reset form
-      setFormData({ name: "", email: "", inquiryType: "", subject: "", message: "", honeypot: "" });
-    } catch (error: any) {
-      // Log error without exposing sensitive details
-      if (import.meta.env.DEV) {
-        console.error("Error sending message:", error);
-      }
-      toast({
-        title: "Error",
-        description: "Failed to send message. Please try again or contact me directly.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }));
   };
 
   const contactInfo = [
@@ -326,132 +186,12 @@ const Contact = () => {
                 <CardHeader>
                   <CardTitle className="text-2xl">Send a Message</CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    {/* Honeypot field - hidden from users */}
-                    <input
-                      type="text"
-                      name="honeypot"
-                      value={formData.honeypot}
-                      onChange={handleChange}
-                      style={{ display: 'none' }}
-                      tabIndex={-1}
-                      autoComplete="off"
-                      aria-hidden="true"
-                    />
-                    
-                    <div className="grid sm:grid-cols-2 gap-4">
-                      <div>
-                        <label htmlFor="name" className="block text-sm font-medium mb-2 text-foreground">
-                          Name *
-                        </label>
-                        <Input
-                          id="name"
-                          name="name"
-                          type="text"
-                          required
-                          value={formData.name}
-                          onChange={handleChange}
-                          className="w-full"
-                          placeholder="Your full name"
-                        />
-                      </div>
-                      <div>
-                        <label htmlFor="email" className="block text-sm font-medium mb-2 text-foreground">
-                          Email *
-                        </label>
-                        <Input
-                          id="email"
-                          name="email"
-                          type="email"
-                          required
-                          value={formData.email}
-                          onChange={handleChange}
-                          className="w-full"
-                          placeholder="your.email@example.com"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <label htmlFor="inquiryType" className="block text-sm font-medium mb-2 text-foreground">
-                        Inquiry Type *
-                      </label>
-                      <Select
-                        value={formData.inquiryType}
-                        onValueChange={(value) => setFormData(prev => ({ ...prev, inquiryType: value }))}
-                      >
-                        <SelectTrigger 
-                          id="inquiryType"
-                          className="w-full text-foreground data-[placeholder]:text-muted-foreground"
-                          aria-label="Select inquiry type"
-                        >
-                          <SelectValue placeholder="Select inquiry type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="Job Opportunity">Job Opportunity</SelectItem>
-                          <SelectItem value="Contract / Freelance Work">Contract / Freelance Work</SelectItem>
-                          <SelectItem value="Consulting Services">Consulting Services</SelectItem>
-                          <SelectItem value="Partnership & Collaboration">Partnership & Collaboration</SelectItem>
-                          <SelectItem value="General Inquiry">General Inquiry</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-
-                    <div>
-                      <label htmlFor="subject" className="block text-sm font-medium mb-2 text-foreground">
-                        Subject *
-                      </label>
-                      <Input
-                        id="subject"
-                        name="subject"
-                        type="text"
-                        required
-                        value={formData.subject}
-                        onChange={handleChange}
-                        className="w-full"
-                        placeholder="What would you like to discuss?"
-                      />
-                    </div>
-
-                    <div>
-                      <label htmlFor="message" className="block text-sm font-medium mb-2 text-foreground">
-                        Message *
-                      </label>
-                      <Textarea
-                        id="message"
-                        name="message"
-                        required
-                        value={formData.message}
-                        onChange={handleChange}
-                        className="w-full min-h-[120px]"
-                        placeholder="Tell me about your project, challenge, or opportunity..."
-                      />
-                    </div>
-
-                    {cooldownRemaining > 0 && (
-                      <div className="flex items-center gap-2 text-sm text-muted-foreground bg-muted/50 p-3 rounded-lg">
-                        <Clock className="w-4 h-4" />
-                        <span>Please wait {cooldownRemaining} seconds before submitting again</span>
-                      </div>
-                    )}
-
-                    <Button
-                      type="submit"
-                      className="btn-primary w-full text-lg py-6"
-                      disabled={isLoading || cooldownRemaining > 0}
-                      aria-label={isLoading ? "Sending message" : cooldownRemaining > 0 ? `Wait ${cooldownRemaining} seconds to send message` : "Send message"}
-                    >
-                      <Send className="w-5 h-5 mr-2" aria-hidden="true" />
-                      {isLoading ? "Sending..." : cooldownRemaining > 0 ? `Wait ${cooldownRemaining}s` : "Send Message"}
-                    </Button>
-                    
-                    {cooldownRemaining > 0 && (
-                      <p className="text-xs text-center text-muted-foreground">
-                        Need urgent help? <a href="mailto:inshakanue@protonmail.com" className="text-primary hover:underline">Email me directly</a>
-                      </p>
-                    )}
-                  </form>
+                <CardContent className="p-0">
+                  <Widget 
+                    id="m85vZpg0"
+                    style={{ width: '100%', height: '600px' }}
+                    className="rounded-lg"
+                  />
                 </CardContent>
               </Card>
             </div>
