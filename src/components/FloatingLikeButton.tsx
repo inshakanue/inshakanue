@@ -134,7 +134,7 @@ export const FloatingLikeButton = ({ postId }: FloatingLikeButtonProps) => {
     <div className="fixed bottom-6 left-6 z-50 flex flex-col items-start gap-3">
       {showLikeMessage && (
         <div className="bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg whitespace-nowrap animate-fade-in mb-2">
-          Thank you! ❤️
+          Thank you for liking this post!
         </div>
       )}
       <Button
