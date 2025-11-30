@@ -324,12 +324,19 @@ const BlogAdmin = () => {
       <main className="pt-24 pb-16">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto">
-            <Button variant="ghost" size="sm" asChild className="mb-8">
-              <Link to="/blog">
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back to Blog
-              </Link>
-            </Button>
+            <div className="flex items-center justify-between mb-8">
+              <Button variant="ghost" size="sm" asChild>
+                <Link to="/blog">
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Back to Blog
+                </Link>
+              </Button>
+              <Button variant="outline" size="sm" asChild>
+                <Link to="/blog/analytics">
+                  View Analytics Dashboard
+                </Link>
+              </Button>
+            </div>
 
             <Card className="card-elevated">
               <CardHeader>

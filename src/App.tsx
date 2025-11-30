@@ -56,6 +56,7 @@ const Blog = lazy(() => import("./pages/Blog"));          // Blog listing page
 const BlogPost = lazy(() => import("./pages/BlogPost"));  // Individual blog post view
 const BlogTag = lazy(() => import("./pages/BlogTag"));    // Tag-filtered blog posts
 const BlogAdmin = lazy(() => import("./pages/BlogAdmin"));// Admin panel for content management
+const BlogAnalyticsDashboard = lazy(() => import("./pages/BlogAnalyticsDashboard")); // Analytics dashboard
 const Auth = lazy(() => import("./pages/Auth"));          // Authentication (login/signup)
 const NotFound = lazy(() => import("./pages/NotFound"));  // 404 error page
 
@@ -123,6 +124,7 @@ const App = () => (
               <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/blog/tag/:tag" element={<BlogTag />} />
               <Route path="/blog/admin" element={<BlogAdmin />} />
+              <Route path="/blog/analytics" element={<BlogAnalyticsDashboard />} />
               
               {/* AUTHENTICATION: Login and signup flows */}
               <Route path="/auth" element={<Auth />} />
