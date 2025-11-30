@@ -14,6 +14,7 @@ export const FloatingLikeButton = ({ postId }: FloatingLikeButtonProps) => {
   const [isLiked, setIsLiked] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showLikeMessage, setShowLikeMessage] = useState(false);
+  const [countIncreased, setCountIncreased] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -114,7 +115,9 @@ export const FloatingLikeButton = ({ postId }: FloatingLikeButtonProps) => {
         setIsLiked(true);
         setLikeCount((prev) => prev + 1);
         setShowLikeMessage(true);
+        setCountIncreased(true);
         setTimeout(() => setShowLikeMessage(false), 3000);
+        setTimeout(() => setCountIncreased(false), 600);
       }
     } catch (error: any) {
       console.error("Error liking post:", error);
@@ -150,7 +153,11 @@ export const FloatingLikeButton = ({ postId }: FloatingLikeButtonProps) => {
       >
         <Heart className={`w-6 h-6 ${isLiked ? "fill-current" : ""}`} />
         {likeCount > 0 && (
-          <span className="absolute -top-2 -right-2 bg-background border border-border rounded-full w-7 h-7 flex items-center justify-center text-xs font-bold">
+          <span 
+            className={`absolute -top-2 -right-2 bg-gradient-to-br from-red-500 to-pink-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold shadow-lg border-2 border-background transition-all duration-300 ${
+              countIncreased ? "scale-125 animate-pulse" : "scale-100"
+            }`}
+          >
             {likeCount}
           </span>
         )}
