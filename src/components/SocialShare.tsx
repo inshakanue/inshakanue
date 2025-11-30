@@ -3,21 +3,26 @@ import { Linkedin, Twitter, Link, Heart } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import blueskyIcon from "@/assets/bluesky-icon.png";
 import whatsappIcon from "@/assets/whatsapp-icon.svg";
-import { supabase } from "@/integrations/supabase/client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface SocialShareProps {
   url: string;
   title: string;
   description?: string;
-  postId: string;
+  likeCount: number;
+  isLiked: boolean;
+  isLoading: boolean;
+  onLike: () => void;
 }
 
 export const SocialShare = ({
   url,
   title,
   description,
-  postId,
+  likeCount,
+  isLiked,
+  isLoading,
+  onLike,
 }: SocialShareProps) => {
   const encodedUrl = encodeURIComponent(url);
   const encodedTitle = encodeURIComponent(title);
@@ -28,115 +33,12 @@ export const SocialShare = ({
     `${title}${description ? " - " + description : ""} ${url}`
   );
 
-  const [likeCount, setLikeCount] = useState(0);
-  const [isLiked, setIsLiked] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [showLikeMessage, setShowLikeMessage] = useState(false);
 
-  useEffect(() => {
-    fetchLikeData();
-  }, [postId]);
-
-  const fetchLikeData = async () => {
-    try {
-      // Fetch total like count
-      const { count, error: countError } = await supabase
-        .from("blog_post_likes")
-        .select("*", { count: "exact", head: true })
-        .eq("post_id", postId);
-
-      if (countError) throw countError;
-      setLikeCount(count || 0);
-
-      // Check if current user has liked
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-
-      if (user) {
-        const { data, error } = await supabase
-          .from("blog_post_likes")
-          .select("id")
-          .eq("post_id", postId)
-          .eq("user_id", user.id)
-          .maybeSingle();
-
-        if (error && error.code !== "PGRST116") throw error;
-        setIsLiked(!!data);
-      } else {
-        // Check localStorage for anonymous likes
-        const likedPosts = JSON.parse(
-          localStorage.getItem("likedPosts") || "[]"
-        );
-        setIsLiked(likedPosts.includes(postId));
-      }
-    } catch (error) {
-      console.error("Error fetching like data:", error);
-    }
-  };
-
-  const handleLike = async () => {
-    if (isLoading) return;
-
-    setIsLoading(true);
-    try {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-
-      if (isLiked) {
-        // Unlike
-        if (user) {
-          const { error } = await supabase
-            .from("blog_post_likes")
-            .delete()
-            .eq("post_id", postId)
-            .eq("user_id", user.id);
-
-          if (error) throw error;
-        } else {
-          // For anonymous, just update localStorage
-          const likedPosts = JSON.parse(
-            localStorage.getItem("likedPosts") || "[]"
-          );
-          const updated = likedPosts.filter((id: string) => id !== postId);
-          localStorage.setItem("likedPosts", JSON.stringify(updated));
-        }
-
-        setIsLiked(false);
-        setLikeCount((prev) => Math.max(0, prev - 1));
-      } else {
-        // Like
-        if (user) {
-          const { error } = await supabase
-            .from("blog_post_likes")
-            .insert({ post_id: postId, user_id: user.id });
-
-          if (error) throw error;
-        } else {
-          // For anonymous, store in localStorage
-          const likedPosts = JSON.parse(
-            localStorage.getItem("likedPosts") || "[]"
-          );
-          likedPosts.push(postId);
-          localStorage.setItem("likedPosts", JSON.stringify(likedPosts));
-        }
-
-        setIsLiked(true);
-        setLikeCount((prev) => prev + 1);
-        setShowLikeMessage(true);
-        setTimeout(() => setShowLikeMessage(false), 3000);
-      }
-    } catch (error: any) {
-      console.error("Error liking post:", error);
-      toast({
-        title: "Error",
-        description: "Failed to update like. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
+  const handleLike = () => {
+    onLike();
+    setShowLikeMessage(true);
+    setTimeout(() => setShowLikeMessage(false), 3000);
   };
 
   const handleShare = (

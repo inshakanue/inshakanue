@@ -43,12 +43,123 @@ const BlogPost = () => {
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
   const { isAdmin, loading: isAdminLoading } = useAdminStatus();
+  
+  // Shared like state
+  const [likeCount, setLikeCount] = useState(0);
+  const [isLiked, setIsLiked] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (slug && !isAdminLoading) {
       fetchPost();
     }
   }, [slug, isAdmin, isAdminLoading]);
+
+  useEffect(() => {
+    if (post?.id) {
+      fetchLikeData();
+    }
+  }, [post?.id]);
+
+  const fetchLikeData = async () => {
+    if (!post?.id) return;
+    
+    try {
+      // Fetch total like count
+      const { count, error: countError } = await supabase
+        .from("blog_post_likes")
+        .select("*", { count: "exact", head: true })
+        .eq("post_id", post.id);
+
+      if (countError) throw countError;
+      setLikeCount(count || 0);
+
+      // Check if current user has liked
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (user) {
+        const { data, error } = await supabase
+          .from("blog_post_likes")
+          .select("id")
+          .eq("post_id", post.id)
+          .eq("user_id", user.id)
+          .maybeSingle();
+
+        if (error && error.code !== "PGRST116") throw error;
+        setIsLiked(!!data);
+      } else {
+        // Check localStorage for anonymous likes
+        const likedPosts = JSON.parse(
+          localStorage.getItem("likedPosts") || "[]"
+        );
+        setIsLiked(likedPosts.includes(post.id));
+      }
+    } catch (error) {
+      console.error("Error fetching like data:", error);
+    }
+  };
+
+  const handleLike = async () => {
+    if (isLoading || !post?.id) return;
+
+    setIsLoading(true);
+    try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (isLiked) {
+        // Unlike
+        if (user) {
+          const { error } = await supabase
+            .from("blog_post_likes")
+            .delete()
+            .eq("post_id", post.id)
+            .eq("user_id", user.id);
+
+          if (error) throw error;
+        } else {
+          const likedPosts = JSON.parse(
+            localStorage.getItem("likedPosts") || "[]"
+          );
+          const updated = likedPosts.filter((id: string) => id !== post.id);
+          localStorage.setItem("likedPosts", JSON.stringify(updated));
+        }
+
+        setIsLiked(false);
+        setLikeCount((prev) => Math.max(0, prev - 1));
+      } else {
+        // Like
+        if (user) {
+          const { error } = await supabase
+            .from("blog_post_likes")
+            .insert({ post_id: post.id, user_id: user.id });
+
+          if (error) throw error;
+        } else {
+          const likedPosts = JSON.parse(
+            localStorage.getItem("likedPosts") || "[]"
+          );
+          likedPosts.push(post.id);
+          localStorage.setItem("likedPosts", JSON.stringify(likedPosts));
+        }
+
+        setIsLiked(true);
+        setLikeCount((prev) => prev + 1);
+      }
+    } catch (error: any) {
+      console.error("Error liking post:", error);
+      toast({
+        title: "Error",
+        description: "Failed to update like. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const fetchPost = async () => {
     try {
@@ -246,7 +357,10 @@ const BlogPost = () => {
               url={window.location.href}
               title={post.title}
               description={post.excerpt || undefined}
-              postId={post.id}
+              likeCount={likeCount}
+              isLiked={isLiked}
+              isLoading={isLoading}
+              onLike={handleLike}
             />
 
             {/* Post Content */}
@@ -272,7 +386,12 @@ const BlogPost = () => {
             )}
           </div>
         </article>
-        <FloatingLikeButton postId={post.id} />
+        <FloatingLikeButton 
+          likeCount={likeCount}
+          isLiked={isLiked}
+          isLoading={isLoading}
+          onLike={handleLike}
+        />
         <FloatingShareButton
           url={window.location.href}
           title={post.title}
