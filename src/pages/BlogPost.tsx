@@ -10,6 +10,7 @@ import RelatedPosts from "@/components/RelatedPosts";
 import { SocialPreview } from "@/components/SocialPreview";
 import { SocialShare } from "@/components/SocialShare";
 import { FloatingShareButton } from "@/components/FloatingShareButton";
+import { FloatingLikeButton } from "@/components/FloatingLikeButton";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Calendar, Edit, Clock } from "lucide-react";
@@ -271,6 +272,7 @@ const BlogPost = () => {
             )}
           </div>
         </article>
+        <FloatingLikeButton postId={post.id} />
         <FloatingShareButton
           url={window.location.href}
           title={post.title}
