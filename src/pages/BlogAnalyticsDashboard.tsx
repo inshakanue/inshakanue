@@ -5,9 +5,13 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useToast } from "@/hooks/use-toast";
 import { useAdminStatus } from "@/hooks/useAdminStatus";
-import { ArrowLeft, ArrowUpDown } from "lucide-react";
+import { ArrowLeft, ArrowUpDown, CalendarIcon, X } from "lucide-react";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 
 interface BlogPostAnalytics {
   id: string;
@@ -27,6 +31,7 @@ interface BlogPostAnalytics {
 
 type SortField = 'title' | 'views' | 'likes' | 'total_shares' | 'published_at';
 type SortDirection = 'asc' | 'desc';
+type DateFilter = 'all' | 'last7' | 'last30' | 'custom';
 
 const BlogAnalyticsDashboard = () => {
   const navigate = useNavigate();
@@ -37,6 +42,9 @@ const BlogAnalyticsDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [sortField, setSortField] = useState<SortField>('published_at');
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc');
+  const [dateFilter, setDateFilter] = useState<DateFilter>('all');
+  const [customStartDate, setCustomStartDate] = useState<Date>();
+  const [customEndDate, setCustomEndDate] = useState<Date>();
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -64,11 +72,38 @@ const BlogAnalyticsDashboard = () => {
     if (isAdmin && !authLoading) {
       fetchAnalytics();
     }
-  }, [isAdmin, authLoading]);
+  }, [isAdmin, authLoading, dateFilter, customStartDate, customEndDate]);
+
+  const getDateRange = () => {
+    const now = new Date();
+    let startDate: Date | undefined;
+    let endDate: Date | undefined = now;
+
+    switch (dateFilter) {
+      case 'last7':
+        startDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+        break;
+      case 'last30':
+        startDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+        break;
+      case 'custom':
+        startDate = customStartDate;
+        endDate = customEndDate || now;
+        break;
+      case 'all':
+      default:
+        startDate = undefined;
+        endDate = undefined;
+    }
+
+    return { startDate, endDate };
+  };
 
   const fetchAnalytics = async () => {
     setLoading(true);
     try {
+      const { startDate, endDate } = getDateRange();
+
       // Fetch all blog posts
       const { data: postsData, error: postsError } = await supabase
         .from("blog_posts")
@@ -79,23 +114,50 @@ const BlogAnalyticsDashboard = () => {
 
       // Fetch analytics for each post
       const analyticsPromises = (postsData || []).map(async (post) => {
-        // Get views count
-        const { count: viewsCount } = await supabase
+        // Build query with date filtering
+        let viewsQuery = supabase
           .from("blog_post_views")
           .select("*", { count: "exact", head: true })
           .eq("post_id", post.id);
+        
+        if (startDate) {
+          viewsQuery = viewsQuery.gte("viewed_at", startDate.toISOString());
+        }
+        if (endDate) {
+          viewsQuery = viewsQuery.lte("viewed_at", endDate.toISOString());
+        }
+        
+        const { count: viewsCount } = await viewsQuery;
 
-        // Get likes count
-        const { count: likesCount } = await supabase
+        // Get likes count with date filtering
+        let likesQuery = supabase
           .from("blog_post_likes")
           .select("*", { count: "exact", head: true })
           .eq("post_id", post.id);
+        
+        if (startDate) {
+          likesQuery = likesQuery.gte("created_at", startDate.toISOString());
+        }
+        if (endDate) {
+          likesQuery = likesQuery.lte("created_at", endDate.toISOString());
+        }
+        
+        const { count: likesCount } = await likesQuery;
 
-        // Get shares by platform
-        const { data: sharesData } = await supabase
+        // Get shares by platform with date filtering
+        let sharesQuery = supabase
           .from("blog_post_shares")
           .select("platform")
           .eq("post_id", post.id);
+        
+        if (startDate) {
+          sharesQuery = sharesQuery.gte("shared_at", startDate.toISOString());
+        }
+        if (endDate) {
+          sharesQuery = sharesQuery.lte("shared_at", endDate.toISOString());
+        }
+        
+        const { data: sharesData } = await sharesQuery;
 
         const linkedin = sharesData?.filter(s => s.platform === 'linkedin').length || 0;
         const twitter = sharesData?.filter(s => s.platform === 'twitter').length || 0;
@@ -198,6 +260,105 @@ const BlogAnalyticsDashboard = () => {
             <CardHeader>
               <CardTitle className="text-3xl">Blog Post Analytics Dashboard</CardTitle>
               <p className="text-muted-foreground">Track views, likes, and shares for all blog posts</p>
+              
+              {/* Date Filter Controls */}
+              <div className="flex flex-wrap gap-2 mt-6">
+                <Button
+                  variant={dateFilter === 'all' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setDateFilter('all')}
+                >
+                  All Time
+                </Button>
+                <Button
+                  variant={dateFilter === 'last7' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setDateFilter('last7')}
+                >
+                  Last 7 Days
+                </Button>
+                <Button
+                  variant={dateFilter === 'last30' ? 'default' : 'outline'}
+                  size="sm"
+                  onClick={() => setDateFilter('last30')}
+                >
+                  Last 30 Days
+                </Button>
+                
+                {/* Custom Date Range */}
+                <div className="flex gap-2 items-center">
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant={dateFilter === 'custom' ? 'default' : 'outline'}
+                        size="sm"
+                        className={cn(
+                          "justify-start text-left font-normal",
+                          !customStartDate && "text-muted-foreground"
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {customStartDate ? format(customStartDate, "MMM d, yyyy") : "Start Date"}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={customStartDate}
+                        onSelect={(date) => {
+                          setCustomStartDate(date);
+                          if (date) setDateFilter('custom');
+                        }}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+
+                  <span className="text-muted-foreground">to</span>
+
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant={dateFilter === 'custom' ? 'default' : 'outline'}
+                        size="sm"
+                        className={cn(
+                          "justify-start text-left font-normal",
+                          !customEndDate && "text-muted-foreground"
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        {customEndDate ? format(customEndDate, "MMM d, yyyy") : "End Date"}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="start">
+                      <Calendar
+                        mode="single"
+                        selected={customEndDate}
+                        onSelect={(date) => {
+                          setCustomEndDate(date);
+                          if (date) setDateFilter('custom');
+                        }}
+                        disabled={(date) => customStartDate ? date < customStartDate : false}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
+
+                  {dateFilter === 'custom' && (customStartDate || customEndDate) && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => {
+                        setCustomStartDate(undefined);
+                        setCustomEndDate(undefined);
+                        setDateFilter('all');
+                      }}
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                  )}
+                </div>
+              </div>
             </CardHeader>
             <CardContent>
               <div className="overflow-x-auto">
