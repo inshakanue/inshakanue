@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Linkedin, Twitter, Link, Heart } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { trackBlogShare } from "@/utils/analyticsTracking";
 import blueskyIcon from "@/assets/bluesky-icon.png";
 import whatsappIcon from "@/assets/whatsapp-icon.svg";
 import { useState } from "react";
@@ -13,6 +14,7 @@ interface SocialShareProps {
   isLiked: boolean;
   isLoading: boolean;
   onLike: () => void;
+  postId: string;
 }
 
 export const SocialShare = ({
@@ -23,6 +25,7 @@ export const SocialShare = ({
   isLiked,
   isLoading,
   onLike,
+  postId,
 }: SocialShareProps) => {
   const encodedUrl = encodeURIComponent(url);
   const encodedTitle = encodeURIComponent(title);
@@ -59,12 +62,19 @@ export const SocialShare = ({
       shareUrl = `https://bsky.app/intent/compose?text=${shareText}%20${encodedUrl}`;
     }
 
+    // Track the share
+    trackBlogShare(postId, platform);
+    
     window.open(shareUrl, "_blank", "width=600,height=400,noopener,noreferrer");
   };
 
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(url);
+      
+      // Track copy link as a share
+      trackBlogShare(postId, "copy_link");
+      
       toast({
         title: "Link copied!",
         description: "The blog post link has been copied to your clipboard.",

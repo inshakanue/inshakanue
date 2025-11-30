@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Share2, X, Linkedin, Twitter, Link } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { trackBlogShare } from "@/utils/analyticsTracking";
 import blueskyIcon from "@/assets/bluesky-icon.png";
 import whatsappIcon from "@/assets/whatsapp-icon.svg";
 
@@ -9,12 +10,14 @@ interface FloatingShareButtonProps {
   url: string;
   title: string;
   description?: string;
+  postId: string;
 }
 
 export const FloatingShareButton = ({
   url,
   title,
   description,
+  postId,
 }: FloatingShareButtonProps) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
@@ -60,6 +63,9 @@ export const FloatingShareButton = ({
       shareUrl = `https://bsky.app/intent/compose?text=${shareText}%20${encodedUrl}`;
     }
 
+    // Track the share
+    trackBlogShare(postId, platform);
+    
     window.open(shareUrl, "_blank", "width=600,height=400,noopener,noreferrer");
     setIsExpanded(false);
   };
@@ -67,6 +73,10 @@ export const FloatingShareButton = ({
   const handleCopyLink = async () => {
     try {
       await navigator.clipboard.writeText(url);
+      
+      // Track copy link as a share
+      trackBlogShare(postId, "copy_link");
+      
       toast({
         title: "Link copied!",
         description: "The blog post link has been copied to your clipboard.",
