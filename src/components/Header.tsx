@@ -196,7 +196,13 @@ const Header = () => {
             {/* Blog with Dashboard dropdown for admins */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="text-muted-foreground hover:text-primary transition-colors duration-300 font-medium flex items-center gap-1">
+                <button 
+                  className="text-muted-foreground hover:text-primary transition-colors duration-300 font-medium flex items-center gap-1"
+                  onMouseEnter={(e) => {
+                    const button = e.currentTarget;
+                    button.click();
+                  }}
+                >
                   Blog
                   <ChevronDown className="h-4 w-4" />
                 </button>
