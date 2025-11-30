@@ -332,7 +332,7 @@ const BlogAdmin = () => {
                 </Link>
               </Button>
               <Button variant="outline" size="sm" asChild>
-                <Link to="/blog/analytics">
+                <Link to="/blog/dashboard">
                   View Analytics Dashboard
                 </Link>
               </Button>

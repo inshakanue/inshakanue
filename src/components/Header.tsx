@@ -212,7 +212,7 @@ const Header = () => {
                   All Posts
                 </DropdownMenuItem>
                 {isAdmin && (
-                  <DropdownMenuItem onClick={() => handleNavigation("/blog/analytics")}>
+                  <DropdownMenuItem onClick={() => handleNavigation("/blog/dashboard")}>
                     Dashboard
                   </DropdownMenuItem>
                 )}
@@ -325,7 +325,7 @@ const Header = () => {
                 </button>
                 {isAdmin && (
                   <button
-                    onClick={() => handleNavigation("/blog/analytics")}
+                    onClick={() => handleNavigation("/blog/dashboard")}
                     className="block w-full text-left py-2 md:py-3 pl-4 text-sm md:text-base text-muted-foreground hover:text-primary transition-colors duration-300"
                   >
                     └ Dashboard

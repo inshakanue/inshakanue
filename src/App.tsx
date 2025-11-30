@@ -124,7 +124,7 @@ const App = () => (
               <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/blog/tag/:tag" element={<BlogTag />} />
               <Route path="/blog/admin" element={<BlogAdmin />} />
-              <Route path="/blog/analytics" element={<BlogAnalyticsDashboard />} />
+              <Route path="/blog/dashboard" element={<BlogAnalyticsDashboard />} />
               
               {/* AUTHENTICATION: Login and signup flows */}
               <Route path="/auth" element={<Auth />} />
