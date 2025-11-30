@@ -46,6 +46,76 @@ export type Database = {
           },
         ]
       }
+      blog_post_shares: {
+        Row: {
+          id: string
+          ip_address: string | null
+          platform: string
+          post_id: string
+          shared_at: string
+          user_id: string | null
+        }
+        Insert: {
+          id?: string
+          ip_address?: string | null
+          platform: string
+          post_id: string
+          shared_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          id?: string
+          ip_address?: string | null
+          platform?: string
+          post_id?: string
+          shared_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "blog_post_shares_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "blog_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      blog_post_views: {
+        Row: {
+          id: string
+          ip_address: string | null
+          post_id: string
+          user_agent: string | null
+          user_id: string | null
+          viewed_at: string
+        }
+        Insert: {
+          id?: string
+          ip_address?: string | null
+          post_id: string
+          user_agent?: string | null
+          user_id?: string | null
+          viewed_at?: string
+        }
+        Update: {
+          id?: string
+          ip_address?: string | null
+          post_id?: string
+          user_agent?: string | null
+          user_id?: string | null
+          viewed_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "blog_post_views_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "blog_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       blog_posts: {
         Row: {
           author_name: string

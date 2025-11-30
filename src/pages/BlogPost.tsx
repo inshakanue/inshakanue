@@ -18,6 +18,8 @@ import { useToast } from "@/hooks/use-toast";
 import { addInternalLinks } from "@/utils/internalLinking";
 import { useAdminStatus } from "@/hooks/useAdminStatus";
 import { getBlogCoverUrl } from "@/utils/storageHelpers";
+import { trackBlogView } from "@/utils/analyticsTracking";
+import { BlogPostAnalytics } from "@/components/BlogPostAnalytics";
 import DOMPurify from "dompurify";
 import "react-quill/dist/quill.snow.css";
 
@@ -201,6 +203,13 @@ const BlogPost = () => {
       if (error || !data) throw error || new Error("Post not found");
       setPost(data);
       
+      // Track view (only once per session)
+      const viewedKey = `viewed_post_${data.id}`;
+      if (!sessionStorage.getItem(viewedKey)) {
+        await trackBlogView(data.id);
+        sessionStorage.setItem(viewedKey, "true");
+      }
+      
       // Generate URL for cover image using storage helper (handles public URLs and signed URLs)
       if (data.cover_image) {
         try {
@@ -375,6 +384,9 @@ const BlogPost = () => {
               </div>
             )}
 
+            {/* Analytics (Admin Only) */}
+            {isAdmin && <BlogPostAnalytics postId={post.id} />}
+
             {/* Social Share */}
             <SocialShare
               url={window.location.href}
@@ -384,6 +396,7 @@ const BlogPost = () => {
               isLiked={isLiked}
               isLoading={isLoading}
               onLike={handleLike}
+              postId={post.id}
             />
 
             {/* Post Content */}
@@ -419,6 +432,7 @@ const BlogPost = () => {
           url={window.location.href}
           title={post.title}
           description={post.excerpt || undefined}
+          postId={post.id}
         />
       </main>
       <Footer />
