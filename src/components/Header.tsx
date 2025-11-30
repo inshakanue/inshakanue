@@ -148,13 +148,24 @@ const Header = () => {
     }
   };
 
-  const navItems = [
+  const baseNavItems = [
     { label: "About", href: "about" },
     { label: "Experience", href: "experience" },
     { label: "Skills", href: "skills" },
     { label: "Blog", href: "/blog" },
-    { label: "Contact", href: "contact" },
   ];
+
+  // Add Dashboard link for admins
+  const navItems = isAdmin 
+    ? [
+        ...baseNavItems,
+        { label: "Dashboard", href: "/blog/analytics" },
+        { label: "Contact", href: "contact" },
+      ]
+    : [
+        ...baseNavItems,
+        { label: "Contact", href: "contact" },
+      ];
 
   return (
     <header
