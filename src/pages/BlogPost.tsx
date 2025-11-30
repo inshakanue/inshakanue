@@ -58,6 +58,29 @@ const BlogPost = () => {
   useEffect(() => {
     if (post?.id) {
       fetchLikeData();
+      
+      // Set up realtime subscription for likes
+      const channel = supabase
+        .channel(`blog_post_likes:${post.id}`)
+        .on(
+          'postgres_changes',
+          {
+            event: '*',
+            schema: 'public',
+            table: 'blog_post_likes',
+            filter: `post_id=eq.${post.id}`
+          },
+          (payload) => {
+            console.log('Realtime like update:', payload);
+            // Refresh like data when changes occur
+            fetchLikeData();
+          }
+        )
+        .subscribe();
+
+      return () => {
+        supabase.removeChannel(channel);
+      };
     }
   }, [post?.id]);
 
