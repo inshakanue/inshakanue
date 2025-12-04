@@ -6,6 +6,17 @@ import { MapPin, Calendar, TrendingUp, Euro, Download } from "lucide-react";
 const Experience = () => {
   const experiences = [
     {
+      title: "Senior Product Manager - Strategic Products",
+      company: "Peko",
+      companyUrl: "https://peko.one/",
+      location: "Dubai, UAE",
+      period: "Dec 2025 – Present",
+      type: "Full-time",
+      description: "An all-in-one platform for SMEs to manage payments, expenses, travel, insurance, and automate operations.",
+      achievements: [],
+      tags: ["SME Platform", "Payments", "Automation"]
+    },
+    {
       title: "Product Manager",
       company: "HRS Group",
       companyUrl: "https://www.hrs.com/enterprise/hrsgroup/",
@@ -165,20 +176,22 @@ const Experience = () => {
                 </CardHeader>
                 <CardContent className="pt-0">
                   {/* Key Achievements */}
-                  <div className="mb-6">
-                    <h5 className="font-semibold mb-3 text-foreground flex items-center gap-2">
-                      <TrendingUp className="w-4 h-4 text-success" />
-                      Key Achievements
-                    </h5>
-                    <ul className="space-y-2">
-                      {exp.achievements.map((achievement, idx) => (
-                        <li key={idx} className="flex items-start gap-3 text-muted-foreground">
-                          <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 flex-shrink-0" />
-                          <span>{achievement}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                  {exp.achievements.length > 0 && (
+                    <div className="mb-6">
+                      <h5 className="font-semibold mb-3 text-foreground flex items-center gap-2">
+                        <TrendingUp className="w-4 h-4 text-success" />
+                        Key Achievements
+                      </h5>
+                      <ul className="space-y-2">
+                        {exp.achievements.map((achievement, idx) => (
+                          <li key={idx} className="flex items-start gap-3 text-muted-foreground">
+                            <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2.5 flex-shrink-0" />
+                            <span>{achievement}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
 
                   {/* Tags */}
                   <div className="flex flex-wrap gap-2">
