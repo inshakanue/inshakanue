@@ -14,7 +14,7 @@ const Experience = () => {
       type: "Full-time",
       description: "An all-in-one platform for SMEs to manage payments, expenses, travel, insurance, and automate operations.",
       achievements: [],
-      tags: ["FinTech", "B2B", "SuperApp", "SME Platform", "Payments", "Insurance", "Automation"]
+      tags: ["FinTech", "B2B", "SuperApp", "Payments", "Insurance", "Automation"]
     },
     {
       title: "Product Manager",
