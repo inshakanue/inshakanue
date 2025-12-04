@@ -12,7 +12,7 @@ const Experience = () => {
       location: "Dubai, UAE",
       period: "Dec 2025 – Present",
       type: "Full-time",
-      description: "An all-in-one platform for SMEs to manage payments, expenses, travel, insurance, and automate operations.",
+      description: "An all-in-one platform for businesses to manage payments, expenses, travel, insurance, and automate operations.",
       achievements: [],
       tags: ["FinTech", "B2B", "SuperApp", "Payments", "Insurance", "Automation"]
     },
