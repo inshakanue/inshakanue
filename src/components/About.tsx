@@ -427,7 +427,7 @@ const About = () => {
             <h2 id="about-heading" className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
               About <span className="gradient-text">Me</span>
             </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">AI Product Manager with 7+ years building machine learning products. I have shipped data platforms, fraud detection systems, and recommendation engines that generated €15M+ in revenue. As an AI Product Manager, I bridge data science and business, turning ML models into products that scale across travel tech, logistics, agriculture, and knowledge management.</p>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">AI Product Manager with 7+ years building machine learning products. I have shipped data platforms, fraud detection systems, and recommendation engines that generated €15M+ in revenue. As an AI Product Manager, I bridge data science and business, turning ML models into products that scale across FinTech, travel tech, logistics, agriculture, and knowledge management.</p>
           </header>
 
           {/* Main Content */}
