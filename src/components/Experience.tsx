@@ -31,7 +31,7 @@ const Experience = () => {
         "Developed Budget hotel Classifier service contributing €12M in revenue",
         "Productionalized Star Category backfill service enhancing revenue by €3.5M"
       ],
-      tags: ["TravelTech", "Data Platforms", "Analytics", "ML/AI", "Revenue Growth"]
+      tags: ["TravelTech", "Hospitality", "Data Platforms", "Analytics", "ML/AI", "Revenue Growth"]
     },
     {
       title: "Product Owner",
@@ -45,7 +45,7 @@ const Experience = () => {
         "Enhanced SigMail Email Classification Service boosting user engagement by 25%",
         "Built Fraud bookings detection service reducing fraud by 70% and increasing revenue by 45%"
       ],
-      tags: ["TravelTech", "Sentiment Analysis", "Fraud Detection", "Customer Satisfaction"]
+      tags: ["TravelTech", "Hospitality", "Sentiment Analysis", "Fraud Detection", "Customer Satisfaction"]
     },
     {
       title: "Product Manager",
