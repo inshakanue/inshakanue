@@ -23,7 +23,8 @@ import {
   Twitter,
   Github,
   Clock,
-  BookOpen
+  BookOpen,
+  Eye
 } from "lucide-react";
 
 const contactSchema = z.object({
@@ -238,15 +239,32 @@ const Contact = () => {
                    
                    {/* Contact Actions inside the card */}
                    <div className="mt-8 pt-6 border-t border-border space-y-4">
-                      <Button
-                        variant="outline"
-                        className="w-full text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
-                        onClick={handleDownloadResume}
-                        aria-label="Download Insha Kanue's resume"
-                      >
-                        <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2" aria-hidden="true" />
-                        Download Resume
-                      </Button>
+                      <div className="grid grid-cols-2 gap-3">
+                        <Button
+                          variant="outline"
+                          className="w-full text-sm sm:text-base py-4 sm:py-5 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
+                          asChild
+                        >
+                          <a 
+                            href="/InshaKanue_ProductManager_Resume.pdf" 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            aria-label="Preview Insha Kanue's resume in new tab"
+                          >
+                            <Eye className="w-4 h-4 sm:w-5 sm:h-5 mr-2" aria-hidden="true" />
+                            Preview
+                          </a>
+                        </Button>
+                        <Button
+                          variant="outline"
+                          className="w-full text-sm sm:text-base py-4 sm:py-5 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
+                          onClick={handleDownloadResume}
+                          aria-label="Download Insha Kanue's resume"
+                        >
+                          <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2" aria-hidden="true" />
+                          Download
+                        </Button>
+                      </div>
                      
                       <Button
                         className="btn-primary w-full text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6"
