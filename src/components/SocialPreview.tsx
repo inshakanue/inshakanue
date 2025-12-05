@@ -23,6 +23,11 @@ export const SocialPreview = ({
   modifiedTime,
 }: SocialPreviewProps) => {
   useEffect(() => {
+    // Guard against SSR/non-browser environments
+    if (typeof window === 'undefined') return;
+
+    const currentUrl = window.location.href;
+    
     // Open Graph
     const ogTags = [
       { property: 'og:title', content: title },
@@ -31,7 +36,7 @@ export const SocialPreview = ({
       { property: 'og:image:width', content: '1200' },
       { property: 'og:image:height', content: '630' },
       { property: 'og:type', content: type },
-      { property: 'og:url', content: window.location.href },
+      { property: 'og:url', content: currentUrl },
     ];
 
     // Twitter Card
