@@ -56,10 +56,13 @@ const SEO = ({
   type = 'website',
 }: SEOProps) => {
   const location = useLocation();
-  const siteUrl = window.location.origin;
-  const canonicalUrl = `${siteUrl}${location.pathname}`;  // Full URL for this page
 
   useEffect(() => {
+    // Guard against SSR/non-browser environments
+    if (typeof window === 'undefined') return;
+    
+    const siteUrl = window.location.origin;
+    const canonicalUrl = `${siteUrl}${location.pathname}`;  // Full URL for this page
     /**
      * UPDATE DOCUMENT TITLE
      * Shows in browser tab and is the primary ranking signal for Google.
@@ -163,7 +166,7 @@ const SEO = ({
     return () => {
       // Intentionally empty - meta tags persist between route changes
     };
-  }, [title, description, image, canonicalUrl, article, type]);
+  }, [title, description, image, location.pathname, article, type]);
 
   // This is a non-rendering component (updates <head> only)
   return null;
