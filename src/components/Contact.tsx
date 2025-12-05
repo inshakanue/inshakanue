@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { trackResumeDownload } from "@/utils/analyticsTracking";
 import { z } from "zod";
 import { 
   Select,
@@ -52,6 +53,9 @@ const Contact = () => {
 
   const handleDownloadResume = async () => {
     try {
+      // Track the download
+      trackResumeDownload();
+      
       const response = await fetch('/InshaKanue_ProductManager_Resume.pdf');
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
