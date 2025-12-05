@@ -14,6 +14,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { 
   Mail, 
   Linkedin, 
@@ -24,7 +30,8 @@ import {
   Github,
   Clock,
   BookOpen,
-  Eye
+  Eye,
+  ExternalLink
 } from "lucide-react";
 
 const contactSchema = z.object({
@@ -50,6 +57,7 @@ const Contact = () => {
   });
   const [isLoading, setIsLoading] = useState(false);
   const [cooldownRemaining, setCooldownRemaining] = useState(0);
+  const [isResumePreviewOpen, setIsResumePreviewOpen] = useState(false);
   const { toast } = useToast();
 
   const handleDownloadResume = async () => {
@@ -243,17 +251,11 @@ const Contact = () => {
                         <Button
                           variant="outline"
                           className="w-full text-sm sm:text-base py-4 sm:py-5 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
-                          asChild
+                          onClick={() => setIsResumePreviewOpen(true)}
+                          aria-label="Preview Insha Kanue's resume"
                         >
-                          <a 
-                            href="/InshaKanue_ProductManager_Resume.pdf" 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            aria-label="Preview Insha Kanue's resume in new tab"
-                          >
-                            <Eye className="w-4 h-4 sm:w-5 sm:h-5 mr-2" aria-hidden="true" />
-                            Preview
-                          </a>
+                          <Eye className="w-4 h-4 sm:w-5 sm:h-5 mr-2" aria-hidden="true" />
+                          Preview
                         </Button>
                         <Button
                           variant="outline"
@@ -480,6 +482,48 @@ const Contact = () => {
           </div>
         </div>
       </div>
+
+      {/* Resume Preview Modal */}
+      <Dialog open={isResumePreviewOpen} onOpenChange={setIsResumePreviewOpen}>
+        <DialogContent className="max-w-4xl w-[95vw] h-[90vh] p-0">
+          <DialogHeader className="p-4 pb-0">
+            <DialogTitle className="flex items-center justify-between">
+              <span>Resume Preview</span>
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleDownloadResume}
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  Download
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  asChild
+                >
+                  <a 
+                    href="/InshaKanue_ProductManager_Resume.pdf" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                  >
+                    <ExternalLink className="w-4 h-4 mr-2" />
+                    Open in New Tab
+                  </a>
+                </Button>
+              </div>
+            </DialogTitle>
+          </DialogHeader>
+          <div className="flex-1 p-4 pt-2 h-full">
+            <iframe
+              src="/InshaKanue_ProductManager_Resume.pdf"
+              className="w-full h-full rounded-lg border border-border"
+              title="Insha Kanue Resume Preview"
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
     </section>
   );
 };
