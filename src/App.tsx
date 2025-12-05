@@ -104,13 +104,13 @@ const queryClient = new QueryClient({
  */
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <ErrorBoundary>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          {/* ACCESSIBILITY: Skip to main content link */}
-          <SkipToMain />
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        {/* ACCESSIBILITY: Skip to main content link */}
+        <SkipToMain />
+        <ErrorBoundary>
           {/* LOADING FALLBACK: Displayed while lazy-loading route components */}
           <Suspense fallback={<div className="min-h-screen flex items-center justify-center">
             <div className="animate-pulse text-muted-foreground">Loading...</div>
@@ -134,9 +134,9 @@ const App = () => (
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
-        </BrowserRouter>
-      </TooltipProvider>
-    </ErrorBoundary>
+        </ErrorBoundary>
+      </BrowserRouter>
+    </TooltipProvider>
   </QueryClientProvider>
 );
 
