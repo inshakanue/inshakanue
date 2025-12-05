@@ -29,9 +29,7 @@ import {
   Twitter,
   Github,
   Clock,
-  BookOpen,
-  Eye,
-  ExternalLink
+  BookOpen
 } from "lucide-react";
 
 const contactSchema = z.object({
@@ -247,26 +245,15 @@ const Contact = () => {
                    
                    {/* Contact Actions inside the card */}
                    <div className="mt-8 pt-6 border-t border-border space-y-4">
-                      <div className="grid grid-cols-2 gap-3">
                         <Button
                           variant="outline"
-                          className="w-full text-sm sm:text-base py-4 sm:py-5 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
+                          className="w-full text-sm sm:text-base py-4 sm:py-5 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent col-span-2"
                           onClick={() => setIsResumePreviewOpen(true)}
-                          aria-label="Preview Insha Kanue's resume"
-                        >
-                          <Eye className="w-4 h-4 sm:w-5 sm:h-5 mr-2" aria-hidden="true" />
-                          Preview
-                        </Button>
-                        <Button
-                          variant="outline"
-                          className="w-full text-sm sm:text-base py-4 sm:py-5 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent"
-                          onClick={handleDownloadResume}
-                          aria-label="Download Insha Kanue's resume"
+                          aria-label="Download Insha Kanue's resume as PDF"
                         >
                           <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2" aria-hidden="true" />
-                          Download
+                          Download Resume
                         </Button>
-                      </div>
                      
                       <Button
                         className="btn-primary w-full text-sm sm:text-base md:text-lg py-4 sm:py-5 md:py-6"
@@ -486,36 +473,21 @@ const Contact = () => {
       {/* Resume Preview Modal */}
       <Dialog open={isResumePreviewOpen} onOpenChange={setIsResumePreviewOpen}>
         <DialogContent className="max-w-4xl w-[95vw] h-[90vh] p-0">
-          <DialogHeader className="p-4 pb-0">
+          <DialogHeader className="p-4 pb-2">
             <DialogTitle className="flex items-center justify-between">
               <span>Resume Preview</span>
-              <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleDownloadResume}
-                >
-                  <Download className="w-4 h-4 mr-2" />
-                  Download
-                </Button>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  asChild
-                >
-                  <a 
-                    href="/InshaKanue_ProductManager_Resume.pdf" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                  >
-                    <ExternalLink className="w-4 h-4 mr-2" />
-                    Open in New Tab
-                  </a>
-                </Button>
-              </div>
+              <Button
+                variant="default"
+                size="sm"
+                onClick={handleDownloadResume}
+                className="mr-6"
+              >
+                <Download className="w-4 h-4 mr-2" />
+                Download
+              </Button>
             </DialogTitle>
           </DialogHeader>
-          <div className="flex-1 p-4 pt-2 h-full">
+          <div className="flex-1 px-4 pb-4 h-[calc(100%-60px)]">
             <iframe
               src="/InshaKanue_ProductManager_Resume.pdf"
               className="w-full h-full rounded-lg border border-border"
