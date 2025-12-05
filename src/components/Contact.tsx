@@ -475,8 +475,8 @@ const Contact = () => {
 
       {/* Resume Preview Modal */}
       <Dialog open={isResumePreviewOpen} onOpenChange={setIsResumePreviewOpen}>
-        <DialogContent className="max-w-4xl w-[95vw] h-[85vh] flex flex-col">
-          <DialogHeader className="shrink-0">
+        <DialogContent className="max-w-4xl w-[95vw] h-[85vh] !flex !flex-col p-6">
+          <DialogHeader className="shrink-0 pb-4">
             <DialogTitle className="flex items-center justify-between pr-8">
               <span>Resume Preview</span>
               <Button
@@ -489,23 +489,13 @@ const Contact = () => {
               </Button>
             </DialogTitle>
           </DialogHeader>
-          <div className="flex-1 min-h-0 mt-4">
-            <object
-              data="/InshaKanue_ProductManager_Resume.pdf"
-              type="application/pdf"
-              className="w-full h-full rounded-lg border border-border"
+          <div className="flex-1 overflow-hidden rounded-lg border border-border">
+            <iframe
+              src="/InshaKanue_ProductManager_Resume.pdf#toolbar=1&navpanes=0&view=FitH"
+              className="w-full h-full"
               title="Insha Kanue Resume Preview"
-            >
-              <div className="flex flex-col items-center justify-center h-full bg-muted/50 rounded-lg p-8 text-center">
-                <p className="text-muted-foreground mb-4">
-                  Unable to display PDF preview in your browser.
-                </p>
-                <Button onClick={handleDownloadResume}>
-                  <Download className="w-4 h-4 mr-2" />
-                  Download Resume
-                </Button>
-              </div>
-            </object>
+              style={{ minHeight: '500px' }}
+            />
           </div>
         </DialogContent>
       </Dialog>
