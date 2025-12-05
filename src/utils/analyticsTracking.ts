@@ -64,3 +64,23 @@ export const trackResumeDownload = async () => {
     console.error("Error tracking resume download:", error);
   }
 };
+
+// Track a resume preview
+export const trackResumePreview = async () => {
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    const { error } = await supabase
+      .from("resume_previews")
+      .insert({
+        user_id: user?.id || null,
+        user_agent: navigator.userAgent,
+      });
+
+    if (error) {
+      console.error("Error tracking resume preview:", error);
+    }
+  } catch (error) {
+    console.error("Error tracking resume preview:", error);
+  }
+};
