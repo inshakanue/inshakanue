@@ -29,7 +29,8 @@ import {
   Twitter,
   Github,
   Clock,
-  BookOpen
+  BookOpen,
+  Loader2
 } from "lucide-react";
 
 const contactSchema = z.object({
@@ -56,6 +57,7 @@ const Contact = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [cooldownRemaining, setCooldownRemaining] = useState(0);
   const [isResumePreviewOpen, setIsResumePreviewOpen] = useState(false);
+  const [isPdfLoading, setIsPdfLoading] = useState(true);
   const { toast } = useToast();
 
   const handleDownloadResume = async () => {
@@ -474,7 +476,13 @@ const Contact = () => {
       </div>
 
       {/* Resume Preview Modal */}
-      <Dialog open={isResumePreviewOpen} onOpenChange={setIsResumePreviewOpen}>
+      <Dialog 
+        open={isResumePreviewOpen} 
+        onOpenChange={(open) => {
+          setIsResumePreviewOpen(open);
+          if (open) setIsPdfLoading(true);
+        }}
+      >
         <DialogContent className="max-w-4xl w-[95vw] h-[85vh] !flex !flex-col p-6">
           <DialogHeader className="shrink-0 pb-4">
             <DialogTitle className="flex items-center justify-between pr-8">
@@ -489,12 +497,21 @@ const Contact = () => {
               </Button>
             </DialogTitle>
           </DialogHeader>
-          <div className="flex-1 overflow-hidden rounded-lg border border-border">
+          <div className="flex-1 overflow-hidden rounded-lg border border-border relative">
+            {isPdfLoading && (
+              <div className="absolute inset-0 flex items-center justify-center bg-muted/50">
+                <div className="flex flex-col items-center gap-3">
+                  <Loader2 className="w-8 h-8 animate-spin text-primary" />
+                  <p className="text-sm text-muted-foreground">Loading resume...</p>
+                </div>
+              </div>
+            )}
             <iframe
               src="/InshaKanue_ProductManager_Resume.pdf#toolbar=1&navpanes=0&view=FitH"
               className="w-full h-full"
               title="Insha Kanue Resume Preview"
               style={{ minHeight: '500px' }}
+              onLoad={() => setIsPdfLoading(false)}
             />
           </div>
         </DialogContent>
