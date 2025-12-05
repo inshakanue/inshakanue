@@ -472,8 +472,8 @@ const Contact = () => {
 
       {/* Resume Preview Modal */}
       <Dialog open={isResumePreviewOpen} onOpenChange={setIsResumePreviewOpen}>
-        <DialogContent className="max-w-4xl w-[95vw] h-[90vh] p-0">
-          <DialogHeader className="p-4 pb-2">
+        <DialogContent className="max-w-4xl w-[95vw] h-[90vh] flex flex-col p-0">
+          <DialogHeader className="p-4 pb-2 shrink-0">
             <DialogTitle className="flex items-center justify-between">
               <span>Resume Preview</span>
               <Button
@@ -487,11 +487,12 @@ const Contact = () => {
               </Button>
             </DialogTitle>
           </DialogHeader>
-          <div className="flex-1 px-4 pb-4 h-[calc(100%-60px)]">
+          <div className="flex-1 px-4 pb-4 min-h-0">
             <iframe
-              src="/InshaKanue_ProductManager_Resume.pdf"
+              src="/InshaKanue_ProductManager_Resume.pdf#toolbar=1&navpanes=0"
               className="w-full h-full rounded-lg border border-border"
               title="Insha Kanue Resume Preview"
+              style={{ minHeight: '500px' }}
             />
           </div>
         </DialogContent>
