@@ -52,7 +52,7 @@ const Contact = () => {
 
   const handleDownloadResume = async () => {
     try {
-      const response = await fetch('/Insha_Kanue_Resume.pdf');
+      const response = await fetch('/InshaKanue_ProductManager_Resume.pdf');
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
