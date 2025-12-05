@@ -9,7 +9,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useToast } from "@/hooks/use-toast";
 import { useAdminStatus } from "@/hooks/useAdminStatus";
-import { ArrowLeft, ArrowUpDown, CalendarIcon, X } from "lucide-react";
+import { ArrowLeft, ArrowUpDown, CalendarIcon, X, Download, Eye, Heart, Share2 } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 
@@ -45,6 +45,7 @@ const BlogAnalyticsDashboard = () => {
   const [dateFilter, setDateFilter] = useState<DateFilter>('all');
   const [customStartDate, setCustomStartDate] = useState<Date>();
   const [customEndDate, setCustomEndDate] = useState<Date>();
+  const [resumeDownloads, setResumeDownloads] = useState(0);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -103,6 +104,21 @@ const BlogAnalyticsDashboard = () => {
     setLoading(true);
     try {
       const { startDate, endDate } = getDateRange();
+
+      // Fetch resume downloads count
+      let resumeQuery = supabase
+        .from("resume_downloads")
+        .select("*", { count: "exact", head: true });
+      
+      if (startDate) {
+        resumeQuery = resumeQuery.gte("downloaded_at", startDate.toISOString());
+      }
+      if (endDate) {
+        resumeQuery = resumeQuery.lte("downloaded_at", endDate.toISOString());
+      }
+      
+      const { count: resumeCount } = await resumeQuery;
+      setResumeDownloads(resumeCount || 0);
 
       // Fetch all blog posts
       const { data: postsData, error: postsError } = await supabase
@@ -256,9 +272,65 @@ const BlogAnalyticsDashboard = () => {
             </Link>
           </Button>
 
+          {/* Summary Stats */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <Card className="card-elevated">
+              <CardContent className="pt-6">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 rounded-lg bg-primary/10">
+                    <Download className="h-6 w-6 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Resume Downloads</p>
+                    <p className="text-2xl font-bold">{resumeDownloads}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="card-elevated">
+              <CardContent className="pt-6">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 rounded-lg bg-blue-500/10">
+                    <Eye className="h-6 w-6 text-blue-500" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Total Views</p>
+                    <p className="text-2xl font-bold">{posts.reduce((sum, p) => sum + p.views, 0)}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="card-elevated">
+              <CardContent className="pt-6">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 rounded-lg bg-red-500/10">
+                    <Heart className="h-6 w-6 text-red-500" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Total Likes</p>
+                    <p className="text-2xl font-bold">{posts.reduce((sum, p) => sum + p.likes, 0)}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            <Card className="card-elevated">
+              <CardContent className="pt-6">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 rounded-lg bg-green-500/10">
+                    <Share2 className="h-6 w-6 text-green-500" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Total Shares</p>
+                    <p className="text-2xl font-bold">{posts.reduce((sum, p) => sum + p.total_shares, 0)}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
           <Card className="card-elevated">
             <CardHeader>
-              <CardTitle className="text-3xl">Blog Post Analytics Dashboard</CardTitle>
+              <CardTitle className="text-3xl">Blog Post Analytics</CardTitle>
               <p className="text-muted-foreground">Track views, likes, and shares for all blog posts</p>
               
               {/* Date Filter Controls */}
