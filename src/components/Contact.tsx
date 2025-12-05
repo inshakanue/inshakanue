@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { trackResumeDownload } from "@/utils/analyticsTracking";
+import { trackResumeDownload, trackResumePreview } from "@/utils/analyticsTracking";
 import { z } from "zod";
 import { 
   Select,
@@ -248,7 +248,10 @@ const Contact = () => {
                         <Button
                           variant="outline"
                           className="w-full text-sm sm:text-base py-4 sm:py-5 border-2 hover:bg-accent hover:text-accent-foreground hover:border-accent col-span-2"
-                          onClick={() => setIsResumePreviewOpen(true)}
+                          onClick={() => {
+                            setIsResumePreviewOpen(true);
+                            trackResumePreview();
+                          }}
                           aria-label="Download Insha Kanue's resume as PDF"
                         >
                           <Download className="w-4 h-4 sm:w-5 sm:h-5 mr-2" aria-hidden="true" />

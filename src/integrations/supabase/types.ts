@@ -242,6 +242,30 @@ export type Database = {
         }
         Relationships: []
       }
+      resume_previews: {
+        Row: {
+          id: string
+          ip_address: string | null
+          previewed_at: string
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          id?: string
+          ip_address?: string | null
+          previewed_at?: string
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          id?: string
+          ip_address?: string | null
+          previewed_at?: string
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string

@@ -9,7 +9,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useToast } from "@/hooks/use-toast";
 import { useAdminStatus } from "@/hooks/useAdminStatus";
-import { ArrowLeft, ArrowUpDown, CalendarIcon, X, Download, Eye, Heart, Share2 } from "lucide-react";
+import { ArrowLeft, ArrowUpDown, CalendarIcon, X, Download, Eye, Heart, Share2, FileSearch } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 
@@ -46,6 +46,7 @@ const BlogAnalyticsDashboard = () => {
   const [customStartDate, setCustomStartDate] = useState<Date>();
   const [customEndDate, setCustomEndDate] = useState<Date>();
   const [resumeDownloads, setResumeDownloads] = useState(0);
+  const [resumePreviews, setResumePreviews] = useState(0);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -119,6 +120,21 @@ const BlogAnalyticsDashboard = () => {
       
       const { count: resumeCount } = await resumeQuery;
       setResumeDownloads(resumeCount || 0);
+
+      // Fetch resume previews count
+      let previewQuery = supabase
+        .from("resume_previews")
+        .select("*", { count: "exact", head: true });
+      
+      if (startDate) {
+        previewQuery = previewQuery.gte("previewed_at", startDate.toISOString());
+      }
+      if (endDate) {
+        previewQuery = previewQuery.lte("previewed_at", endDate.toISOString());
+      }
+      
+      const { count: previewCount } = await previewQuery;
+      setResumePreviews(previewCount || 0);
 
       // Fetch all blog posts
       const { data: postsData, error: postsError } = await supabase
@@ -273,7 +289,20 @@ const BlogAnalyticsDashboard = () => {
           </Button>
 
           {/* Summary Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+            <Card className="card-elevated">
+              <CardContent className="pt-6">
+                <div className="flex items-center gap-4">
+                  <div className="p-3 rounded-lg bg-purple-500/10">
+                    <FileSearch className="h-6 w-6 text-purple-500" />
+                  </div>
+                  <div>
+                    <p className="text-sm text-muted-foreground">Resume Previews</p>
+                    <p className="text-2xl font-bold">{resumePreviews}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
             <Card className="card-elevated">
               <CardContent className="pt-6">
                 <div className="flex items-center gap-4">
