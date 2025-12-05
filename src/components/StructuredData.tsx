@@ -23,14 +23,68 @@ const StructuredData = ({ data }: StructuredDataProps) => {
   return null;
 };
 
-// Predefined structured data schemas
+// Predefined structured data schemas - use functions to avoid window access at module load
+export const getPersonSchema = () => ({
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Insha Kanue',
+  jobTitle: 'AI Product Manager',
+  description: '7+ years of experience building AI-powered products and machine learning solutions',
+  url: typeof window !== 'undefined' ? window.location.origin : 'https://inshakanue.space',
+  image: 'https://lovable.dev/opengraph-image-p98pqg.png',
+  sameAs: [
+    'https://www.linkedin.com/in/inshakanue',
+    'https://github.com/inshakanue',
+    'https://twitter.com/inshakanue',
+  ],
+  knowsAbout: [
+    'AI Product Management',
+    'Machine Learning',
+    'Data Strategy',
+    'Product Development',
+    'LLM Integration',
+    'Prompt Engineering',
+    'A/B Testing',
+    'Agile Methodologies',
+  ],
+  alumniOf: {
+    '@type': 'Organization',
+    name: 'HRS Group',
+  },
+});
+
+export const getOrganizationSchema = () => ({
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Insha Kanue Portfolio',
+  url: typeof window !== 'undefined' ? window.location.origin : 'https://inshakanue.space',
+  logo: 'https://lovable.dev/opengraph-image-p98pqg.png',
+  founder: {
+    '@type': 'Person',
+    name: 'Insha Kanue',
+  },
+});
+
+export const getWebsiteSchema = () => ({
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Insha Kanue - AI Product Manager',
+  url: typeof window !== 'undefined' ? window.location.origin : 'https://inshakanue.space',
+  description: 'Personal portfolio showcasing AI product management expertise and achievements',
+  author: {
+    '@type': 'Person',
+    name: 'Insha Kanue',
+  },
+});
+
+// Legacy exports - these are now getter functions for backwards compatibility
 export const PersonSchema = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: 'Insha Kanue',
   jobTitle: 'AI Product Manager',
   description: '7+ years of experience building AI-powered products and machine learning solutions',
-  url: window.location.origin,
+  url: 'https://inshakanue.space',
   image: 'https://lovable.dev/opengraph-image-p98pqg.png',
   sameAs: [
     'https://www.linkedin.com/in/inshakanue',
@@ -57,7 +111,7 @@ export const OrganizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'Insha Kanue Portfolio',
-  url: window.location.origin,
+  url: 'https://inshakanue.space',
   logo: 'https://lovable.dev/opengraph-image-p98pqg.png',
   founder: {
     '@type': 'Person',
@@ -69,7 +123,7 @@ export const WebsiteSchema = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
   name: 'Insha Kanue - AI Product Manager',
-  url: window.location.origin,
+  url: 'https://inshakanue.space',
   description: 'Personal portfolio showcasing AI product management expertise and achievements',
   author: {
     '@type': 'Person',
