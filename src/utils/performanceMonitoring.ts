@@ -12,6 +12,9 @@ export interface PerformanceMetrics {
  * Monitor Core Web Vitals
  */
 export const monitorWebVitals = (callback: (metrics: PerformanceMetrics) => void) => {
+  // Guard against SSR/non-browser environments
+  if (typeof window === 'undefined') return {};
+  
   const metrics: PerformanceMetrics = {};
 
   // Observe LCP
