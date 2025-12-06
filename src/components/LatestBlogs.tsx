@@ -115,18 +115,19 @@ export const LatestBlogs = () => {
   return (
     <section className="py-12 bg-muted/30">
       <div className="container-custom">
-        <div className="text-center mb-8">
+        <div className="text-center mb-8 animate-fade-in">
           <h2 className="text-2xl md:text-3xl font-bold mb-2">Latest Blog Posts</h2>
           <p className="text-muted-foreground">
             Insights, thoughts, and learnings from my journey
           </p>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          {posts.map((post) => (
+          {posts.map((post, index) => (
             <Link
               key={post.id}
               to={`/blog/${post.slug}`}
-              className="group block h-full"
+              className="group"
+              style={{ animationDelay: `${index * 100}ms` }}
             >
               <Card className="h-full overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
                 {coverImages[post.id] && (
@@ -134,7 +135,6 @@ export const LatestBlogs = () => {
                     <img
                       src={coverImages[post.id]}
                       alt={post.title}
-                      loading="lazy"
                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                     />
                   </div>
@@ -176,7 +176,7 @@ export const LatestBlogs = () => {
             </Link>
           ))}
         </div>
-        <div className="text-center">
+        <div className="text-center animate-fade-in">
           <Button asChild className="gap-2">
             <Link to="/blog">
               View All Posts

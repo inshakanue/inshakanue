@@ -30,5 +30,5 @@ import "@fontsource/inter/500.css";  // Medium weight
 import "@fontsource/inter/600.css";  // Semibold weight
 import "@fontsource/inter/700.css";  // Bold weight
 
-// Mount React app to DOM - v2
+// Mount React app to DOM
 createRoot(document.getElementById("root")!).render(<App />);
