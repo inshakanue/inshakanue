@@ -34,17 +34,11 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Download, Mail, Linkedin, Twitter, Github, BookOpen, ChevronDown } from "lucide-react";
+import { Menu, X, Download, Mail, Linkedin, Twitter, Github, BookOpen } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import type { User } from "@supabase/supabase-js";
 import { useToast } from "@/hooks/use-toast";
 import { useAdminStatus } from "@/hooks/useAdminStatus";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 const Header = () => {
   // STATE MANAGEMENT
@@ -193,31 +187,25 @@ const Header = () => {
               </button>
             ))}
             
-            {/* Blog with Dashboard dropdown for admins */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button 
-                  className="text-muted-foreground hover:text-primary transition-colors duration-300 font-medium flex items-center gap-1"
-                  onMouseEnter={(e) => {
-                    const button = e.currentTarget;
-                    button.click();
-                  }}
-                >
-                  Blog
-                  <ChevronDown className="h-4 w-4" />
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="bg-background">
-                <DropdownMenuItem onClick={() => handleNavigation("/blog")}>
-                  All Posts
-                </DropdownMenuItem>
-                {isAdmin && (
-                  <DropdownMenuItem onClick={() => handleNavigation("/blog/dashboard")}>
-                    Dashboard
-                  </DropdownMenuItem>
-                )}
-              </DropdownMenuContent>
-            </DropdownMenu>
+            {/* Blog - Direct link */}
+            <button
+              onClick={() => handleNavigation("/blog")}
+              className="text-muted-foreground hover:text-primary transition-colors duration-300 font-medium"
+              aria-label="Navigate to Blog"
+            >
+              Blog
+            </button>
+            
+            {/* Dashboard link for admins only */}
+            {isAdmin && (
+              <button
+                onClick={() => handleNavigation("/blog/dashboard")}
+                className="text-muted-foreground hover:text-primary transition-colors duration-300 font-medium"
+                aria-label="Navigate to Dashboard"
+              >
+                Dashboard
+              </button>
+            )}
           </div>
 
           {/* Desktop CTA */}
@@ -315,23 +303,25 @@ const Header = () => {
                 </button>
               ))}
               
-              {/* Blog with Dashboard dropdown for mobile */}
-              <div className="px-4 md:px-6">
+              {/* Blog - Direct link */}
+              <button
+                onClick={() => handleNavigation("/blog")}
+                className="block w-full text-left px-4 md:px-6 py-2 md:py-3 text-base md:text-lg text-muted-foreground hover:text-primary transition-colors duration-300"
+                aria-label="Navigate to Blog"
+              >
+                Blog
+              </button>
+              
+              {/* Dashboard link for admins only */}
+              {isAdmin && (
                 <button
-                  onClick={() => handleNavigation("/blog")}
-                  className="block w-full text-left py-2 md:py-3 text-base md:text-lg text-muted-foreground hover:text-primary transition-colors duration-300"
+                  onClick={() => handleNavigation("/blog/dashboard")}
+                  className="block w-full text-left px-4 md:px-6 py-2 md:py-3 text-base md:text-lg text-muted-foreground hover:text-primary transition-colors duration-300"
+                  aria-label="Navigate to Dashboard"
                 >
-                  Blog
+                  Dashboard
                 </button>
-                {isAdmin && (
-                  <button
-                    onClick={() => handleNavigation("/blog/dashboard")}
-                    className="block w-full text-left py-2 md:py-3 pl-4 text-sm md:text-base text-muted-foreground hover:text-primary transition-colors duration-300"
-                  >
-                    └ Dashboard
-                  </button>
-                )}
-              </div>
+              )}
               <div className="flex flex-col items-stretch pt-4 md:pt-6 border-t border-border space-y-2">
                 <div className="flex items-center justify-center space-x-4 md:space-x-6">
                   <Button
