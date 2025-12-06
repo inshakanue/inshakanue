@@ -1,7 +1,6 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { MapPin, Calendar, TrendingUp, Euro, Download } from "lucide-react";
+import { MapPin, Calendar, TrendingUp } from "lucide-react";
 
 const Experience = () => {
   const experiences = [
