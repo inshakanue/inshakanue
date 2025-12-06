@@ -31,30 +31,7 @@ import {
   Loader2
 } from "lucide-react";
 
-// Inline tracking functions to avoid import issues
-const trackResumeDownload = async () => {
-  try {
-    const { data: { user } } = await supabase.auth.getUser();
-    await supabase.from("resume_downloads").insert({
-      user_id: user?.id || null,
-      user_agent: navigator.userAgent,
-    });
-  } catch (error) {
-    console.error("Error tracking resume download:", error);
-  }
-};
-
-const trackResumePreview = async () => {
-  try {
-    const { data: { user } } = await supabase.auth.getUser();
-    await supabase.from("resume_previews").insert({
-      user_id: user?.id || null,
-      user_agent: navigator.userAgent,
-    });
-  } catch (error) {
-    console.error("Error tracking resume preview:", error);
-  }
-};
+import { trackResumeDownload, trackResumePreview } from "@/utils/analyticsTracking";
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
