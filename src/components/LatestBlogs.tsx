@@ -162,7 +162,7 @@ export const LatestBlogs = () => {
                       {post.excerpt}
                     </p>
                   )}
-                  {post.tags && post.tags.length > 0 && (
+                  {post.tags && Array.isArray(post.tags) && post.tags.length > 0 && (
                     <div className="flex flex-wrap gap-1.5">
                       {post.tags.slice(0, 3).map((tag) => (
                         <Badge key={tag} variant="secondary" className="text-xs">
