@@ -14,8 +14,8 @@ type BlogPost = {
   excerpt: string | null;
   cover_image: string | null;
   published_at: string | null;
-  tags: string[];
-  reading_time_minutes: number;
+  tags: string[] | null;
+  reading_time_minutes: number | null;
 };
 
 export const LatestBlogs = () => {
