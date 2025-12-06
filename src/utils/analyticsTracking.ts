@@ -1,6 +1,5 @@
 import { supabase } from "@/integrations/supabase/client";
 
-
 // Track a blog post view
 export const trackBlogView = async (postId: string) => {
   try {

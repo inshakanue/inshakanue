@@ -34,7 +34,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Mail, Linkedin, Twitter, Github, BookOpen } from "lucide-react";
+import { Menu, X, Download, Mail, Linkedin, Twitter, Github, BookOpen } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import type { User } from "@supabase/supabase-js";
 import { useToast } from "@/hooks/use-toast";
