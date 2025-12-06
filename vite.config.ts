@@ -22,12 +22,20 @@ export default defineConfig(({ mode }) => ({
       output: {
         manualChunks: {
           'vendor': ['react', 'react-dom', 'react-router-dom'],
-          'ui-components': [
+          'ui-core': [
+            '@radix-ui/react-slot',
+          ],
+          'ui-overlays': [
             '@radix-ui/react-dialog',
             '@radix-ui/react-dropdown-menu',
-            '@radix-ui/react-slot',
+            '@radix-ui/react-tooltip',
+            '@radix-ui/react-popover',
+          ],
+          'ui-feedback': [
             '@radix-ui/react-toast',
           ],
+          'supabase': ['@supabase/supabase-js'],
+          'query': ['@tanstack/react-query'],
         },
       },
     },

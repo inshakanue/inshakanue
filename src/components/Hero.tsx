@@ -2,6 +2,20 @@ import { Button } from "@/components/ui/button";
 import { ArrowDown, Mail } from "lucide-react";
 import heroBackground from "@/assets/ai-hero-background.jpg";
 
+// Pre-computed particle positions to avoid forced reflows
+const PARTICLE_POSITIONS = [
+  { left: '10%', top: '20%', delay: '0s' },
+  { left: '25%', top: '60%', delay: '0.5s' },
+  { left: '40%', top: '30%', delay: '1s' },
+  { left: '55%', top: '80%', delay: '1.5s' },
+  { left: '70%', top: '15%', delay: '2s' },
+  { left: '85%', top: '45%', delay: '2.5s' },
+  { left: '15%', top: '75%', delay: '0.3s' },
+  { left: '60%', top: '50%', delay: '1.2s' },
+  { left: '35%', top: '10%', delay: '0.8s' },
+  { left: '80%', top: '70%', delay: '1.8s' },
+];
+
 const Hero = () => {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -20,18 +34,17 @@ const Hero = () => {
         backgroundRepeat: 'no-repeat',
       }}
     >
-      {/* Animated Background Elements */}
+      {/* Animated Background Elements - using pre-computed positions */}
       <div className="absolute inset-0 z-10 pointer-events-none">
-        {/* Simplified animations */}
         <div className="absolute inset-0">
-          {[...Array(10)].map((_, i) => (
+          {PARTICLE_POSITIONS.map((pos, i) => (
             <div
               key={`particle-${i}`}
               className="absolute w-2 h-2 bg-primary/40 rounded-full animate-float"
               style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 3}s`,
+                left: pos.left,
+                top: pos.top,
+                animationDelay: pos.delay,
               }}
               aria-hidden="true"
             />
