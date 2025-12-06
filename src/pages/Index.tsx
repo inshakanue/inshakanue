@@ -4,9 +4,7 @@ import About from "@/components/About";
 import Experience from "@/components/Experience";
 import Footer from "@/components/Footer";
 import Skills from "@/components/Skills";
-import Contact from "@/components/Contact";
 import SEO from "@/components/SEO";
-import { Separator } from "@/components/ui/separator";
 
 const Index = () => {
   return (
@@ -20,10 +18,6 @@ const Index = () => {
           <About />
           <Experience />
           <Skills />
-          <Contact />
-          <div className="container-custom py-8">
-            <Separator className="bg-border/50" />
-          </div>
         </main>
         <Footer />
       </div>
