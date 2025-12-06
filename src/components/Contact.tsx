@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { trackResumeDownload, trackResumePreview } from "@/utils/analyticsTracking";
 import { z } from "zod";
 import { 
   Select,
@@ -30,8 +31,6 @@ import {
   BookOpen,
   Loader2
 } from "lucide-react";
-
-import { trackResumeDownload, trackResumePreview } from "@/utils/analyticsTracking";
 
 const contactSchema = z.object({
   name: z.string().trim().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
