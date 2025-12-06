@@ -11,7 +11,6 @@ import { LatestBlogs } from "@/components/LatestBlogs";
 import { Separator } from "@/components/ui/separator";
 
 const Index = () => {
-  // Portfolio homepage
   return (
     <>
       <SEO />
