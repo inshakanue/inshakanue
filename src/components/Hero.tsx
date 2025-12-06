@@ -11,7 +11,7 @@ const Hero = () => {
   return (
     <section 
       id="hero" 
-      className="h-screen max-h-[100dvh] flex items-center justify-center section-padding relative overflow-hidden"
+      className="min-h-screen flex items-center justify-center section-padding relative overflow-hidden"
       aria-label="Hero section"
       style={{
         backgroundImage: `url(${heroBackground})`,
