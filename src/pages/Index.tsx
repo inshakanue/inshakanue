@@ -7,6 +7,7 @@ import ErrorBoundary from "@/components/ErrorBoundary";
 import Skills from "@/components/Skills";
 import Contact from "@/components/Contact";
 import SEO from "@/components/SEO";
+import { LatestBlogs } from "@/components/LatestBlogs";
 import { Separator } from "@/components/ui/separator";
 
 const Index = () => {
@@ -24,6 +25,9 @@ const Index = () => {
           <Experience />
           <ErrorBoundary>
             <Skills />
+          </ErrorBoundary>
+          <ErrorBoundary>
+            <LatestBlogs />
           </ErrorBoundary>
           <ErrorBoundary>
             <Contact />
