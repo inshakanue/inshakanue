@@ -152,7 +152,6 @@ const Header = () => {
     { label: "About", href: "about" },
     { label: "Experience", href: "experience" },
     { label: "Skills", href: "skills" },
-    { label: "Contact", href: "contact" },
   ];
 
   return (
@@ -194,6 +193,15 @@ const Header = () => {
               aria-label="Navigate to Blog"
             >
               Blog
+            </button>
+            
+            {/* Contact - after Blog */}
+            <button
+              onClick={() => handleNavigation("contact")}
+              className="text-muted-foreground hover:text-primary transition-colors duration-300 font-medium"
+              aria-label="Navigate to Contact"
+            >
+              Contact
             </button>
             
             {/* Dashboard link for admins only */}
@@ -310,6 +318,15 @@ const Header = () => {
                 aria-label="Navigate to Blog"
               >
                 Blog
+              </button>
+              
+              {/* Contact - after Blog */}
+              <button
+                onClick={() => handleNavigation("contact")}
+                className="block w-full text-left px-4 md:px-6 py-2 md:py-3 text-base md:text-lg text-muted-foreground hover:text-primary transition-colors duration-300"
+                aria-label="Navigate to Contact"
+              >
+                Contact
               </button>
               
               {/* Dashboard link for admins only */}
