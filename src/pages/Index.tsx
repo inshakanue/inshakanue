@@ -7,6 +7,7 @@ import Skills from "@/components/Skills";
 import SEO from "@/components/SEO";
 import { LatestBlogs } from "@/components/LatestBlogs";
 import Contact from "@/components/Contact";
+import { Separator } from "@/components/ui/separator";
 
 const Index = () => {
   return (
@@ -21,6 +22,9 @@ const Index = () => {
           <Experience />
           <Skills />
           <LatestBlogs />
+          <div className="container-custom section-padding">
+            <Separator className="bg-border/50" />
+          </div>
           <Contact />
         </main>
         <Footer />
