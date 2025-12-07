@@ -41,8 +41,16 @@ export const FloatingShareButton = ({
   const shareText = description
     ? encodeURIComponent(`${title} - ${description}`)
     : encodedTitle;
+  
+  // Use og-meta-tags edge function URL for WhatsApp to get proper previews
+  const getWhatsAppUrl = () => {
+    const pathname = new URL(url).pathname;
+    const ogUrl = `https://vqazbygfeagufizgfdcl.supabase.co/functions/v1/og-meta-tags?path=${encodeURIComponent(pathname)}`;
+    return ogUrl;
+  };
+  
   const whatsappText = encodeURIComponent(
-    `${title}${description ? " - " + description : ""} ${url}`
+    `${title}${description ? " - " + description : ""}\n${getWhatsAppUrl()}`
   );
 
   const handleShare = (
