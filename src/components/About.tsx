@@ -437,7 +437,7 @@ const About = () => {
               <h3 className="text-2xl font-bold mb-6 text-foreground">AI Product Manager Building Machine Learning Products That Scale</h3>
               <div className="space-y-4 text-muted-foreground">
                 <p className="text-lg leading-relaxed">
-                  As an AI Product Manager with 7 years of experience, I have built and launched machine learning 
+                  As an AI Product Manager with 8 years of experience, I have built and launched machine learning 
                   products from concept to production. My work includes AI-powered data platforms, fraud detection 
                   systems using ML algorithms, sentiment analysis tools, and recommendation engines. At HRS Group, 
                   I launched Datahub, an AI data ingestion platform that reduced onboarding time by 40% and enabled 
