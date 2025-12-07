@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import Skills from "@/components/Skills";
 import SEO from "@/components/SEO";
 import { LatestBlogs } from "@/components/LatestBlogs";
+import Contact from "@/components/Contact";
 
 const Index = () => {
   return (
@@ -20,6 +21,7 @@ const Index = () => {
           <Experience />
           <Skills />
           <LatestBlogs />
+          <Contact />
         </main>
         <Footer />
       </div>
