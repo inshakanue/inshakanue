@@ -50,7 +50,7 @@ interface SEOProps {
 const SEO = ({
   // DEFAULT SEO VALUES optimized for "AI Product Manager" keyword ranking
   title = 'Insha Kanue - AI Product Manager | Machine Learning & AI Strategy',
-  description = 'AI Product Manager with 7+ years building machine learning products. Led AI/ML teams at HRS Group, generated €15M+ revenue. Expert in AI product strategy, LLM integration, MLOps, and data-driven product development.',
+  description = 'AI Product Manager with 8+ years building machine learning products. Led AI/ML teams at HRS Group, generated €15M+ revenue. Expert in AI product strategy, LLM integration, MLOps, and data-driven product development.',
   image = 'https://lovable.dev/opengraph-image-p98pqg.png',  // Default social preview
   article,
   type = 'website',
