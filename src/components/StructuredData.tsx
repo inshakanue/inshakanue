@@ -29,7 +29,7 @@ export const getPersonSchema = () => ({
   '@type': 'Person',
   name: 'Insha Kanue',
   jobTitle: 'AI Product Manager',
-  description: '7+ years of experience building AI-powered products and machine learning solutions',
+  description: '8+ years of experience building AI-powered products and machine learning solutions',
   url: typeof window !== 'undefined' ? window.location.origin : 'https://inshakanue.space',
   image: 'https://lovable.dev/opengraph-image-p98pqg.png',
   sameAs: [
@@ -83,7 +83,7 @@ export const PersonSchema = {
   '@type': 'Person',
   name: 'Insha Kanue',
   jobTitle: 'AI Product Manager',
-  description: '7+ years of experience building AI-powered products and machine learning solutions',
+  description: '8+ years of experience building AI-powered products and machine learning solutions',
   url: 'https://inshakanue.space',
   image: 'https://lovable.dev/opengraph-image-p98pqg.png',
   sameAs: [

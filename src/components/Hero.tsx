@@ -77,7 +77,7 @@ const Hero = () => {
           <div className="fade-in-up animate-delay-200">
             <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-8 md:mb-12 leading-relaxed px-2">
               AI Product Manager specializing in machine learning and artificial intelligence products. 
-              With 7+ years of experience, I have shipped ML systems generating €15M+ in revenue. 
+              With 8+ years of experience, I have shipped ML systems generating €15M+ in revenue. 
               I lead AI/ML product teams that transform data science into scalable products.
             </p>
           </div>
