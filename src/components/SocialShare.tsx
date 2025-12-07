@@ -33,15 +33,17 @@ export const SocialShare = ({
     ? encodeURIComponent(`${title} - ${description}`)
     : encodedTitle;
   
-  // Use og-meta-tags edge function URL for WhatsApp to get proper previews
-  const getWhatsAppUrl = () => {
+  // Use og-meta-tags edge function URL for social platforms that need server-rendered meta tags
+  const getOgUrl = () => {
     const pathname = new URL(url).pathname;
-    const ogUrl = `https://vqazbygfeagufizgfdcl.supabase.co/functions/v1/og-meta-tags?path=${encodeURIComponent(pathname)}`;
-    return ogUrl;
+    return `https://vqazbygfeagufizgfdcl.supabase.co/functions/v1/og-meta-tags?path=${encodeURIComponent(pathname)}`;
   };
   
+  const ogUrl = getOgUrl();
+  const encodedOgUrl = encodeURIComponent(ogUrl);
+  
   const whatsappText = encodeURIComponent(
-    `${title}${description ? " - " + description : ""}\n${getWhatsAppUrl()}`
+    `${title}${description ? " - " + description : ""}\n${ogUrl}`
   );
 
   const [showLikeMessage, setShowLikeMessage] = useState(false);
@@ -58,16 +60,19 @@ export const SocialShare = ({
     let shareUrl = "";
 
     if (platform === "linkedin") {
-      shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`;
+      // LinkedIn uses OG URL for proper preview
+      shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodedOgUrl}`;
     } else if (platform === "twitter") {
-      shareUrl = `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${shareText}`;
+      // Twitter/X uses OG URL for proper card preview with cover image
+      shareUrl = `https://twitter.com/intent/tweet?url=${encodedOgUrl}&text=${shareText}`;
     } else if (platform === "whatsapp") {
       const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
       shareUrl = isMobile
         ? `https://wa.me/?text=${whatsappText}`
         : `https://web.whatsapp.com/send?text=${whatsappText}`;
     } else {
-      shareUrl = `https://bsky.app/intent/compose?text=${shareText}%20${encodedUrl}`;
+      // Bluesky uses OG URL for proper preview
+      shareUrl = `https://bsky.app/intent/compose?text=${shareText}%20${encodedOgUrl}`;
     }
 
     // Track the share
