@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
+import { getBlogCoverUrl } from "@/utils/storageHelpers";
 
 interface BlogPost {
   id: string;
@@ -17,8 +18,12 @@ interface BlogPost {
   reading_time_minutes: number | null;
 }
 
+interface BlogPostWithSignedUrl extends BlogPost {
+  signedCoverUrl: string | null;
+}
+
 export const LatestBlogs = () => {
-  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [posts, setPosts] = useState<BlogPostWithSignedUrl[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
@@ -38,7 +43,15 @@ export const LatestBlogs = () => {
           return;
         }
         
-        setPosts(data || []);
+        // Get signed URLs for cover images
+        const postsWithUrls = await Promise.all(
+          (data || []).map(async (post) => ({
+            ...post,
+            signedCoverUrl: await getBlogCoverUrl(post.cover_image),
+          }))
+        );
+        
+        setPosts(postsWithUrls);
       } catch (err) {
         console.error("Error fetching latest posts:", err);
         setError(true);
@@ -121,10 +134,10 @@ export const LatestBlogs = () => {
               className="group"
             >
               <Card className="h-full overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                {post.cover_image && post.cover_image.startsWith('http') && (
+                {post.signedCoverUrl && (
                   <div className="overflow-hidden h-40">
                     <img
-                      src={post.cover_image}
+                      src={post.signedCoverUrl}
                       alt={post.title}
                       className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                       onError={(e) => {
