@@ -9,6 +9,8 @@ const Experience = () => {
       title: "Senior Product Manager - Strategic Products",
       company: "Peko",
       companyUrl: "https://peko.one/",
+      parentCompany: "IHC",
+      parentCompanyUrl: "https://www.ihcuae.com/media-centre/press-releases/ihc-strengthens-digital-services-portfolio-with-majority-acquisition-of-peko-holdings",
       location: "Dubai, UAE",
       period: "Dec 2025 – Present",
       type: "Full-time",
