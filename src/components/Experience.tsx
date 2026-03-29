@@ -151,14 +151,30 @@ const Experience = () => {
                         </Badge>
                       </div>
                       {exp.companyUrl ? (
-                        <a 
-                          href={exp.companyUrl} 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className={`text-lg lg:text-xl font-semibold text-primary hover:underline inline-block ${exp.description ? 'mb-2' : 'mb-4'}`}
-                        >
-                          {exp.company}
-                        </a>
+                        <div className={`${exp.description ? 'mb-2' : 'mb-4'}`}>
+                          <a 
+                            href={exp.companyUrl} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-lg lg:text-xl font-semibold text-primary hover:underline"
+                          >
+                            {exp.company}
+                          </a>
+                          {exp.parentCompany && (
+                            <span className="text-lg lg:text-xl font-semibold text-muted-foreground">
+                              {" (An "}
+                              <a
+                                href={exp.parentCompanyUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-primary hover:underline"
+                              >
+                                {exp.parentCompany}
+                              </a>
+                              {" company)"}
+                            </span>
+                          )}
+                        </div>
                       ) : (
                         <h4 className={`text-lg lg:text-xl font-semibold text-primary ${exp.description ? 'mb-2' : 'mb-4'}`}>{exp.company}</h4>
                       )}
